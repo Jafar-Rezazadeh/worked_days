@@ -1,4 +1,0 @@
-enum PrefNames {
-  showNotification,
-  notificationPeriod,
-}
