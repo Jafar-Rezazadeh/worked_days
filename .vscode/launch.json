@@ -1,0 +1,43 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "worked_days",
+      "request": "launch",
+      "type": "dart"
+    },
+    {
+      "name": "run-windows",
+      "type": "dart",
+      "request": "launch",
+      "deviceId": "Windows"
+    },
+    {
+      "name": "run-android",
+      "type": "dart",
+      "request": "launch",
+      "deviceId": "SM G960N"
+    },
+    {
+      "name": "worked_days (profile mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "worked_days (release mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "windows and android",
+      "configurations": ["run-windows", "run-android"]
+    }
+  ]
+}
