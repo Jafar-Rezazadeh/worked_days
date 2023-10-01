@@ -9,7 +9,6 @@ import 'package:worked_days/model/provide_data_model.dart';
 import 'package:worked_days/model/worked_day_model.dart';
 import 'package:worked_days/services/db_provider.dart';
 import 'package:worked_days/services/notification_service.dart';
-import 'package:worked_days/services/shared_preferences.dart';
 import 'package:worked_days/view/screens/main_screen.dart';
 
 void main(List<String> args) {
