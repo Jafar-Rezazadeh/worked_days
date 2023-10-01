@@ -27,6 +27,8 @@ class _MainScreenState extends State<MainScreen> {
     _showAlertForNotifications();
   }
 
+  //Todo: add the screen size and other datas to loadedStableState
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MainCubit, MainCubitState>(
