@@ -4,5 +4,9 @@ import 'package:worked_days/cubit/main_cubit_state.dart';
 class MainCubit extends Cubit<MainCubitState> {
   MainCubit() : super(MainCubitInitial());
 
-  loadDataAndStartApp() {}
+  loadDataAndStartApp() async {
+    emit(LoadingState());
+    await Future.delayed(const Duration(seconds: 1));
+    emit(LoadedStableState());
+  }
 }

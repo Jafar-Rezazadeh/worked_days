@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:worked_days/cubit/main_cubit_cubit.dart';
 import 'package:worked_days/model/notification_pref_model.dart';
 import 'package:worked_days/model/provide_data_model.dart';
 import 'package:worked_days/model/worked_day_model.dart';
@@ -41,19 +43,25 @@ class _WorkedDaysState extends State<WorkedDays> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: Future.wait([workedDaysData, SharedPreferencesService.getShowNotificationsPref()]),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return _setProviderData(
-            snapshot.data![0] as List<WorkDayModel>,
-            snapshot.data![1] as NotificationPrefModel,
-          );
-        } else {
-          return _loading();
-        }
-      },
+    return BlocProvider(
+      create: (context) => MainCubit(),
+      child: const MaterialApp(
+        home: MainScreen(),
+      ),
     );
+    // return FutureBuilder(
+    //   future: Future.wait([workedDaysData, SharedPreferencesService.getShowNotificationsPref()]),
+    //   builder: (context, snapshot) {
+    //     if (snapshot.connectionState == ConnectionState.done) {
+    //       return _setProviderData(
+    //         snapshot.data![0] as List<WorkDayModel>,
+    //         snapshot.data![1] as NotificationPrefModel,
+    //       );
+    //     } else {
+    //       return _loading();
+    //     }
+    //   },
+    // );
   }
 
   Widget _setProviderData(List<WorkDayModel> data, NotificationPrefModel settingsModel) {
