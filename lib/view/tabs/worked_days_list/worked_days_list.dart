@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:worked_days/controller/shamsi_formater.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';

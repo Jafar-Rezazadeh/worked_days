@@ -2,10 +2,8 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
-import 'package:worked_days/extentions/my_extentions.dart';
 import 'package:worked_days/model/color_schema.dart';
 import 'package:worked_days/model/notification_pref_model.dart';
-import 'package:worked_days/model/provide_data_model.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
