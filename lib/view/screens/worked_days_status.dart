@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:worked_days/controller/today_page_controller.dart';
 import 'package:worked_days/controller/worked_days_page_controller.dart';
+import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/model/color_schema.dart';
-import 'package:worked_days/view/screens/main_screen.dart';
 import 'package:worked_days/view/screens/settings_screen.dart';
 
 class WorkedDaysStatusScreen extends StatefulWidget {
@@ -13,6 +15,15 @@ class WorkedDaysStatusScreen extends StatefulWidget {
 }
 
 class _WorkedDaysStatusScreenState extends State<WorkedDaysStatusScreen> {
+  late LoadedStableState loadedStableState;
+  late Size screenSize;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    loadedStableState = context.watch<LoadedStableState>();
+    screenSize = loadedStableState.screenSize;
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -49,7 +60,10 @@ class _WorkedDaysStatusScreenState extends State<WorkedDaysStatusScreen> {
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const SettingsScreen(),
+                builder: (context) => Provider.value(
+                  value: loadedStableState,
+                  child: const SettingsScreen(),
+                ),
               ),
             ),
             icon: const Icon(Icons.settings),

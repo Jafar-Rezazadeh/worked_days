@@ -1,11 +1,11 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/extentions/my_extentions.dart';
 import 'package:worked_days/model/color_schema.dart';
 import 'package:worked_days/model/notification_pref_model.dart';
 import 'package:worked_days/model/provide_data_model.dart';
-import 'package:worked_days/view/screens/main_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -16,7 +16,8 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   late NotificationPrefModel notificationPrefModel;
-  late ProviderDataModel providerDataModel;
+  late LoadedStableState loadedStableState;
+  late Size screenSize;
 
   @override
   void initState() {
@@ -24,9 +25,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    screenSize = context.watch<LoadedStableState>().screenSize;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    providerDataModel = context.watch<ProviderDataModel>();
-    notificationPrefModel = providerDataModel.notificationSettings;
+    loadedStableState = context.watch<LoadedStableState>();
+    notificationPrefModel = loadedStableState.notificationSettings;
     return Scaffold(
       backgroundColor: ColorPallet.smoke,
       appBar: AppBar(
@@ -116,13 +123,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       initialTime: TimeOfDay.now(),
                     ).then((value) {
                       if (value != null) {
-                        providerDataModel.setNotificationSettings(
-                          NotificationPrefModel(
-                            notificationStatusPref: null,
-                            notificationPeriod: "${value.hour}:${value.minute} ${value.period.name}"
-                                .toPersionPeriod,
-                          ),
-                        );
+                        //Todo:
+                        // loadedStableState.setNotificationSettings(
+                        //   NotificationPrefModel(
+                        //     notificationStatusPref: null,
+                        //     notificationPeriod: "${value.hour}:${value.minute} ${value.period.name}"
+                        //         .toPersionPeriod,
+                        //   ),
+                        // );
                       }
                     });
                   },
@@ -138,13 +146,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 //? on/off notification
                 ElevatedButton(
                   onPressed: () {
-                    providerDataModel.setNotificationSettings(
-                      NotificationPrefModel(
-                        notificationStatusPref:
-                            notificationPrefModel.notificationStatusPref == true ? false : true,
-                        notificationPeriod: notificationPrefModel.notificationPeriod,
-                      ),
-                    );
+                    //Todo:
+                    // loadedStableState.setNotificationSettings(
+                    //   NotificationPrefModel(
+                    //     notificationStatusPref:
+                    //         notificationPrefModel.notificationStatusPref == true ? false : true,
+                    //     notificationPeriod: notificationPrefModel.notificationPeriod,
+                    //   ),
+                    // );
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll<Color>(

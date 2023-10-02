@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shamsi_date/shamsi_date.dart';
-import 'package:worked_days/model/provide_data_model.dart';
-import 'package:worked_days/view/page/worked_days_list/worked_days_list.dart';
+import 'package:worked_days/cubit/main_cubit_state.dart';
+import 'package:worked_days/view/tabs/worked_days_list/worked_days_list.dart';
 
 class WorkedDaysPageController extends StatefulWidget {
   const WorkedDaysPageController({super.key});
@@ -12,13 +12,19 @@ class WorkedDaysPageController extends StatefulWidget {
 }
 
 class _WorkedDaysPageControllerState extends State<WorkedDaysPageController> {
-  late ProviderDataModel providerDataModel;
+  late LoadedStableState loadedStableState;
   Jalali currentDateTime = Jalali.now();
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    loadedStableState = context.watch<LoadedStableState>();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    providerDataModel = context.watch<ProviderDataModel>();
     return WorkedDaysListPage(
       context: context,
+      loadedStableState: loadedStableState,
       currentDateTime: currentDateTime,
       listOfCurrentWorkedDays: _getCurrentSelectedDateWorkedDays(),
       onCureentDateTimeChanged: (value) {
@@ -30,7 +36,7 @@ class _WorkedDaysPageControllerState extends State<WorkedDaysPageController> {
   }
 
   _getCurrentSelectedDateWorkedDays() {
-    return providerDataModel.workedDays
+    return loadedStableState.workedDays
         .where(
           (element) =>
               element.dateTime.toJalali().month == currentDateTime.month &&

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import 'package:shamsi_date/shamsi_date.dart';
-import 'package:worked_days/model/provide_data_model.dart';
+import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/model/worked_day_model.dart';
-import 'package:worked_days/view/page/today_status/show_saved_status.dart';
-import 'package:worked_days/view/page/today_status/get_today_status.dart';
+import 'package:worked_days/view/tabs/today_status/get_today_status.dart';
+import 'package:worked_days/view/tabs/today_status/show_saved_status.dart';
 
 class TodayStatusPageController extends StatefulWidget {
   const TodayStatusPageController({super.key});
@@ -15,7 +15,8 @@ class TodayStatusPageController extends StatefulWidget {
 }
 
 class _TodayStatusPageControllerState extends State<TodayStatusPageController> {
-  late ProviderDataModel providerDataModel;
+  late LoadedStableState loadedStableState;
+  late Size screenSize;
 
   @override
   void initState() {
@@ -23,13 +24,20 @@ class _TodayStatusPageControllerState extends State<TodayStatusPageController> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    screenSize = context.watch<LoadedStableState>().screenSize;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    providerDataModel = context.watch<ProviderDataModel>();
+    loadedStableState = context.watch<LoadedStableState>();
 
     return doWeHaveTodayStatus()
         ? ShowSavedStatus(
+            screenSize: screenSize,
             context: context,
-            todayStatus: _getTodaySavedStatus(providerDataModel.workedDays),
+            todayStatus: _getTodaySavedStatus(loadedStableState.workedDays),
             deleteTodayStatus: _deleteStatusHandler,
           )
         : GetTodayStatusPage(
@@ -38,12 +46,13 @@ class _TodayStatusPageControllerState extends State<TodayStatusPageController> {
   }
 
   _handleSubmit(WorkDayModel value) {
-    providerDataModel.insertWorkedDay(value);
+    //Todo:
+    // loadedStableState.insertWorkedDay(value);
   }
 
   bool doWeHaveTodayStatus() {
-    if (providerDataModel.workedDays.isNotEmpty) {
-      return _isTodayStatusSaved(providerDataModel.workedDays);
+    if (loadedStableState.workedDays.isNotEmpty) {
+      return _isTodayStatusSaved(loadedStableState.workedDays);
     } else {
       return false;
     }
@@ -62,6 +71,7 @@ class _TodayStatusPageControllerState extends State<TodayStatusPageController> {
   }
 
   _deleteStatusHandler(int id) {
-    providerDataModel.deletWorkDay(id);
+    //Todo:
+    //loadedStableState.deletWorkDay(id);
   }
 }

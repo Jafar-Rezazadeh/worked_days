@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:worked_days/controller/shamsi_formater.dart';
+import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/model/color_schema.dart';
 import 'package:worked_days/model/worked_day_model.dart';
 import 'package:worked_days/view/screens/details_screen.dart';
-import 'package:worked_days/view/screens/main_screen.dart';
 
 class WorkedDaysListPage extends StatelessWidget {
   final ValueChanged<Jalali> onCureentDateTimeChanged;
   final List<WorkDayModel> listOfCurrentWorkedDays;
   final BuildContext context;
   final Jalali currentDateTime;
+  final LoadedStableState loadedStableState;
   const WorkedDaysListPage({
     super.key,
     required this.onCureentDateTimeChanged,
     required this.listOfCurrentWorkedDays,
     required this.currentDateTime,
     required this.context,
+    required this.loadedStableState,
   });
 
   @override
@@ -61,7 +64,7 @@ class WorkedDaysListPage extends StatelessWidget {
   _workedDaysTable() {
     return SizedBox(
       width: double.infinity,
-      height: screenSize.height / 1.5,
+      height: loadedStableState.screenSize.height / 1.5,
       child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
@@ -74,12 +77,12 @@ class WorkedDaysListPage extends StatelessWidget {
                     BorderSide(width: 1, color: ColorPallet.yaleBlue.withOpacity(0.2)),
               ),
               headingTextStyle: TextStyle(
-                fontSize: screenSize.width / 30,
+                fontSize: loadedStableState.screenSize.width / 30,
                 color: ColorPallet.yaleBlue,
                 fontFamily: "Vazir",
               ),
               dataTextStyle: TextStyle(
-                fontSize: screenSize.width / 35,
+                fontSize: loadedStableState.screenSize.width / 35,
                 color: Colors.black,
                 fontFamily: "Vazir",
               ),
@@ -119,6 +122,7 @@ class WorkedDaysListPage extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => DetailsWorkDay(
+              loadedStableState: loadedStableState,
               workDayModel: workDayModel,
             ),
           ),
@@ -139,8 +143,8 @@ class WorkedDaysListPage extends StatelessWidget {
                 )
               : Image.asset(
                   'assets/icons/horizontalline.png',
-                  height: screenSize.width / 15,
-                  width: screenSize.width / 15,
+                  height: loadedStableState.screenSize.width / 15,
+                  width: loadedStableState.screenSize.width / 15,
                 ),
         ),
       ),
@@ -148,6 +152,7 @@ class WorkedDaysListPage extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => DetailsWorkDay(
+              loadedStableState: loadedStableState,
               workDayModel: workDayModel,
             ),
           ),
@@ -175,6 +180,7 @@ class WorkedDaysListPage extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => DetailsWorkDay(
+              loadedStableState: loadedStableState,
               workDayModel: workDayModel,
             ),
           ),

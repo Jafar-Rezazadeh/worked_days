@@ -44,8 +44,11 @@ class _WorkedDaysState extends State<WorkedDays> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => MainCubit(),
-      child: const MaterialApp(
-        home: MainScreen(),
+      child: MaterialApp(
+        theme: ThemeData(
+          fontFamily: "Vazir",
+        ),
+        home: const MainScreen(),
       ),
     );
     // return FutureBuilder(

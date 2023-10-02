@@ -1,11 +1,12 @@
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:worked_days/controller/shamsi_formater.dart';
+import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/model/color_schema.dart';
 import 'package:worked_days/model/worked_day_model.dart';
-import 'package:worked_days/view/screens/main_screen.dart';
 import '../../../extentions/my_extentions.dart';
 
 class GetTodayStatusPage extends StatefulWidget {
@@ -54,8 +55,17 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
     ),
   ];
   late WorkDayModel status = listOfStatus.first;
-  final fontSize = screenSize.width / 30;
-  final double _workTimeSelectFontSize = screenSize.width / 26;
+  late double fontSize;
+  late Size screenSize;
+  late double _workTimeSelectFontSize;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    screenSize = context.watch<LoadedStableState>().screenSize;
+    fontSize = screenSize.width / 30;
+    _workTimeSelectFontSize = screenSize.width / 26;
+  }
+
   int radioGroupValue = 0;
   TimeOfDay? inTime;
   TimeOfDay? outTime;
