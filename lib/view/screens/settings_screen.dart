@@ -1,7 +1,9 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:worked_days/cubit/main_cubit_cubit.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
+import 'package:worked_days/extentions/my_extentions.dart';
 import 'package:worked_days/model/color_schema.dart';
 import 'package:worked_days/model/notification_pref_model.dart';
 
@@ -15,23 +17,27 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   late NotificationPrefModel notificationPrefModel;
   late LoadedStableState loadedStableState;
+  String? notificationPeriodInString;
+  late MainCubit mainCubit;
   late Size screenSize;
 
   @override
   void initState() {
     super.initState();
+    mainCubit = Provider.of<MainCubit>(context, listen: false);
   }
 
   @override
   void didChangeDependencies() {
+    loadedStableState = context.watch<LoadedStableState>();
+    screenSize = loadedStableState.screenSize;
+    notificationPrefModel = loadedStableState.notificationSettings;
+    notificationPeriodInString = loadedStableState.notificationSettings.notificationPeriod!;
     super.didChangeDependencies();
-    screenSize = context.watch<LoadedStableState>().screenSize;
   }
 
   @override
   Widget build(BuildContext context) {
-    loadedStableState = context.watch<LoadedStableState>();
-    notificationPrefModel = loadedStableState.notificationSettings;
     return Scaffold(
       backgroundColor: ColorPallet.smoke,
       appBar: AppBar(
@@ -121,19 +127,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       initialTime: TimeOfDay.now(),
                     ).then((value) {
                       if (value != null) {
-                        //Todo:
-                        // loadedStableState.setNotificationSettings(
-                        //   NotificationPrefModel(
-                        //     notificationStatusPref: null,
-                        //     notificationPeriod: "${value.hour}:${value.minute} ${value.period.name}"
-                        //         .toPersionPeriod,
-                        //   ),
-                        // );
+                        notificationPeriodInString =
+                            "${value.hour}:${value.minute} ${value.period.name}".toPersionPeriod;
+
+                        mainCubit.setNotificationSettings(
+                          loadedStableState: loadedStableState,
+                          nS: NotificationPrefModel(
+                            notificationStatusPref:
+                                loadedStableState.notificationSettings.notificationStatusPref,
+                            notificationPeriod: notificationPeriodInString,
+                          ),
+                        );
+                        setState(() {});
                       }
                     });
                   },
                   child: Text(
-                    notificationPrefModel.notificationPeriod ?? "یک زمان انتخاب کن",
+                    notificationPeriodInString ?? "یک زمان انتخاب کن",
                     style: TextStyle(
                       fontSize: screenSize.width / 23,
                       color: ColorPallet.yaleBlue,
@@ -145,7 +155,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ElevatedButton(
                   onPressed: () {
                     //Todo:
-                    // loadedStableState.setNotificationSettings(
+                    // mainCubit.setNotificationSettings(
                     //   NotificationPrefModel(
                     //     notificationStatusPref:
                     //         notificationPrefModel.notificationStatusPref == true ? false : true,

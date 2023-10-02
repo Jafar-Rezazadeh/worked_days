@@ -24,8 +24,6 @@ class _MainScreenState extends State<MainScreen> {
     _showAlertForNotifications();
   }
 
-  //Todo: the button click events
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MainCubit, MainCubitState>(

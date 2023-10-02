@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import 'package:shamsi_date/shamsi_date.dart';
+import 'package:worked_days/cubit/main_cubit_cubit.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/model/worked_day_model.dart';
 import 'package:worked_days/view/tabs/today_status/get_today_status.dart';
@@ -17,22 +18,23 @@ class TodayStatusPageController extends StatefulWidget {
 class _TodayStatusPageControllerState extends State<TodayStatusPageController> {
   late LoadedStableState loadedStableState;
   late Size screenSize;
+  late MainCubit mainCubit;
 
   @override
   void initState() {
     super.initState();
+    mainCubit = Provider.of<MainCubit>(context, listen: false);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     screenSize = context.watch<LoadedStableState>().screenSize;
+    loadedStableState = context.watch<LoadedStableState>();
   }
 
   @override
   Widget build(BuildContext context) {
-    loadedStableState = context.watch<LoadedStableState>();
-
     return doWeHaveTodayStatus()
         ? ShowSavedStatus(
             screenSize: screenSize,
@@ -46,8 +48,7 @@ class _TodayStatusPageControllerState extends State<TodayStatusPageController> {
   }
 
   _handleSubmit(WorkDayModel value) {
-    //Todo:
-    // loadedStableState.insertWorkedDay(value);
+    mainCubit.insertWorkedDay(loadedStableState: loadedStableState, newWorkDayModel: value);
   }
 
   bool doWeHaveTodayStatus() {
@@ -71,7 +72,6 @@ class _TodayStatusPageControllerState extends State<TodayStatusPageController> {
   }
 
   _deleteStatusHandler(int id) {
-    //Todo:
-    //loadedStableState.deletWorkDay(id);
+    mainCubit.deleteWorkDay(loadedStableState: loadedStableState, id: id);
   }
 }
