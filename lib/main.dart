@@ -6,7 +6,7 @@ import 'package:worked_days/cubit/main_cubit_cubit.dart';
 import 'package:worked_days/model/worked_day_model.dart';
 import 'package:worked_days/services/db_provider_service.dart';
 import 'package:worked_days/services/notification_service.dart';
-import 'package:worked_days/view/screens/main_screen.dart';
+import 'package:worked_days/controller/main_screen_controller.dart';
 
 void main(List<String> args) {
   runApp(const WorkedDays());
