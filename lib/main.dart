@@ -36,8 +36,7 @@ class _WorkedDaysState extends State<WorkedDays> {
     super.initState();
     workedDaysData = DataBaseHandlerService().getWorkDays();
   }
-
-  //Todo: get a relase and test it in real
+  //Todo: use the flutter_screenUtil package bcs the we have some problems with screen size in release mode
 
   @override
   Widget build(BuildContext context) {

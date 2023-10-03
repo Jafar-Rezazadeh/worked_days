@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/model/notification_pref_model.dart';
@@ -11,21 +12,23 @@ class MainCubit extends Cubit<MainCubitState> {
 
   //?
   loadDataAndStartApp() async {
-    Size screenSize = PlatformDispatcher.instance.views.first.physicalSize /
-        PlatformDispatcher.instance.views.first.devicePixelRatio;
-
     emit(LoadingState());
 
-    await Future.delayed(const Duration(seconds: 1));
     NotificationPrefModel notificationPrefModel = await SettingsService.getShowNotificationsPref();
     List<WorkDayModel> workedDaysData = await DataBaseHandlerService().getWorkDays();
-    emit(
-      LoadedStableState(
-        screenSize: screenSize,
-        notificationSettings: notificationPrefModel,
-        workedDays: workedDaysData,
-      ),
-    );
+
+    //? wait for a moment to get the screensize
+    await Future.delayed(const Duration(microseconds: 20));
+    Size screenSize = MediaQueryData.fromView(PlatformDispatcher.instance.views.first).size;
+    if (screenSize.width > 0) {
+      emit(
+        LoadedStableState(
+          screenSize: screenSize,
+          notificationSettings: notificationPrefModel,
+          workedDays: workedDaysData,
+        ),
+      );
+    }
   }
 
   //?
