@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:worked_days/cubit/main_cubit_cubit.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/model/notification_pref_model.dart';
-import 'package:worked_days/services/shared_preferences.dart';
+import 'package:worked_days/services/settings_service.dart';
 import 'package:worked_days/view/screens/loading.dart';
 import 'package:worked_days/view/screens/worked_days_status.dart';
 

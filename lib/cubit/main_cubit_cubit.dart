@@ -4,7 +4,7 @@ import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/model/notification_pref_model.dart';
 import 'package:worked_days/model/worked_day_model.dart';
 import 'package:worked_days/services/db_provider.dart';
-import 'package:worked_days/services/shared_preferences.dart';
+import 'package:worked_days/services/settings_service.dart';
 
 class MainCubit extends Cubit<MainCubitState> {
   MainCubit() : super(MainCubitInitial());
