@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/model/notification_pref_model.dart';
 import 'package:worked_days/model/worked_day_model.dart';
-import 'package:worked_days/services/db_provider.dart';
+import 'package:worked_days/services/db_provider_service.dart';
 import 'package:worked_days/services/settings_service.dart';
 
 class MainCubit extends Cubit<MainCubitState> {
@@ -18,7 +18,7 @@ class MainCubit extends Cubit<MainCubitState> {
 
     await Future.delayed(const Duration(seconds: 1));
     NotificationPrefModel notificationPrefModel = await SettingsService.getShowNotificationsPref();
-    List<WorkDayModel> workedDaysData = await DataBaseHandler().getWorkDays();
+    List<WorkDayModel> workedDaysData = await DataBaseHandlerService().getWorkDays();
     emit(
       LoadedStableState(
         screenSize: screenSize,
@@ -33,7 +33,7 @@ class MainCubit extends Cubit<MainCubitState> {
     required LoadedStableState loadedStableState,
     required WorkDayModel newWorkDayModel,
   }) async {
-    newWorkDayModel.id = await DataBaseHandler().insertWorkDay(newWorkDayModel);
+    newWorkDayModel.id = await DataBaseHandlerService().insertWorkDay(newWorkDayModel);
     List<WorkDayModel> listOfWorkDaysData = loadedStableState.workedDays;
 
     listOfWorkDaysData.add(newWorkDayModel);
@@ -49,7 +49,7 @@ class MainCubit extends Cubit<MainCubitState> {
 
   //?
   deleteWorkDay({required int id, required LoadedStableState loadedStableState}) async {
-    await DataBaseHandler().deleteWorkDay(id);
+    await DataBaseHandlerService().deleteWorkDay(id);
     List<WorkDayModel> listOfWorkDaysData = loadedStableState.workedDays;
 
     listOfWorkDaysData.removeWhere((element) => element.id == id);
