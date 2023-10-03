@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worked_days/cubit/main_cubit_cubit.dart';
 import 'package:worked_days/model/worked_day_model.dart';
-import 'package:worked_days/services/db_provider.dart';
+import 'package:worked_days/services/db_provider_service.dart';
 import 'package:worked_days/services/notification_service.dart';
 import 'package:worked_days/view/screens/main_screen.dart';
 
@@ -34,7 +34,7 @@ class _WorkedDaysState extends State<WorkedDays> {
   @override
   void initState() {
     super.initState();
-    workedDaysData = DataBaseHandler().getWorkDays();
+    workedDaysData = DataBaseHandlerService().getWorkDays();
   }
 
   @override
