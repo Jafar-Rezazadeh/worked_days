@@ -70,7 +70,7 @@ class MainCubit extends Cubit<MainCubitState> {
   }) async {
     //
 
-    await SettingsService.setShowNotificationPref(notificationPrefModel: nS);
+    await SettingsService.setNotificationPref(notificationPrefModel: nS);
 
     LoadedStableState newloadedStableState = LoadedStableState(
       screenSize: loadedStableState.screenSize,

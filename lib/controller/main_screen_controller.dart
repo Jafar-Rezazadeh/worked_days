@@ -66,7 +66,7 @@ class _MainScreenState extends State<MainScreen> {
                   onPressed: () {
                     AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
                       if (isAllowed) {
-                        SettingsService.setShowNotificationPref(
+                        SettingsService.setNotificationPref(
                           notificationPrefModel: NotificationPrefModel(
                             notificationStatusPref: true,
                             notificationPeriod: notificationPrefModel.notificationPeriod ??
@@ -84,7 +84,7 @@ class _MainScreenState extends State<MainScreen> {
                 //? do not showNotifications
                 TextButton(
                   onPressed: () {
-                    SettingsService.setShowNotificationPref(
+                    SettingsService.setNotificationPref(
                       notificationPrefModel: NotificationPrefModel(
                         notificationStatusPref: false,
                         notificationPeriod: notificationPrefModel.notificationPeriod ??

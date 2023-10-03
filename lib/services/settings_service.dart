@@ -25,7 +25,7 @@ class SettingsService {
     );
   }
 
-  static setShowNotificationPref({required NotificationPrefModel notificationPrefModel}) async {
+  static setNotificationPref({required NotificationPrefModel notificationPrefModel}) async {
     final prefs = await SettingsService().getPrefs();
 
     if (notificationPrefModel.notificationStatusPref != null) {
