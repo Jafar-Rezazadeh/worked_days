@@ -37,6 +37,8 @@ class _WorkedDaysState extends State<WorkedDays> {
     workedDaysData = DataBaseHandlerService().getWorkDays();
   }
 
+  //Todo: get a relase and test it in real
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
