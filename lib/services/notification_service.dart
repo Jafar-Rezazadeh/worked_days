@@ -24,15 +24,17 @@ class NotificationService {
       (isAllowed) async {
         if (isAllowed) {
           NotificationPrefModel? notificationPrefModel =
-              await SharedPreferencesService.getShowNotificationsPref();
+              await SettingsService.getShowNotificationsPref();
 
           // TimeOfDay timeOfDay =
           List<NotificationModel> listOfnotif =
               await AwesomeNotifications().listScheduledNotifications();
-          print(listOfnotif.first.content!.id);
+
           if (_isNotAlreadyScheduled(listOfnotif)) {
             createPeriodicNotification(
                 notificationPrefModel.toTimeOfDay() ?? const TimeOfDay(hour: 18, minute: 0));
+          } else {
+            print(listOfnotif.first.content!.id);
           }
         }
       },
@@ -40,9 +42,8 @@ class NotificationService {
   }
 
   static createPeriodicNotification(TimeOfDay timeOfDay) async {
-    NotificationPrefModel? notificationPrefModel =
-        await SharedPreferencesService.getShowNotificationsPref();
-    await AwesomeNotifications().cancel(0);
+    NotificationPrefModel? notificationPrefModel = await SettingsService.getShowNotificationsPref();
+    await cancelPeriodicNotifications();
     if (notificationPrefModel.notificationStatusPref != null &&
         notificationPrefModel.notificationStatusPref != false) {
       await AwesomeNotifications().createNotification(
@@ -74,14 +75,8 @@ class NotificationService {
     }
   }
 
-  static showSimpleNotification() {
-    AwesomeNotifications().createNotification(
-      content: NotificationContent(
-        id: 2,
-        channelKey: "basic_channel",
-        body: "some text",
-      ),
-    );
+  static cancelPeriodicNotifications() async {
+    await AwesomeNotifications().cancel(0);
   }
 
   static bool _isNotAlreadyScheduled(List<NotificationModel> listOfnotif) {

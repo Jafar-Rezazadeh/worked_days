@@ -15,25 +15,21 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  late NotificationPrefModel notificationPrefModel;
-  late LoadedStableState loadedStableState;
-  String? notificationPeriodInString;
   late MainCubit mainCubit;
   late Size screenSize;
+  String? notificationPeriodInString;
+  bool? isNotificationActive;
 
   @override
   void initState() {
     super.initState();
     mainCubit = Provider.of<MainCubit>(context, listen: false);
-  }
 
-  @override
-  void didChangeDependencies() {
-    loadedStableState = context.watch<LoadedStableState>();
-    screenSize = loadedStableState.screenSize;
-    notificationPrefModel = loadedStableState.notificationSettings;
-    notificationPeriodInString = loadedStableState.notificationSettings.notificationPeriod!;
-    super.didChangeDependencies();
+    screenSize = context.read<LoadedStableState>().screenSize;
+    notificationPeriodInString =
+        context.read<LoadedStableState>().notificationSettings.notificationPeriod!;
+    isNotificationActive =
+        context.read<LoadedStableState>().notificationSettings.notificationStatusPref!;
   }
 
   @override
@@ -129,15 +125,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       if (value != null) {
                         notificationPeriodInString =
                             "${value.hour}:${value.minute} ${value.period.name}".toPersionPeriod;
-
+                        //? main state
                         mainCubit.setNotificationSettings(
-                          loadedStableState: loadedStableState,
+                          loadedStableState: context.read<LoadedStableState>(),
                           nS: NotificationPrefModel(
-                            notificationStatusPref:
-                                loadedStableState.notificationSettings.notificationStatusPref,
+                            notificationStatusPref: isNotificationActive,
                             notificationPeriod: notificationPeriodInString,
                           ),
                         );
+                        //? UI
                         setState(() {});
                       }
                     });
@@ -154,26 +150,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 //? on/off notification
                 ElevatedButton(
                   onPressed: () {
-                    //Todo:
-                    // mainCubit.setNotificationSettings(
-                    //   NotificationPrefModel(
-                    //     notificationStatusPref:
-                    //         notificationPrefModel.notificationStatusPref == true ? false : true,
-                    //     notificationPeriod: notificationPrefModel.notificationPeriod,
-                    //   ),
-                    // );
+                    //? main state
+                    mainCubit.setNotificationSettings(
+                      loadedStableState: context.read<LoadedStableState>(),
+                      nS: NotificationPrefModel(
+                        notificationStatusPref: isNotificationActive == true ? false : true,
+                        notificationPeriod: notificationPeriodInString,
+                      ),
+                    );
+                    //? UI
+                    setState(() {
+                      isNotificationActive = isNotificationActive == true ? false : true;
+                    });
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll<Color>(
-                      notificationPrefModel.notificationStatusPref == false
-                          ? ColorPallet.green
-                          : ColorPallet.orange,
+                      isNotificationActive == false ? ColorPallet.green : ColorPallet.orange,
                     ),
                   ),
                   child: Text(
-                    notificationPrefModel.notificationStatusPref == true
-                        ? "غیر فعال سازی"
-                        : "فعال سازی",
+                    isNotificationActive == true ? "غیر فعال سازی" : "فعال سازی",
                     style: TextStyle(fontSize: screenSize.width / 25),
                   ),
                 ),
@@ -186,12 +182,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   String? _convertNotificationStatusToText() {
-    return notificationPrefModel.notificationStatusPref == true ? "فعال" : "غیر فعال";
+    return isNotificationActive == true ? "فعال" : "غیر فعال";
   }
 
   Color? _convertNotificationStatusToColor() {
-    return notificationPrefModel.notificationStatusPref == true
-        ? ColorPallet.green
-        : ColorPallet.orange;
+    return isNotificationActive == true ? ColorPallet.green : ColorPallet.orange;
   }
 }

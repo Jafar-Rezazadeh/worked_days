@@ -2,10 +2,7 @@ import 'dart:io';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:worked_days/cubit/main_cubit_cubit.dart';
-import 'package:worked_days/model/notification_pref_model.dart';
-import 'package:worked_days/model/provide_data_model.dart';
 import 'package:worked_days/model/worked_day_model.dart';
 import 'package:worked_days/services/db_provider.dart';
 import 'package:worked_days/services/notification_service.dart';
@@ -66,33 +63,33 @@ class _WorkedDaysState extends State<WorkedDays> {
     // );
   }
 
-  Widget _setProviderData(List<WorkDayModel> data, NotificationPrefModel settingsModel) {
-    return LayoutBuilder(builder: (context, constraints) {
-      if (constraints.maxHeight > 0) {
-        return ChangeNotifierProvider(
-          create: (context) => ProviderDataModel(
-            screenSize: Size(constraints.maxWidth, constraints.maxHeight),
-            workedDays: data,
-            notificationSettings: settingsModel,
-          ),
-          builder: (context, child) => MaterialApp(
-            theme: ThemeData(fontFamily: "Vazir"),
-            home: const MainScreen(),
-          ),
-        );
-      } else {
-        return Container();
-      }
-    });
-  }
+  // Widget _setProviderData(List<WorkDayModel> data, NotificationPrefModel settingsModel) {
+  //   return LayoutBuilder(builder: (context, constraints) {
+  //     if (constraints.maxHeight > 0) {
+  //       return ChangeNotifierProvider(
+  //         create: (context) => ProviderDataModel(
+  //           screenSize: Size(constraints.maxWidth, constraints.maxHeight),
+  //           workedDays: data,
+  //           notificationSettings: settingsModel,
+  //         ),
+  //         builder: (context, child) => MaterialApp(
+  //           theme: ThemeData(fontFamily: "Vazir"),
+  //           home: const MainScreen(),
+  //         ),
+  //       );
+  //     } else {
+  //       return Container();
+  //     }
+  //   });
+  // }
 
-  Widget _loading() {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      ),
-    );
-  }
+  // Widget _loading() {
+  //   return const MaterialApp(
+  //     home: Scaffold(
+  //       body: Center(
+  //         child: CircularProgressIndicator(),
+  //       ),
+  //     ),
+  //   );
+  // }
 }

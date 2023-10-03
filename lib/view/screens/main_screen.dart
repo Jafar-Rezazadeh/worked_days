@@ -45,8 +45,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Future<void> _showAlertForNotifications() async {
-    NotificationPrefModel? notificationPrefModel =
-        await SharedPreferencesService.getShowNotificationsPref();
+    NotificationPrefModel? notificationPrefModel = await SettingsService.getShowNotificationsPref();
 
     bool isNotificationAllowed = await AwesomeNotifications().isNotificationAllowed();
 
@@ -67,7 +66,7 @@ class _MainScreenState extends State<MainScreen> {
                   onPressed: () {
                     AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
                       if (isAllowed) {
-                        SharedPreferencesService.setShowNotificationPref(
+                        SettingsService.setShowNotificationPref(
                           notificationPrefModel: NotificationPrefModel(
                             notificationStatusPref: true,
                             notificationPeriod: notificationPrefModel.notificationPeriod ??
@@ -85,7 +84,7 @@ class _MainScreenState extends State<MainScreen> {
                 //? do not showNotifications
                 TextButton(
                   onPressed: () {
-                    SharedPreferencesService.setShowNotificationPref(
+                    SettingsService.setShowNotificationPref(
                       notificationPrefModel: NotificationPrefModel(
                         notificationStatusPref: false,
                         notificationPeriod: notificationPrefModel.notificationPeriod ??

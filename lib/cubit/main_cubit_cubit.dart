@@ -17,8 +17,7 @@ class MainCubit extends Cubit<MainCubitState> {
     emit(LoadingState());
 
     await Future.delayed(const Duration(seconds: 1));
-    NotificationPrefModel notificationPrefModel =
-        await SharedPreferencesService.getShowNotificationsPref();
+    NotificationPrefModel notificationPrefModel = await SettingsService.getShowNotificationsPref();
     List<WorkDayModel> workedDaysData = await DataBaseHandler().getWorkDays();
     emit(
       LoadedStableState(
@@ -70,8 +69,8 @@ class MainCubit extends Cubit<MainCubitState> {
     required NotificationPrefModel nS,
   }) async {
     //
-    await SharedPreferencesService.setShowNotificationPref(notificationPrefModel: nS);
-    print(nS.notificationPeriod);
+
+    await SettingsService.setShowNotificationPref(notificationPrefModel: nS);
 
     LoadedStableState newloadedStableState = LoadedStableState(
       screenSize: loadedStableState.screenSize,
