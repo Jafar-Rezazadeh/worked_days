@@ -7,7 +7,6 @@ import 'package:worked_days/model/worked_day_model.dart';
 import 'package:worked_days/services/db_provider_service.dart';
 import 'package:worked_days/services/notification_service.dart';
 import 'package:worked_days/controller/main_screen_controller.dart';
-import 'package:worked_days/services/settings_service.dart';
 
 void main(List<String> args) {
   runApp(const WorkedDays());
