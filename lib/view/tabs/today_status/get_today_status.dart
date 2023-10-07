@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:worked_days/controller/shamsi_formater.dart';
+import 'package:worked_days/cubit/main_cubit_cubit.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/model/color_schema.dart';
 import 'package:worked_days/model/worked_day_model.dart';
@@ -54,6 +55,8 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
       publicHoliday: false,
     ),
   ];
+  late MainCubit mainCubit;
+  late LoadedStableState loadedStableState;
   late WorkDayModel status = listOfStatus.first;
   late double fontSize;
   late Size screenSize;
@@ -61,9 +64,18 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    screenSize = context.watch<LoadedStableState>().screenSize;
-    fontSize = screenSize.width / 30;
-    _workTimeSelectFontSize = screenSize.width / 26;
+    _getState();
+  }
+
+  _getState() {
+    mainCubit = BlocProvider.of<MainCubit>(context, listen: true);
+    if (mainCubit.state is LoadedStableState) {
+      loadedStableState = mainCubit.state as LoadedStableState;
+
+      screenSize = loadedStableState.screenSize;
+      fontSize = screenSize.width / 30;
+      _workTimeSelectFontSize = screenSize.width / 26;
+    }
   }
 
   int radioGroupValue = 0;

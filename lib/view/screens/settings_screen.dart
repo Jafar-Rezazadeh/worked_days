@@ -16,20 +16,26 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   late MainCubit mainCubit;
+  late LoadedStableState loadedStableState;
   late Size screenSize;
   String? notificationPeriodInString;
   bool? isNotificationActive;
 
   @override
-  void initState() {
-    super.initState();
-    mainCubit = Provider.of<MainCubit>(context, listen: false);
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _getState();
+  }
 
-    screenSize = context.read<LoadedStableState>().screenSize;
-    notificationPeriodInString =
-        context.read<LoadedStableState>().notificationSettings.notificationPeriod!;
-    isNotificationActive =
-        context.read<LoadedStableState>().notificationSettings.notificationStatusPref!;
+  _getState() {
+    mainCubit = Provider.of<MainCubit>(context, listen: true);
+
+    if (mainCubit.state is LoadedStableState) {
+      loadedStableState = mainCubit.state as LoadedStableState;
+      screenSize = loadedStableState.screenSize;
+      notificationPeriodInString = loadedStableState.notificationSettings.notificationPeriod!;
+      isNotificationActive = loadedStableState.notificationSettings.notificationStatusPref!;
+    }
   }
 
   @override
@@ -63,20 +69,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
       elevation: 3,
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 10,
-          vertical: 5,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: ExpandablePanel(
           header: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-            ),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
-            child: Text(
-              "دریافت اعلان",
-              style: TextStyle(fontSize: screenSize.width / 23),
-            ),
+            child: Text("دریافت اعلان", style: TextStyle(fontSize: screenSize.width / 23)),
           ),
           collapsed: Container(
             width: double.infinity,
@@ -84,18 +82,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Text.rich(
               textDirection: TextDirection.rtl,
               textAlign: TextAlign.right,
-              style: TextStyle(
-                color: Colors.black54,
-                fontSize: screenSize.width / 28,
-              ),
+              style: TextStyle(color: Colors.black54, fontSize: screenSize.width / 28),
               TextSpan(
                 children: [
                   const TextSpan(text: "وضعیت: "),
                   TextSpan(
                     text: _convertNotificationStatusToText() ?? "نامعلوم",
-                    style: TextStyle(
-                      color: _convertNotificationStatusToColor() ?? Colors.black,
-                    ),
+                    style: TextStyle(color: _convertNotificationStatusToColor() ?? Colors.black),
                   ),
                 ],
               ),
@@ -106,73 +99,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Column(
               children: [
-                //? set periodic time for notification
-                TextButton(
-                  style: ButtonStyle(
-                    padding: const MaterialStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.all(20)),
-                    shape: MaterialStatePropertyAll<OutlinedBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: BorderSide(width: 1, color: ColorPallet.yaleBlue),
-                      ),
-                    ),
-                  ),
-                  onPressed: () async {
-                    await showTimePicker(
-                      context: context,
-                      initialTime: TimeOfDay.now(),
-                    ).then((value) {
-                      if (value != null) {
-                        notificationPeriodInString =
-                            "${value.hour}:${value.minute} ${value.period.name}".toPersionPeriod;
-                        //? main state
-                        mainCubit.setNotificationSettings(
-                          loadedStableState: context.read<LoadedStableState>(),
-                          nS: NotificationPrefModel(
-                            notificationStatusPref: isNotificationActive,
-                            notificationPeriod: notificationPeriodInString,
-                          ),
-                        );
-                        //? UI
-                        setState(() {});
-                      }
-                    });
-                  },
-                  child: Text(
-                    notificationPeriodInString ?? "یک زمان انتخاب کن",
-                    style: TextStyle(
-                      fontSize: screenSize.width / 23,
-                      color: ColorPallet.yaleBlue,
-                    ),
-                  ),
-                ),
+                _setPeriodicNotificationTime(),
                 const SizedBox(height: 20),
-                //? on/off notification
-                ElevatedButton(
-                  onPressed: () {
-                    //? main state
-                    mainCubit.setNotificationSettings(
-                      loadedStableState: context.read<LoadedStableState>(),
-                      nS: NotificationPrefModel(
-                        notificationStatusPref: isNotificationActive == true ? false : true,
-                        notificationPeriod: notificationPeriodInString,
-                      ),
-                    );
-                    //? UI
-                    setState(() {
-                      isNotificationActive = isNotificationActive == true ? false : true;
-                    });
-                  },
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll<Color>(
-                      isNotificationActive == false ? ColorPallet.green : ColorPallet.orange,
-                    ),
-                  ),
-                  child: Text(
-                    isNotificationActive == true ? "غیر فعال سازی" : "فعال سازی",
-                    style: TextStyle(fontSize: screenSize.width / 25),
-                  ),
-                ),
+                _activateOrDeactivateNotification(),
               ],
             ),
           ),
@@ -187,5 +116,66 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Color? _convertNotificationStatusToColor() {
     return isNotificationActive == true ? ColorPallet.green : ColorPallet.orange;
+  }
+
+  Widget _setPeriodicNotificationTime() {
+    return TextButton(
+      style: ButtonStyle(
+        padding: const MaterialStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.all(20)),
+        shape: MaterialStatePropertyAll<OutlinedBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+            side: BorderSide(width: 1, color: ColorPallet.yaleBlue),
+          ),
+        ),
+      ),
+      onPressed: () async {
+        await showTimePicker(
+          context: context,
+          initialTime: TimeOfDay.now(),
+        ).then((value) {
+          if (value != null) {
+            mainCubit.setNotificationSettings(
+              loadedStableState: loadedStableState,
+              nS: NotificationPrefModel(
+                notificationStatusPref: isNotificationActive,
+                notificationPeriod:
+                    "${value.hour}:${value.minute} ${value.period.name}".toPersionPeriod,
+              ),
+            );
+          }
+        });
+      },
+      child: Text(
+        notificationPeriodInString ?? "یک زمان انتخاب کن",
+        style: TextStyle(
+          fontSize: screenSize.width / 23,
+          color: ColorPallet.yaleBlue,
+        ),
+      ),
+    );
+  }
+
+  Widget _activateOrDeactivateNotification() {
+    return ElevatedButton(
+      onPressed: () {
+        mainCubit.setNotificationSettings(
+          loadedStableState: loadedStableState,
+          nS: NotificationPrefModel(
+            notificationStatusPref: isNotificationActive == true ? false : true,
+            notificationPeriod: notificationPeriodInString,
+          ),
+        );
+      },
+      style: ButtonStyle(
+        backgroundColor: MaterialStatePropertyAll<Color>(
+          isNotificationActive == false ? ColorPallet.green : ColorPallet.orange,
+        ),
+      ),
+      child: Text(
+        isNotificationActive == true ? "غیر فعال سازی" : "فعال سازی",
+        style: TextStyle(fontSize: screenSize.width / 25),
+      ),
+    );
   }
 }

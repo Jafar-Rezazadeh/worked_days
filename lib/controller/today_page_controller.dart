@@ -21,16 +21,17 @@ class _TodayStatusPageControllerState extends State<TodayStatusPageController> {
   late MainCubit mainCubit;
 
   @override
-  void initState() {
-    super.initState();
-    mainCubit = Provider.of<MainCubit>(context, listen: false);
-  }
-
-  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    screenSize = context.watch<LoadedStableState>().screenSize;
-    loadedStableState = context.watch<LoadedStableState>();
+    _getState();
+  }
+
+  void _getState() {
+    mainCubit = Provider.of<MainCubit>(context, listen: true);
+    if (mainCubit.state is LoadedStableState) {
+      loadedStableState = mainCubit.state as LoadedStableState;
+      screenSize = loadedStableState.screenSize;
+    }
   }
 
   @override

@@ -33,10 +33,7 @@ class _MainScreenState extends State<MainScreen> {
           return const LoadingScreen();
         }
         if (state is LoadedStableState) {
-          return Provider.value(
-            value: state,
-            child: const WorkedDaysStatusScreen(),
-          );
+          return const WorkedDaysStatusScreen();
         } else {
           return Container();
         }
