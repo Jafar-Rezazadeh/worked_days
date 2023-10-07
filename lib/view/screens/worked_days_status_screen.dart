@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:worked_days/controller/today_page_controller.dart';
 import 'package:worked_days/controller/worked_days_page_controller.dart';
 import 'package:worked_days/cubit/main_cubit_cubit.dart';
