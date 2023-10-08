@@ -43,9 +43,7 @@ class _TodayStatusPageControllerState extends State<TodayStatusPageController> {
             todayStatus: _getTodaySavedStatus(loadedStableState.workedDays),
             deleteTodayStatus: _deleteStatusHandler,
           )
-        : GetTodayStatusPage(
-            onSubmit: _handleSubmit,
-          );
+        : GetTodayStatusPage(onSubmit: _handleSubmit);
   }
 
   _handleSubmit(WorkDayModel value) {

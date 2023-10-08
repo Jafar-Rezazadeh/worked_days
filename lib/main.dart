@@ -1,10 +1,6 @@
-import 'dart:io';
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worked_days/cubit/main_cubit_cubit.dart';
-import 'package:worked_days/model/worked_day_model.dart';
-import 'package:worked_days/services/db_provider_service.dart';
 import 'package:worked_days/services/notification_service.dart';
 import 'package:worked_days/view/screens/main_screen.dart';
 
@@ -12,14 +8,6 @@ void main(List<String> args) {
   runApp(const WorkedDays());
 
   NotificationService.initalize();
-
-  if (Platform.isWindows) {
-    doWhenWindowReady(() {
-      appWindow.minSize = const Size(1280, 720);
-      appWindow.alignment = Alignment.center;
-      appWindow.show();
-    });
-  }
 }
 
 class WorkedDays extends StatefulWidget {
@@ -30,12 +18,6 @@ class WorkedDays extends StatefulWidget {
 }
 
 class _WorkedDaysState extends State<WorkedDays> {
-  late Future<List<WorkDayModel>> workedDaysData;
-  @override
-  void initState() {
-    super.initState();
-    workedDaysData = DataBaseHandlerService().getWorkDays();
-  }
   //Todo: first clean up the codes
   //Todo: use the flutter_screenUtil package bcs the we have some problems with screen size in release mode
 

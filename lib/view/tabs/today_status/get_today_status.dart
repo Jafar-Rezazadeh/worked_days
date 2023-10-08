@@ -260,9 +260,9 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
             ),
           ),
           error && radioGroupValue == 1
-              ? Container(
-                  child: _regularText("لطفا زمان ورود و خروج را انتخاب کنید", Colors.red),
-                ).animate(target: error && radioGroupValue == 1 ? 1 : 0).fade(begin: 0, end: 1)
+              ? Container(child: _regularText("لطفا زمان ورود و خروج را انتخاب کنید", Colors.red))
+                  .animate(target: error && radioGroupValue == 1 ? 1 : 0)
+                  .fade(begin: 0, end: 1)
               : Container()
         ],
       ),
@@ -301,9 +301,8 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
       onPressed: radioGroupValue == 1
           ? () async {
               await showPersianTimePicker(
-                context: context,
-                initialTime: const TimeOfDay(hour: 18, minute: 00),
-              ).then((value) => setState(() => outTime = value));
+                      context: context, initialTime: const TimeOfDay(hour: 18, minute: 00))
+                  .then((value) => setState(() => outTime = value));
             }
           : null,
       child: outTime != null
@@ -333,15 +332,11 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
                 status.inTime = inTime!.format(context).toPersionPeriod,
                 status.outTime = outTime!.format(context).toPersionPeriod,
                 widget.onSubmit(status),
-                setState(() {
-                  error = false;
-                })
+                setState(() => error = false)
               }
             else
               {
-                setState(
-                  () => error = true,
-                )
+                setState(() => error = true),
               }
           }
         : {
@@ -373,10 +368,7 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
         } else {
           return RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
-            side: BorderSide(
-              width: 1,
-              color: ColorPallet.deepYellow,
-            ),
+            side: BorderSide(width: 1, color: ColorPallet.deepYellow),
           );
         }
       }),
