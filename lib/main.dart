@@ -18,7 +18,6 @@ class WorkedDays extends StatefulWidget {
 }
 
 class _WorkedDaysState extends State<WorkedDays> {
-  //Todo: first clean up the codes
   //Todo: use the flutter_screenUtil package bcs the we have some problems with screen size in release mode
 
   @override
