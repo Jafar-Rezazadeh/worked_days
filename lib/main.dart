@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:worked_days/cubit/main_cubit_cubit.dart';
 import 'package:worked_days/services/notification_service.dart';
 import 'package:worked_days/view/screens/main_screen.dart';
 
-void main(List<String> args) {
+Future<void> main(List<String> args) async {
+  await ScreenUtil.ensureScreenSize();
   runApp(const WorkedDays());
 
   NotificationService.initalize();
@@ -24,11 +26,12 @@ class _WorkedDaysState extends State<WorkedDays> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => MainCubit(),
-      child: MaterialApp(
-        theme: ThemeData(
-          fontFamily: "Vazir",
+      child: ScreenUtilInit(
+        designSize: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height),
+        builder: (context, child) => MaterialApp(
+          theme: ThemeData(fontFamily: "Vazir"),
+          home: const MainScreen(),
         ),
-        home: const MainScreen(),
       ),
     );
   }

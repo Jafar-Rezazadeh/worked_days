@@ -17,7 +17,6 @@ class TodayStatusPageController extends StatefulWidget {
 
 class _TodayStatusPageControllerState extends State<TodayStatusPageController> {
   late LoadedStableState loadedStableState;
-  late Size screenSize;
   late MainCubit mainCubit;
 
   @override
@@ -30,7 +29,6 @@ class _TodayStatusPageControllerState extends State<TodayStatusPageController> {
     mainCubit = Provider.of<MainCubit>(context, listen: true);
     if (mainCubit.state is LoadedStableState) {
       loadedStableState = mainCubit.state as LoadedStableState;
-      screenSize = loadedStableState.screenSize;
     }
   }
 
@@ -38,7 +36,6 @@ class _TodayStatusPageControllerState extends State<TodayStatusPageController> {
   Widget build(BuildContext context) {
     return doWeHaveTodayStatus()
         ? ShowSavedStatus(
-            screenSize: screenSize,
             context: context,
             todayStatus: _getTodaySavedStatus(loadedStableState.workedDays),
             deleteTodayStatus: _deleteStatusHandler,

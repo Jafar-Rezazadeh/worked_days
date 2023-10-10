@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:worked_days/controller/shamsi_formater.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
@@ -63,7 +64,7 @@ class WorkedDaysListPage extends StatelessWidget {
   _workedDaysTable() {
     return SizedBox(
       width: double.infinity,
-      height: loadedStableState.screenSize.height / 1.5,
+      height: 0.6.sh,
       child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
@@ -76,12 +77,12 @@ class WorkedDaysListPage extends StatelessWidget {
                     BorderSide(width: 1, color: ColorPallet.yaleBlue.withOpacity(0.2)),
               ),
               headingTextStyle: TextStyle(
-                fontSize: loadedStableState.screenSize.width / 30,
+                fontSize: 15.sp,
                 color: ColorPallet.yaleBlue,
                 fontFamily: "Vazir",
               ),
               dataTextStyle: TextStyle(
-                fontSize: loadedStableState.screenSize.width / 35,
+                fontSize: 12.sp,
                 color: Colors.black,
                 fontFamily: "Vazir",
               ),
@@ -142,8 +143,8 @@ class WorkedDaysListPage extends StatelessWidget {
                 )
               : Image.asset(
                   'assets/icons/horizontalline.png',
-                  height: loadedStableState.screenSize.width / 15,
-                  width: loadedStableState.screenSize.width / 15,
+                  height: 20.sp,
+                  width: 20.sp,
                 ),
         ),
       ),

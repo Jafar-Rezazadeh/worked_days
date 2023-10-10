@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:worked_days/controller/shamsi_formater.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/model/color_schema.dart';
@@ -22,7 +23,9 @@ class DetailsWorkDay extends StatelessWidget {
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(
-              horizontal: loadedStableState.screenSize.width / 6, vertical: 50),
+            horizontal: 50.sp,
+            vertical: 50,
+          ),
           width: double.infinity,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -48,7 +51,7 @@ class DetailsWorkDay extends StatelessWidget {
               _textContainer(title: "ساعت ورود", txt: workDayModel.inTime),
               _textContainer(title: "ساعت خروج", txt: workDayModel.outTime),
               // return
-              SizedBox(height: loadedStableState.screenSize.height / 5),
+              SizedBox(height: 150.sp),
               Center(
                 child: ElevatedButton(
                   style: ButtonStyle(
@@ -76,7 +79,7 @@ class DetailsWorkDay extends StatelessWidget {
       textDirection: TextDirection.rtl,
       text: TextSpan(
         style: TextStyle(
-          fontSize: loadedStableState.screenSize.width / 20,
+          fontSize: 20.sp,
           fontFamily: "Vazir",
         ),
         children: [
@@ -90,7 +93,7 @@ class DetailsWorkDay extends StatelessWidget {
             text: txt != null ? " $txt" : " خالی",
             style: TextStyle(
               color: ColorPallet.orange,
-              fontSize: loadedStableState.screenSize.width / 20 + fontsizeMult,
+              fontSize: 20.sp + fontsizeMult,
             ),
           ),
         ],

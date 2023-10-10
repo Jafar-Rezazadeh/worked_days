@@ -2,6 +2,7 @@ import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:worked_days/controller/shamsi_formater.dart';
 import 'package:worked_days/cubit/main_cubit_cubit.dart';
@@ -58,9 +59,10 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
   late MainCubit mainCubit;
   late LoadedStableState loadedStableState;
   late WorkDayModel status = listOfStatus.first;
-  late double fontSize;
-  late Size screenSize;
-  late double _workTimeSelectFontSize;
+  double fontSize = 13.sp;
+
+  double workTimeSelectFontSize = 14.sp;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -71,10 +73,6 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
     mainCubit = BlocProvider.of<MainCubit>(context, listen: true);
     if (mainCubit.state is LoadedStableState) {
       loadedStableState = mainCubit.state as LoadedStableState;
-
-      screenSize = loadedStableState.screenSize;
-      fontSize = screenSize.width / 30;
-      _workTimeSelectFontSize = screenSize.width / 26;
     }
   }
 
@@ -94,13 +92,13 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _title(),
-            SizedBox(height: screenSize.height / 40),
+            SizedBox(height: 10.sp),
             _todayDateTime(),
-            SizedBox(height: screenSize.height / 30),
+            SizedBox(height: 25.sp),
             _selectStatus(),
-            SizedBox(height: screenSize.height / 30),
+            SizedBox(height: 20.sp),
             _workTimeSelect(),
-            SizedBox(height: screenSize.height / 30),
+            SizedBox(height: 20.sp),
             _addShortDescription(),
             _submit(),
           ],
@@ -111,7 +109,7 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
 
   _selectStatus() {
     return SizedBox(
-      height: screenSize.height / 15,
+      height: 50.sp,
       child: CustomRadioButton(
         height: 50,
         buttonLables: const [
@@ -132,7 +130,7 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
         elevation: 0,
         buttonTextStyle: ButtonTextStyle(
           textStyle: TextStyle(
-            fontSize: screenSize.width > 1000 ? 15 : fontSize / 1.1,
+            fontSize: fontSize / 1.1,
           ),
         ),
       ),
@@ -143,16 +141,16 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
     return ElevatedButton(
       style: ButtonStyle(
         backgroundColor: MaterialStatePropertyAll(ColorPallet.yaleBlue),
-        padding: MaterialStatePropertyAll(EdgeInsets.symmetric(
-          vertical: screenSize.width > 1000 ? 20 : 10,
-          horizontal: screenSize.width > 1000 ? 20 : 5,
+        padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(
+          vertical: 10,
+          horizontal: 5,
         )),
       ),
       onPressed: () => handleSubmit(),
       child: Text(
         "ذخیره",
         style: TextStyle(
-          fontSize: screenSize.width > 1000 ? 17 : fontSize + 2,
+          fontSize: fontSize + 2,
         ),
       ),
     )
@@ -172,7 +170,7 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
       child: Text(
         "وضعیت امروز چیه؟",
         style: TextStyle(
-          fontSize: screenSize.width > 1000 ? 18 : fontSize + 5,
+          fontSize: fontSize + 5,
         ),
       ),
     );
@@ -183,7 +181,7 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
       ShamsiFormatter.getTodayFullDateTime(null),
       textDirection: TextDirection.rtl,
       style: TextStyle(
-        fontSize: screenSize.width > 1000 ? 18 : fontSize,
+        fontSize: fontSize,
       ),
     );
   }
@@ -191,7 +189,7 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
   _workTimeSelect() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-      width: screenSize.width > 1000 ? 300 : screenSize.width / 1.2,
+      width: 300.sp,
       decoration: BoxDecoration(
         color: ColorPallet.smoke,
         borderRadius: BorderRadius.circular(10),
@@ -351,7 +349,7 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
       padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 9)),
       textStyle: MaterialStatePropertyAll(TextStyle(
         fontFamily: "Vazir",
-        fontSize: _workTimeSelectFontSize,
+        fontSize: workTimeSelectFontSize,
       )),
       foregroundColor: MaterialStateProperty.resolveWith(
         (states) {
@@ -379,7 +377,7 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: SizedBox(
-        width: screenSize.width / 1.5,
+        width: 0.6.sw,
         child: TextField(
           onChanged: (value) => shortDescription = value,
           textDirection: TextDirection.rtl,
@@ -387,11 +385,11 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
           maxLines: 2,
           decoration: InputDecoration(
             hintText: "توضیح کوتاه",
-            hintStyle: TextStyle(fontSize: screenSize.width / 30),
+            hintStyle: TextStyle(fontSize: 13.sp),
             border: const OutlineInputBorder(),
             contentPadding: const EdgeInsets.all(10),
           ),
-          style: TextStyle(fontSize: screenSize.width / 30),
+          style: TextStyle(fontSize: 13.sp),
         ),
       ),
     ).animate(target: status.id == 0 || status.id == 2 ? 1 : 0).scaleY(
@@ -408,7 +406,7 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
     return Text(
       txt,
       style: TextStyle(
-        fontSize: _workTimeSelectFontSize,
+        fontSize: workTimeSelectFontSize,
         color: color,
       ),
     );

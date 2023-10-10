@@ -1,5 +1,6 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:worked_days/cubit/main_cubit_cubit.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
@@ -17,7 +18,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   late MainCubit mainCubit;
   late LoadedStableState loadedStableState;
-  late Size screenSize;
+
   String? notificationPeriodInString;
   bool? isNotificationActive;
 
@@ -32,7 +33,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     if (mainCubit.state is LoadedStableState) {
       loadedStableState = mainCubit.state as LoadedStableState;
-      screenSize = loadedStableState.screenSize;
+
       notificationPeriodInString = loadedStableState.notificationSettings.notificationPeriod!;
       isNotificationActive = loadedStableState.notificationSettings.notificationStatusPref!;
     }
@@ -74,7 +75,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           header: Container(
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
-            child: Text("دریافت اعلان", style: TextStyle(fontSize: screenSize.width / 23)),
+            child: Text("دریافت اعلان", style: TextStyle(fontSize: 20.sp)),
           ),
           collapsed: Container(
             width: double.infinity,
@@ -82,7 +83,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Text.rich(
               textDirection: TextDirection.rtl,
               textAlign: TextAlign.right,
-              style: TextStyle(color: Colors.black54, fontSize: screenSize.width / 28),
+              style: TextStyle(color: Colors.black54, fontSize: 15.sp),
               TextSpan(
                 children: [
                   const TextSpan(text: "وضعیت: "),
@@ -149,7 +150,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: Text(
         notificationPeriodInString ?? "یک زمان انتخاب کن",
         style: TextStyle(
-          fontSize: screenSize.width / 23,
+          fontSize: 18.sp,
           color: ColorPallet.yaleBlue,
         ),
       ),
@@ -174,7 +175,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       child: Text(
         isNotificationActive == true ? "غیر فعال سازی" : "فعال سازی",
-        style: TextStyle(fontSize: screenSize.width / 25),
+        style: TextStyle(fontSize: 13.sp),
       ),
     );
   }

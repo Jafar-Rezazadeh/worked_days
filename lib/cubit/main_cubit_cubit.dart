@@ -24,7 +24,6 @@ class MainCubit extends Cubit<MainCubitState> {
     if (screenSize.width > 0) {
       emit(
         LoadedStableState(
-          screenSize: screenSize,
           notificationSettings: notificationPrefModel,
           workedDays: workedDaysData,
         ),
@@ -43,7 +42,6 @@ class MainCubit extends Cubit<MainCubitState> {
     listOfWorkDaysData.add(newWorkDayModel);
 
     LoadedStableState newloadedStableState = LoadedStableState(
-      screenSize: loadedStableState.screenSize,
       workedDays: listOfWorkDaysData,
       notificationSettings: loadedStableState.notificationSettings,
     );
@@ -61,7 +59,6 @@ class MainCubit extends Cubit<MainCubitState> {
     listOfWorkDaysData.removeWhere((element) => element.id == id);
 
     LoadedStableState newloadedStableState = LoadedStableState(
-      screenSize: loadedStableState.screenSize,
       workedDays: listOfWorkDaysData,
       notificationSettings: loadedStableState.notificationSettings,
     );
@@ -77,7 +74,6 @@ class MainCubit extends Cubit<MainCubitState> {
 
     //? StateUpdates
     LoadedStableState newloadedStableState = LoadedStableState(
-      screenSize: loadedStableState.screenSize,
       workedDays: loadedStableState.workedDays,
       notificationSettings: nS,
     );
