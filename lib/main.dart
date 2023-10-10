@@ -20,8 +20,6 @@ class WorkedDays extends StatefulWidget {
 }
 
 class _WorkedDaysState extends State<WorkedDays> {
-  //Todo: use the flutter_screenUtil package bcs the we have some problems with screen size in release mode
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
