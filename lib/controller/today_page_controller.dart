@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import 'package:shamsi_date/shamsi_date.dart';
-import 'package:worked_days/model/provide_data_model.dart';
+import 'package:worked_days/cubit/main_cubit_cubit.dart';
+import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/model/worked_day_model.dart';
-import 'package:worked_days/view/page/today_status/show_saved_status.dart';
-import 'package:worked_days/view/page/today_status/get_today_status.dart';
+import 'package:worked_days/view/tabs/today_status/get_today_status.dart';
+import 'package:worked_days/view/tabs/today_status/show_saved_status.dart';
 
 class TodayStatusPageController extends StatefulWidget {
   const TodayStatusPageController({super.key});
@@ -15,35 +16,40 @@ class TodayStatusPageController extends StatefulWidget {
 }
 
 class _TodayStatusPageControllerState extends State<TodayStatusPageController> {
-  late ProviderDataModel providerDataModel;
+  late LoadedStableState loadedStableState;
+  late MainCubit mainCubit;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _getState();
+  }
+
+  void _getState() {
+    mainCubit = Provider.of<MainCubit>(context, listen: true);
+    if (mainCubit.state is LoadedStableState) {
+      loadedStableState = mainCubit.state as LoadedStableState;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    providerDataModel = context.watch<ProviderDataModel>();
-
     return doWeHaveTodayStatus()
         ? ShowSavedStatus(
             context: context,
-            todayStatus: _getTodaySavedStatus(providerDataModel.workedDays),
+            todayStatus: _getTodaySavedStatus(loadedStableState.workedDays),
             deleteTodayStatus: _deleteStatusHandler,
           )
-        : GetTodayStatusPage(
-            onSubmit: _handleSubmit,
-          );
+        : GetTodayStatusPage(onSubmit: _handleSubmit);
   }
 
   _handleSubmit(WorkDayModel value) {
-    providerDataModel.insertWorkedDay(value);
+    mainCubit.insertWorkedDay(loadedStableState: loadedStableState, newWorkDayModel: value);
   }
 
   bool doWeHaveTodayStatus() {
-    if (providerDataModel.workedDays.isNotEmpty) {
-      return _isTodayStatusSaved(providerDataModel.workedDays);
+    if (loadedStableState.workedDays.isNotEmpty) {
+      return _isTodayStatusSaved(loadedStableState.workedDays);
     } else {
       return false;
     }
@@ -62,6 +68,6 @@ class _TodayStatusPageControllerState extends State<TodayStatusPageController> {
   }
 
   _deleteStatusHandler(int id) {
-    providerDataModel.deletWorkDay(id);
+    mainCubit.deleteWorkDay(loadedStableState: loadedStableState, id: id);
   }
 }

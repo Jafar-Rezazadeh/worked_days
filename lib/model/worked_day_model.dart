@@ -1,4 +1,4 @@
-import 'package:worked_days/services/tables_column_names.dart';
+import 'package:worked_days/model/tables_column_names.dart';
 
 class WorkDayModel {
   int id;
