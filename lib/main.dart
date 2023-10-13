@@ -25,9 +25,12 @@ class _WorkedDaysState extends State<WorkedDays> {
     return BlocProvider(
       create: (context) => MainCubit(),
       child: ScreenUtilInit(
-          designSize: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height),
-          builder: (context, child) =>
-              MaterialApp(theme: ThemeData(fontFamily: "Vazir"), home: const MainScreen())),
+        designSize: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height),
+        builder: (context, child) => MaterialApp(
+          theme: ThemeData(fontFamily: "Vazir"),
+          home: const MainScreen(),
+        ),
+      ),
     );
   }
 }
