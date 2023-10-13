@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:worked_days/controller/shamsi_formater.dart';
 import 'package:worked_days/model/color_schema.dart';
 import 'package:worked_days/model/worked_day_model.dart';
@@ -7,42 +8,41 @@ class ShowSavedStatus extends StatelessWidget {
   final BuildContext context;
   final WorkDayModel todayStatus;
   final Function deleteTodayStatus;
-  final Size screenSize;
+
   const ShowSavedStatus({
     super.key,
     required this.todayStatus,
     required this.context,
     required this.deleteTodayStatus,
-    required this.screenSize,
   });
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.only(top: screenSize.height / 6),
+      padding: EdgeInsets.only(top: 50.sp),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          _customizedText("وضعیت امروز ", color: ColorPallet.yaleBlue, sizeMultiplier: 1.3),
-          const SizedBox(height: 10),
+          _customizedText("وضعیت امروز ", color: ColorPallet.yaleBlue, sizeMultiplier: 1.8),
+          SizedBox(height: 20.sp),
           _customizedText(ShamsiFormatter.getTodayFullDateTime(null)),
-          const SizedBox(height: 10),
+          SizedBox(height: 10.sp),
           _customizedText(
             todayStatus.title,
             color: _getTitleColor(),
-            sizeMultiplier: 1.1,
+            sizeMultiplier: 1.5,
           ),
-          const SizedBox(height: 5),
+          SizedBox(height: 10.sp),
           todayStatus.inTime != null
               ? _customizedText("ساعت کاری", sizeMultiplier: 0.9)
               : Container(),
-          const SizedBox(height: 5),
+          SizedBox(height: 10.sp),
           todayStatus.inTime != null ? _inAndOutTime() : Container(),
-          const SizedBox(height: 10),
+          SizedBox(height: 10.sp),
           todayStatus.shortDescription != null ? _customizedText("توضیحات") : Container(),
           _customizedText(todayStatus.shortDescription, color: Colors.black54),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.sp),
           _updateButton(),
         ],
       ),
@@ -54,7 +54,7 @@ class ShowSavedStatus extends StatelessWidget {
       textDirection: TextDirection.rtl,
       TextSpan(
         style: TextStyle(
-          fontSize: screenSize.width / 25,
+          fontSize: 17.sp,
         ),
         children: [
           TextSpan(
@@ -75,7 +75,7 @@ class ShowSavedStatus extends StatelessWidget {
     return Text(
       txt ?? "",
       style: TextStyle(
-        fontSize: (screenSize.width / 25) * sizeMultiplier,
+        fontSize: (18.sp) * sizeMultiplier,
         color: color,
       ),
     );
@@ -105,7 +105,7 @@ class ShowSavedStatus extends StatelessWidget {
         "تغییر وضعیت امروز",
         style: TextStyle(
           color: ColorPallet.smoke,
-          fontSize: screenSize.width / 25,
+          fontSize: 14.sp,
         ),
       ),
     );

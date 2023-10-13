@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:worked_days/controller/today_page_controller.dart';
 import 'package:worked_days/controller/worked_days_page_controller.dart';
+import 'package:worked_days/cubit/main_cubit_cubit.dart';
+import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/model/color_schema.dart';
-import 'package:worked_days/view/screens/main_screen.dart';
 import 'package:worked_days/view/screens/settings_screen.dart';
 
 class WorkedDaysStatusScreen extends StatefulWidget {
@@ -13,6 +16,22 @@ class WorkedDaysStatusScreen extends StatefulWidget {
 }
 
 class _WorkedDaysStatusScreenState extends State<WorkedDaysStatusScreen> {
+  late MainCubit mainCubit;
+  late LoadedStableState loadedStableState;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _getState();
+  }
+
+  void _getState() {
+    mainCubit = BlocProvider.of<MainCubit>(context, listen: true);
+    if (mainCubit.state is LoadedStableState) {
+      loadedStableState = mainCubit.state as LoadedStableState;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -39,7 +58,7 @@ class _WorkedDaysStatusScreenState extends State<WorkedDaysStatusScreen> {
         textAlign: TextAlign.center,
       ),
       titleTextStyle: TextStyle(
-        fontSize: screenSize.width / 50,
+        fontSize: 6.5.sp,
       ),
       actions: [
         Padding(
@@ -73,7 +92,7 @@ class _WorkedDaysStatusScreenState extends State<WorkedDaysStatusScreen> {
     return PreferredSize(
       preferredSize: Size(
         double.infinity,
-        screenSize.height / 10,
+        75.sp,
       ),
       child: TabBar(
         indicatorColor: ColorPallet.orange,
