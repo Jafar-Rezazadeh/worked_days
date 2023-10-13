@@ -36,21 +36,15 @@ class _WorkedDaysPageControllerState extends State<WorkedDaysPageController> {
       loadedStableState: loadedStableState,
       currentDateTime: currentDateTime,
       listOfCurrentWorkedDays: _getCurrentSelectedDateWorkedDays(),
-      onCureentDateTimeChanged: (value) {
-        setState(() {
-          currentDateTime = value;
-        });
-      },
+      onCureentDateTimeChanged: (value) => setState(() => currentDateTime = value),
     );
   }
 
   _getCurrentSelectedDateWorkedDays() {
     return loadedStableState.workedDays
-        .where(
-          (element) =>
-              element.dateTime.toJalali().month == currentDateTime.month &&
-              element.dateTime.toJalali().year == currentDateTime.year,
-        )
+        .where((element) =>
+            element.dateTime.toJalali().month == currentDateTime.month &&
+            element.dateTime.toJalali().year == currentDateTime.year)
         .toList();
   }
 }
