@@ -1,6 +1,8 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:provider/provider.dart';
 import 'package:worked_days/cubit/main_cubit_cubit.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
@@ -18,6 +20,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   late MainCubit mainCubit;
   late LoadedStableState loadedStableState;
+  final TextEditingController salaryCalcTextEditingController = TextEditingController();
 
   String? notificationPeriodInString;
   bool? isNotificationActive;
@@ -41,31 +44,36 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorPallet.smoke,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: ColorPallet.yaleBlue,
-      ),
-      body: Directionality(
-        textDirection: TextDirection.rtl,
-        child: ExpandableTheme(
-          data: const ExpandableThemeData(
-            alignment: Alignment.center,
-            headerAlignment: ExpandablePanelHeaderAlignment.center,
-            tapHeaderToExpand: true,
-          ),
-          child: ListView(
-            children: [
-              _notificationCard(),
-            ],
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus!.unfocus(),
+      child: Scaffold(
+        backgroundColor: ColorPallet.smoke,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: ColorPallet.yaleBlue,
+        ),
+        body: Directionality(
+          textDirection: TextDirection.rtl,
+          child: ExpandableTheme(
+            data: const ExpandableThemeData(
+              alignment: Alignment.center,
+              headerAlignment: ExpandablePanelHeaderAlignment.center,
+              tapHeaderToExpand: true,
+            ),
+            child: ListView(
+              children: [
+                _notificationSetting(),
+                _salaryCalculationsSettings(),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _notificationCard() {
+  Widget _expandableCardModel(
+      {required String header, required Widget collapsed, required Widget expanded}) {
     return Card(
       elevation: 3,
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -75,38 +83,46 @@ class _SettingsScreenState extends State<SettingsScreen> {
           header: Container(
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
-            child: Text("دریافت اعلان", style: TextStyle(fontSize: 20.sp)),
+            child: Text(header, style: TextStyle(fontSize: 20.sp)),
           ),
           collapsed: Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: Text.rich(
-              textDirection: TextDirection.rtl,
-              textAlign: TextAlign.right,
-              style: TextStyle(color: Colors.black54, fontSize: 15.sp),
-              TextSpan(
-                children: [
-                  const TextSpan(text: "وضعیت: "),
-                  TextSpan(
-                    text: _convertNotificationStatusToText() ?? "نامعلوم",
-                    style: TextStyle(color: _convertNotificationStatusToColor() ?? Colors.black),
-                  ),
-                ],
-              ),
-            ),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+            child: collapsed,
           ),
           expanded: Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Column(
-              children: [
-                _setPeriodicNotificationTime(),
-                const SizedBox(height: 20),
-                _activateOrDeactivateNotification(),
-              ],
-            ),
+            child: expanded,
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _notificationSetting() {
+    return _expandableCardModel(
+      header: "دریافت اعلان",
+      collapsed: Text.rich(
+        textDirection: TextDirection.rtl,
+        textAlign: TextAlign.right,
+        style: TextStyle(color: Colors.black54, fontSize: 15.sp),
+        TextSpan(
+          children: [
+            const TextSpan(text: "وضعیت: "),
+            TextSpan(
+              text: _convertNotificationStatusToText() ?? "نامعلوم",
+              style: TextStyle(color: _convertNotificationStatusToColor() ?? Colors.black),
+            ),
+          ],
+        ),
+      ),
+      expanded: Column(
+        children: [
+          _setPeriodicNotificationTime(),
+          const SizedBox(height: 20),
+          _activateOrDeactivateNotification(),
+        ],
       ),
     );
   }
@@ -176,6 +192,38 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: Text(
         isNotificationActive == true ? "غیر فعال سازی" : "فعال سازی",
         style: TextStyle(fontSize: 13.sp),
+      ),
+    );
+  }
+
+  Widget _salaryCalculationsSettings() {
+    return _expandableCardModel(
+      header: "حقوق",
+      collapsed: Container(),
+      expanded: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Text("ماهانه"),
+          const SizedBox(height: 10),
+          //? salary input
+          TextField(
+            controller: salaryCalcTextEditingController,
+            onChanged: (value) => salaryCalcTextEditingController.text = value.seRagham(),
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            decoration: const InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              border: OutlineInputBorder(),
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 10),
+          //? submit
+          ElevatedButton(
+            onPressed: () {},
+            child: const Text("ثبت"),
+          )
+        ],
       ),
     );
   }
