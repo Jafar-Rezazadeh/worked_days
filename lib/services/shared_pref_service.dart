@@ -21,7 +21,7 @@ class SharedPreferencesService {
     );
   }
 
-  static setNotificationStatus(NotificationPrefModel notificationPrefModel) async {
+  static setNotificationPref(NotificationPrefModel notificationPrefModel) async {
     final prefs = await SharedPreferencesService().getPrefs();
 
     if (notificationPrefModel.notificationStatusPref != null) {

@@ -70,7 +70,7 @@ class MainCubit extends Cubit<MainCubitState> {
       {required LoadedStableState loadedStableState, required NotificationPrefModel nS}) async {
     //
     //? Set the notification settings
-    await SettingsService.setNotificationPref(notificationPrefModel: nS);
+    await SettingsService.setNotificationStatus(notificationPrefModel: nS);
 
     //? StateUpdates
     LoadedStableState newloadedStableState = LoadedStableState(

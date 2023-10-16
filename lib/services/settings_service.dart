@@ -11,8 +11,8 @@ class SettingsService {
     return notificationPrefModel;
   }
 
-  static setNotificationPref({required NotificationPrefModel notificationPrefModel}) async {
-    SharedPreferencesService.setNotificationStatus(notificationPrefModel);
+  static setNotificationStatus({required NotificationPrefModel notificationPrefModel}) async {
+    await SharedPreferencesService.setNotificationPref(notificationPrefModel);
 
     if (_isNotificationPeriodSet(notificationPrefModel)) {
       if (_isNotificationActive(notificationPrefModel)) {
