@@ -41,7 +41,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Future<void> _showAlertForNotifications() async {
-    NotificationPrefModel? notificationPrefModel = await SettingsService.getShowNotificationsPref();
+    NotificationPrefModel? notificationPrefModel = await SettingsService.getNotificationStatus();
 
     bool isNotificationAllowed = await AwesomeNotifications().isNotificationAllowed();
 

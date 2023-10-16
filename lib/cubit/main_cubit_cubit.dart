@@ -15,7 +15,7 @@ class MainCubit extends Cubit<MainCubitState> {
     emit(LoadingState());
 
     //? GettingData
-    NotificationPrefModel notificationPrefModel = await SettingsService.getShowNotificationsPref();
+    NotificationPrefModel notificationPrefModel = await SettingsService.getNotificationStatus();
     List<WorkDayModel> workedDaysData = await DataBaseHandlerService().getWorkDays();
 
     //? wait for a moment to get the screensize and set the state

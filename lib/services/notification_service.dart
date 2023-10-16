@@ -24,7 +24,7 @@ class NotificationService {
       (isAllowed) async {
         if (isAllowed) {
           NotificationPrefModel? notificationPrefModel =
-              await SettingsService.getShowNotificationsPref();
+              await SettingsService.getNotificationStatus();
 
           // TimeOfDay timeOfDay =
           List<NotificationModel> listOfnotif =
@@ -42,7 +42,7 @@ class NotificationService {
   }
 
   static createPeriodicNotification(TimeOfDay timeOfDay) async {
-    NotificationPrefModel? notificationPrefModel = await SettingsService.getShowNotificationsPref();
+    NotificationPrefModel? notificationPrefModel = await SettingsService.getNotificationStatus();
     await cancelPeriodicNotifications();
     if (notificationPrefModel.notificationStatusPref != null &&
         notificationPrefModel.notificationStatusPref != false) {

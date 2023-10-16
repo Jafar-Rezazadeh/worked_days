@@ -1,41 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:worked_days/extentions/my_extentions.dart';
 import 'package:worked_days/model/notification_pref_model.dart';
-import 'package:worked_days/model/prefs_keys.dart';
 import 'package:worked_days/services/notification_service.dart';
+import 'package:worked_days/services/shared_pref_service.dart';
 
 class SettingsService {
-  Future<SharedPreferences> getPrefs() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs;
-  }
+  static Future<NotificationPrefModel> getNotificationStatus() async {
+    NotificationPrefModel notificationPrefModel =
+        await SharedPreferencesService.getNotificationPref();
 
-  static Future<NotificationPrefModel> getShowNotificationsPref() async {
-    final prefs = await SettingsService().getPrefs();
-
-    // await prefs.remove(PrefNames.showNotification.name);
-
-    bool? notificationStatusPref = prefs.getBool(PrefNames.showNotification.name);
-    String? notificationPeriodPref = prefs.getString(PrefNames.notificationPeriod.name);
-
-    return NotificationPrefModel(
-      notificationStatusPref: notificationStatusPref,
-      notificationPeriod: notificationPeriodPref,
-    );
+    return notificationPrefModel;
   }
 
   static setNotificationPref({required NotificationPrefModel notificationPrefModel}) async {
-    final prefs = await SettingsService().getPrefs();
-
-    if (notificationPrefModel.notificationStatusPref != null) {
-      prefs.setBool(PrefNames.showNotification.name, notificationPrefModel.notificationStatusPref!);
-    }
+    SharedPreferencesService.setNotificationStatus(notificationPrefModel);
 
     if (_isNotificationPeriodSet(notificationPrefModel)) {
-      prefs.setString(PrefNames.notificationPeriod.name,
-          notificationPrefModel.notificationPeriod!.toPersionPeriod);
-
       if (_isNotificationActive(notificationPrefModel)) {
         NotificationService.createPeriodicNotification(
           TimeOfDay(
