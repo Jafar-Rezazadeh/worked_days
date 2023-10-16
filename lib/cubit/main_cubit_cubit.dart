@@ -1,5 +1,3 @@
-import 'dart:ui';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/model/notification_pref_model.dart';
@@ -18,17 +16,9 @@ class MainCubit extends Cubit<MainCubitState> {
     NotificationPrefModel notificationPrefModel = await SettingsService.getNotificationStatus();
     List<WorkDayModel> workedDaysData = await DataBaseHandlerService().getWorkDays();
 
-    //? wait for a moment to get the screensize and set the state
-    await Future.delayed(const Duration(microseconds: 20));
-    Size screenSize = MediaQueryData.fromView(PlatformDispatcher.instance.views.first).size;
-    if (screenSize.width > 0) {
-      emit(
-        LoadedStableState(
-          notificationSettings: notificationPrefModel,
-          workedDays: workedDaysData,
-        ),
-      );
-    }
+    emit(
+      LoadedStableState(notificationSettings: notificationPrefModel, workedDays: workedDaysData),
+    );
   }
 
   insertWorkedDay(
