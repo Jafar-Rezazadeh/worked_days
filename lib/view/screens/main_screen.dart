@@ -46,8 +46,8 @@ class _MainScreenState extends State<MainScreen> {
     bool isNotificationAllowed = await AwesomeNotifications().isNotificationAllowed();
 
     if (context.mounted) {
-      if (notificationPrefModel.notificationStatusPref == null ||
-          isNotificationAllowed == false && notificationPrefModel.notificationStatusPref != false) {
+      if (notificationPrefModel.notificationIsEnabled == null ||
+          isNotificationAllowed == false && notificationPrefModel.notificationIsEnabled != false) {
         showDialog(
           context: context,
           builder: (context) => Directionality(
@@ -64,7 +64,7 @@ class _MainScreenState extends State<MainScreen> {
                       if (isAllowed) {
                         SettingsService.setNotificationStatus(
                           notificationPrefModel: NotificationPrefModel(
-                            notificationStatusPref: true,
+                            notificationIsEnabled: true,
                             notificationPeriod: notificationPrefModel.notificationPeriod ??
                                 const TimeOfDay(hour: 18, minute: 0).format(context),
                           ),
@@ -82,7 +82,7 @@ class _MainScreenState extends State<MainScreen> {
                   onPressed: () {
                     SettingsService.setNotificationStatus(
                       notificationPrefModel: NotificationPrefModel(
-                        notificationStatusPref: false,
+                        notificationIsEnabled: false,
                         notificationPeriod: notificationPrefModel.notificationPeriod ??
                             const TimeOfDay(hour: 18, minute: 0).format(context),
                       ),

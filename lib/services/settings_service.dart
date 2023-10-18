@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:worked_days/model/notification_pref_model.dart';
+import 'package:worked_days/model/salary_model.dart';
 import 'package:worked_days/services/notification_service.dart';
 import 'package:worked_days/services/shared_pref_service.dart';
 
@@ -29,11 +30,21 @@ class SettingsService {
     }
   }
 
-  static bool _isNotificationActive(notificationPrefModel) {
-    return notificationPrefModel.notificationStatusPref == true;
+  static bool _isNotificationActive(NotificationPrefModel notificationPrefModel) {
+    return notificationPrefModel.notificationIsEnabled == true;
   }
 
   static bool _isNotificationPeriodSet(notificationPrefModel) {
     return notificationPrefModel.notificationPeriod != null;
+  }
+
+  static getSalary() async {
+    int? salaryAmount = await SharedPreferencesService.getSalaryAmountPref();
+
+    return SalaryModel(salaryAmount: salaryAmount);
+  }
+
+  static setSalaryAmount(int? salaryAmount) async {
+    await SharedPreferencesService.setSalaryAmountPref(salaryAmount);
   }
 }

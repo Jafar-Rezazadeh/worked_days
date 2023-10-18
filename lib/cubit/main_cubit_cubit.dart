@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/model/notification_pref_model.dart';
+import 'package:worked_days/model/salary_model.dart';
+import 'package:worked_days/model/settings_model.dart';
 import 'package:worked_days/model/worked_day_model.dart';
 import 'package:worked_days/services/db_provider_service.dart';
 import 'package:worked_days/services/settings_service.dart';
@@ -16,8 +18,14 @@ class MainCubit extends Cubit<MainCubitState> {
     NotificationPrefModel notificationPrefModel = await SettingsService.getNotificationStatus();
     List<WorkDayModel> workedDaysData = await DataBaseHandlerService().getWorkDays();
 
+    SalaryModel salaryModel = await SettingsService.getSalary();
+
     emit(
-      LoadedStableState(notificationSettings: notificationPrefModel, workedDays: workedDaysData),
+      LoadedStableState(
+        notificationSettings: notificationPrefModel,
+        workedDays: workedDaysData,
+        settingsModel: SettingsModel(salaryModel: salaryModel),
+      ),
     );
   }
 
@@ -34,6 +42,7 @@ class MainCubit extends Cubit<MainCubitState> {
     LoadedStableState newloadedStableState = LoadedStableState(
       workedDays: listOfWorkDaysData,
       notificationSettings: loadedStableState.notificationSettings,
+      settingsModel: loadedStableState.settingsModel,
     );
 
     emit(newloadedStableState);
@@ -51,6 +60,7 @@ class MainCubit extends Cubit<MainCubitState> {
     LoadedStableState newloadedStableState = LoadedStableState(
       workedDays: listOfWorkDaysData,
       notificationSettings: loadedStableState.notificationSettings,
+      settingsModel: loadedStableState.settingsModel,
     );
 
     emit(newloadedStableState);
@@ -66,6 +76,19 @@ class MainCubit extends Cubit<MainCubitState> {
     LoadedStableState newloadedStableState = LoadedStableState(
       workedDays: loadedStableState.workedDays,
       notificationSettings: nS,
+      settingsModel: loadedStableState.settingsModel,
+    );
+
+    emit(newloadedStableState);
+  }
+
+  setSalaryAmount({int? salaryAmount, required LoadedStableState loadedStableState}) async {
+    await SettingsService.setSalaryAmount(salaryAmount);
+
+    LoadedStableState newloadedStableState = LoadedStableState(
+      notificationSettings: loadedStableState.notificationSettings,
+      workedDays: loadedStableState.workedDays,
+      settingsModel: SettingsModel(salaryModel: SalaryModel(salaryAmount: salaryAmount)),
     );
 
     emit(newloadedStableState);

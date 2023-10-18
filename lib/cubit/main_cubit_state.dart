@@ -1,4 +1,5 @@
 import 'package:worked_days/model/notification_pref_model.dart';
+import 'package:worked_days/model/settings_model.dart';
 import 'package:worked_days/model/worked_day_model.dart';
 
 abstract class MainCubitState {}
@@ -10,9 +11,11 @@ class LoadingState extends MainCubitState {}
 class LoadedStableState extends MainCubitState {
   final List<WorkDayModel> workedDays;
   final NotificationPrefModel notificationSettings;
+  final SettingsModel settingsModel;
 
   LoadedStableState({
     required this.workedDays,
     required this.notificationSettings,
+    required this.settingsModel,
   });
 }

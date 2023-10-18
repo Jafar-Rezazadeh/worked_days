@@ -44,8 +44,8 @@ class NotificationService {
   static createPeriodicNotification(TimeOfDay timeOfDay) async {
     NotificationPrefModel? notificationPrefModel = await SettingsService.getNotificationStatus();
     await cancelPeriodicNotifications();
-    if (notificationPrefModel.notificationStatusPref != null &&
-        notificationPrefModel.notificationStatusPref != false) {
+    if (notificationPrefModel.notificationIsEnabled != null &&
+        notificationPrefModel.notificationIsEnabled != false) {
       await AwesomeNotifications().createNotification(
         content: NotificationContent(
           id: 0,

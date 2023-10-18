@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class NotificationPrefModel {
-  final bool? notificationStatusPref;
+  final bool? notificationIsEnabled;
   final String? notificationPeriod;
-  NotificationPrefModel({required this.notificationStatusPref, required this.notificationPeriod});
+  NotificationPrefModel({required this.notificationIsEnabled, required this.notificationPeriod});
 
   TimeOfDay? toTimeOfDay() {
     notificationPeriod;

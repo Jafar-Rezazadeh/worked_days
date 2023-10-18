@@ -20,7 +20,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   late MainCubit mainCubit;
   late LoadedStableState loadedStableState;
-  final TextEditingController salaryCalcTextEditingController = TextEditingController();
+  final TextEditingController salaryTextEditingController = TextEditingController();
 
   String? notificationPeriodInString;
   bool? isNotificationActive;
@@ -38,9 +38,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
       loadedStableState = mainCubit.state as LoadedStableState;
 
       notificationPeriodInString = loadedStableState.notificationSettings.notificationPeriod!;
-      isNotificationActive = loadedStableState.notificationSettings.notificationStatusPref!;
+      isNotificationActive = loadedStableState.notificationSettings.notificationIsEnabled!;
+      salaryTextEditingController.text =
+          loadedStableState.settingsModel.salaryModel.salaryAmount.toString().seRagham();
     }
   }
+
+  //Todo: add a switch insted of a button for activate/deactivate the notification
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +55,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: ColorPallet.yaleBlue,
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStatePropertyAll<Color>(ColorPallet.yaleBlue),
+            foregroundColor: MaterialStatePropertyAll<Color>(ColorPallet.smoke),
+            textStyle: MaterialStatePropertyAll<TextStyle>(
+              TextStyle(fontSize: 20.sp, fontFamily: "Vazir"),
+            ),
+            minimumSize: MaterialStatePropertyAll<Size>(Size(0.9.sw, 50)),
+            shape: const MaterialStatePropertyAll<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(5),
+                  topRight: Radius.circular(5),
+                ),
+              ),
+            ),
+          ),
+          onPressed: () => _submit(),
+          child: const Text("ذخیره"),
         ),
         body: Directionality(
           textDirection: TextDirection.rtl,
@@ -155,7 +180,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             mainCubit.setNotificationSettings(
               loadedStableState: loadedStableState,
               nS: NotificationPrefModel(
-                notificationStatusPref: isNotificationActive,
+                notificationIsEnabled: isNotificationActive,
                 notificationPeriod:
                     "${value.hour}:${value.minute} ${value.period.name}".toPersionPeriod,
               ),
@@ -179,7 +204,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         mainCubit.setNotificationSettings(
           loadedStableState: loadedStableState,
           nS: NotificationPrefModel(
-            notificationStatusPref: isNotificationActive == true ? false : true,
+            notificationIsEnabled: isNotificationActive == true ? false : true,
             notificationPeriod: notificationPeriodInString,
           ),
         );
@@ -208,8 +233,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const SizedBox(height: 10),
           //? salary input
           TextField(
-            controller: salaryCalcTextEditingController,
-            onChanged: (value) => salaryCalcTextEditingController.text = value.seRagham(),
+            onTap: () => salaryTextEditingController.clear(),
+            controller: salaryTextEditingController,
+            onChanged: (value) => salaryTextEditingController.text = value.seRagham(),
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             decoration: const InputDecoration(
               contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -217,14 +243,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             textAlign: TextAlign.center,
           ),
+
           const SizedBox(height: 10),
-          //? submit
-          ElevatedButton(
-            onPressed: () {},
-            child: const Text("ثبت"),
-          )
         ],
       ),
     );
+  }
+
+  _submit() async {
+    if (salaryTextEditingController.text.isNotEmpty) {
+      await mainCubit.setSalaryAmount(
+        loadedStableState: loadedStableState,
+        salaryAmount: int.parse(
+          salaryTextEditingController.text.extractNumber(toDigit: NumStrLanguage.English),
+        ),
+      );
+    }
+
+    if (mounted) Navigator.pop(context);
   }
 }

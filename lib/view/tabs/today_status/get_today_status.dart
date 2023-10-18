@@ -59,9 +59,9 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
   late MainCubit mainCubit;
   late LoadedStableState loadedStableState;
   late WorkDayModel status = listOfStatus.first;
-  double fontSize = 13.sp;
+  double fontSize = 17.sp;
 
-  double workTimeSelectFontSize = 14.sp;
+  double workTimeSelectFontSize = 16.sp;
 
   @override
   void didChangeDependencies() {
@@ -112,6 +112,7 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
       height: 50.sp,
       child: CustomRadioButton(
         height: 50,
+        autoWidth: true,
         buttonLables: const [
           "کار کردم",
           "تعطیل رسمی",

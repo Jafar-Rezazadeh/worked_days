@@ -16,7 +16,7 @@ class SharedPreferencesService {
     String? notificationPeriodPref = prefs.getString(PrefNames.notificationPeriod.name);
 
     return NotificationPrefModel(
-      notificationStatusPref: notificationStatusPref,
+      notificationIsEnabled: notificationStatusPref,
       notificationPeriod: notificationPeriodPref,
     );
   }
@@ -24,8 +24,8 @@ class SharedPreferencesService {
   static setNotificationPref(NotificationPrefModel notificationPrefModel) async {
     final prefs = await SharedPreferencesService().getPrefs();
 
-    if (notificationPrefModel.notificationStatusPref != null) {
-      prefs.setBool(PrefNames.showNotification.name, notificationPrefModel.notificationStatusPref!);
+    if (notificationPrefModel.notificationIsEnabled != null) {
+      prefs.setBool(PrefNames.showNotification.name, notificationPrefModel.notificationIsEnabled!);
     }
     if (_isNotificationPeriodSet(notificationPrefModel)) {
       prefs.setString(PrefNames.notificationPeriod.name,
@@ -35,5 +35,19 @@ class SharedPreferencesService {
 
   static bool _isNotificationPeriodSet(notificationPrefModel) {
     return notificationPrefModel.notificationPeriod != null;
+  }
+
+  static setSalaryAmountPref(int? salaryAmount) async {
+    final prefs = await SharedPreferencesService().getPrefs();
+
+    if (salaryAmount != null) {
+      prefs.setInt(PrefNames.salaryAmount.name, salaryAmount);
+    }
+  }
+
+  static getSalaryAmountPref() async {
+    final prefs = await SharedPreferencesService().getPrefs();
+
+    return prefs.getInt(PrefNames.salaryAmount.name);
   }
 }
