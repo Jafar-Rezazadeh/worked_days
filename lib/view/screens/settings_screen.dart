@@ -40,7 +40,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       notificationPeriodInString = loadedStableState.notificationSettings.notificationPeriod!;
       isNotificationActive = loadedStableState.notificationSettings.notificationIsEnabled!;
       salaryTextEditingController.text =
-          loadedStableState.settingsModel.salaryModel.salaryAmount.toString().seRagham();
+          loadedStableState.settingsModel.salaryModel.salaryAmount != null
+              ? loadedStableState.settingsModel.salaryModel.salaryAmount.toString().seRagham()
+              : "میزان حقوق را وارد کنید";
     }
   }
 
@@ -233,8 +235,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           TextField(
             onTap: () => salaryTextEditingController.clear(),
             controller: salaryTextEditingController,
-            onChanged: (value) => salaryTextEditingController.text = value.seRagham(),
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            onChanged: (value) =>
+                salaryTextEditingController.text = value.seRagham().toEnglishDigit(),
+            inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9۰-۹]'))],
             decoration: const InputDecoration(
               contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               border: OutlineInputBorder(),
@@ -244,7 +247,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Align(
             alignment: Alignment.center,
             child: Text(
-              "محاسبه بر اساس روز های کار کرده",
+              "محاسبه بر اساس روز های کاری",
               textAlign: TextAlign.right,
               style: TextStyle(
                 color: Colors.black54,

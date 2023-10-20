@@ -69,8 +69,9 @@ class WorkedDaysListPage extends StatelessWidget {
   _workedDaysTable() {
     return Expanded(
       flex: 6,
-      child: SizedBox(
+      child: Container(
         width: double.infinity,
+        margin: const EdgeInsets.only(bottom: 20),
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(bottom: 10),
@@ -205,63 +206,89 @@ class WorkedDaysListPage extends StatelessWidget {
   }
 
   Widget _salaryCalculation() {
-    return Expanded(
-      flex: 2,
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-          alignment: Alignment.centerRight,
-          height: double.infinity,
-          width: double.infinity,
-          color: ColorPallet.yaleBlue,
-          child: Column(
-            textDirection: TextDirection.rtl,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text.rich(
-                style: TextStyle(
-                  color: ColorPallet.smoke,
-                ),
-                TextSpan(
-                  text: "حقوق این ماه: ",
-                  children: [
-                    //? this month salary
-                    TextSpan(
-                      text: _calculateThisMonthSalary(),
-                      style: TextStyle(color: ColorPallet.green),
-                    ),
-                    //? worked Days count
-                    TextSpan(
-                      text: "\nروز کاری:",
-                      children: [
-                        TextSpan(
-                          text: " ${_calcCountedWorkDays().length.toString()} روز",
-                          style: TextStyle(color: ColorPallet.green),
-                        ),
-                      ],
-                    ),
-                    //? dayOff count
-                    TextSpan(
-                      text: "\nروز تعطیل:",
-                      children: [
-                        TextSpan(
-                          text: " ${_calcDayOffs().length.toString()} روز",
-                          style: TextStyle(
-                            color: _calcDayOffs().isEmpty ? ColorPallet.green : ColorPallet.orange,
+    if (loadedStableState.settingsModel.salaryModel.salaryAmount != null) {
+      return Expanded(
+        flex: 2,
+        child: Directionality(
+          textDirection: TextDirection.rtl,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+            alignment: Alignment.centerRight,
+            height: double.infinity,
+            width: double.infinity,
+            color: ColorPallet.yaleBlue,
+            child: Column(
+              textDirection: TextDirection.rtl,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text.rich(
+                  style: TextStyle(
+                    color: ColorPallet.smoke,
+                    fontSize: 15.sp,
+                  ),
+                  TextSpan(
+                    text: "حقوق این ماه: ",
+                    children: [
+                      //? this month salary
+                      TextSpan(
+                        text: _calculateThisMonthSalary(),
+                        style: TextStyle(color: ColorPallet.green),
+                      ),
+                      //? worked Days count
+                      TextSpan(
+                        text: "\nروز کاری:",
+                        children: [
+                          TextSpan(
+                            text: " ${_calcCountedWorkDays().length.toString()} روز",
+                            style: TextStyle(color: ColorPallet.green),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                      //? dayOff count
+                      TextSpan(
+                        text: "\nروز تعطیل:",
+                        children: [
+                          TextSpan(
+                            text: " ${_calcDayOffs().length.toString()} روز",
+                            style: TextStyle(
+                              color:
+                                  _calcDayOffs().isEmpty ? ColorPallet.green : ColorPallet.orange,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    } else {
+      return Expanded(
+        flex: 2,
+        child: Directionality(
+          textDirection: TextDirection.rtl,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+            alignment: Alignment.center,
+            height: double.infinity,
+            width: double.infinity,
+            color: ColorPallet.yaleBlue,
+            child: const Column(
+              textDirection: TextDirection.rtl,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("لطفا از بخش تنظیمات حقوق را وارد کنید"),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
   }
 
   String _calculateThisMonthSalary() {
