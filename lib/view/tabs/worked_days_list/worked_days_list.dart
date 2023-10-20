@@ -4,7 +4,6 @@ import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:worked_days/controller/shamsi_formater.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
-import 'package:worked_days/main.dart';
 import 'package:worked_days/model/color_schema.dart';
 import 'package:worked_days/model/worked_day_model.dart';
 import 'package:worked_days/view/screens/details_screen.dart';
