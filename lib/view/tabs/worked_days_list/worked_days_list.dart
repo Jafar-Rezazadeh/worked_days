@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:worked_days/controller/shamsi_formater.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
+import 'package:worked_days/main.dart';
 import 'package:worked_days/model/color_schema.dart';
 import 'package:worked_days/model/worked_day_model.dart';
 import 'package:worked_days/view/screens/details_screen.dart';
@@ -28,77 +30,83 @@ class WorkedDaysListPage extends StatelessWidget {
       children: [
         _monthSelector(),
         _workedDaysTable(),
+        _salaryCalculation(),
       ],
     );
   }
 
   _monthSelector() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          IconButton(
-            splashRadius: 30,
-            onPressed: () {
-              onCureentDateTimeChanged(currentDateTime.addMonths(-1));
-            },
-            icon: const Icon(Icons.keyboard_arrow_left),
-          ),
-          GestureDetector(
-            onTap: () async {},
-            child: Text(ShamsiFormatter.getYearAndMonth(currentDateTime)),
-          ),
-          IconButton(
-            splashRadius: 30,
-            onPressed: () {
-              onCureentDateTimeChanged(currentDateTime.addMonths(1));
-            },
-            icon: const Icon(Icons.keyboard_arrow_right),
-          ),
-        ],
+    return Expanded(
+      flex: 1,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              splashRadius: 30,
+              onPressed: () {
+                onCureentDateTimeChanged(currentDateTime.addMonths(-1));
+              },
+              icon: const Icon(Icons.keyboard_arrow_left),
+            ),
+            GestureDetector(
+              onTap: () async {},
+              child: Text(ShamsiFormatter.getYearAndMonth(currentDateTime)),
+            ),
+            IconButton(
+              splashRadius: 30,
+              onPressed: () {
+                onCureentDateTimeChanged(currentDateTime.addMonths(1));
+              },
+              icon: const Icon(Icons.keyboard_arrow_right),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   _workedDaysTable() {
-    return SizedBox(
-      width: double.infinity,
-      height: 0.6.sh,
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
-          child: Directionality(
-            textDirection: TextDirection.rtl,
-            child: DataTable(
-              showBottomBorder: true,
-              border: TableBorder(
-                horizontalInside:
-                    BorderSide(width: 1, color: ColorPallet.yaleBlue.withOpacity(0.2)),
-              ),
-              headingTextStyle: TextStyle(
-                fontSize: 15.sp,
-                color: ColorPallet.yaleBlue,
-                fontFamily: "Vazir",
-              ),
-              dataTextStyle: TextStyle(
-                fontSize: 12.sp,
-                color: Colors.black,
-                fontFamily: "Vazir",
-              ),
-              columns: [
-                const DataColumn(label: Expanded(child: Center(child: Text("وضعیت")))),
-                const DataColumn(label: Expanded(child: Center(child: Text("تاریخ")))),
-                DataColumn(label: Container()),
-              ],
-              rows: List<DataRow>.generate(
-                listOfCurrentWorkedDays.length,
-                (i) => DataRow(
-                  cells: [
-                    _title(listOfCurrentWorkedDays[i]),
-                    _dateTime(listOfCurrentWorkedDays[i]),
-                    _statusAvatar(listOfCurrentWorkedDays[i]),
-                  ],
+    return Expanded(
+      flex: 6,
+      child: SizedBox(
+        width: double.infinity,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: DataTable(
+                showBottomBorder: true,
+                border: TableBorder(
+                  horizontalInside:
+                      BorderSide(width: 1, color: ColorPallet.yaleBlue.withOpacity(0.2)),
+                ),
+                headingTextStyle: TextStyle(
+                  fontSize: 15.sp,
+                  color: ColorPallet.yaleBlue,
+                  fontFamily: "Vazir",
+                ),
+                dataTextStyle: TextStyle(
+                  fontSize: 12.sp,
+                  color: Colors.black,
+                  fontFamily: "Vazir",
+                ),
+                columns: [
+                  const DataColumn(label: Expanded(child: Center(child: Text("وضعیت")))),
+                  const DataColumn(label: Expanded(child: Center(child: Text("تاریخ")))),
+                  DataColumn(label: Container()),
+                ],
+                rows: List<DataRow>.generate(
+                  listOfCurrentWorkedDays.length,
+                  (i) => DataRow(
+                    cells: [
+                      _title(listOfCurrentWorkedDays[i]),
+                      _dateTime(listOfCurrentWorkedDays[i]),
+                      _statusAvatar(listOfCurrentWorkedDays[i]),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -195,5 +203,92 @@ class WorkedDaysListPage extends StatelessWidget {
     } else {
       return Icons.check;
     }
+  }
+
+  Widget _salaryCalculation() {
+    return Expanded(
+      flex: 2,
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+          alignment: Alignment.centerRight,
+          height: double.infinity,
+          width: double.infinity,
+          color: ColorPallet.yaleBlue,
+          child: Column(
+            textDirection: TextDirection.rtl,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text.rich(
+                style: TextStyle(
+                  color: ColorPallet.smoke,
+                ),
+                TextSpan(
+                  text: "حقوق این ماه: ",
+                  children: [
+                    //? this month salary
+                    TextSpan(
+                      text: _calculateThisMonthSalary(),
+                      style: TextStyle(color: ColorPallet.green),
+                    ),
+                    //? worked Days count
+                    TextSpan(
+                      text: "\nروز کاری:",
+                      children: [
+                        TextSpan(
+                          text: " ${_calcCountedWorkDays().length.toString()} روز",
+                          style: TextStyle(color: ColorPallet.green),
+                        ),
+                      ],
+                    ),
+                    //? dayOff count
+                    TextSpan(
+                      text: "\nروز تعطیل:",
+                      children: [
+                        TextSpan(
+                          text: " ${_calcDayOffs().length.toString()} روز",
+                          style: TextStyle(
+                            color: _calcDayOffs().isEmpty ? ColorPallet.green : ColorPallet.orange,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  String _calculateThisMonthSalary() {
+    int currentMonthLength = currentDateTime.monthLength;
+    // print(currentMonthLength);
+
+    double salaryPerDay =
+        loadedStableState.settingsModel.salaryModel.salaryAmount! / currentMonthLength;
+
+    List<WorkDayModel> countedWorkDays = _calcCountedWorkDays();
+    // print(countedWorkDays.length);
+
+    int countedWorkDaysSum = (salaryPerDay * countedWorkDays.length).toInt();
+
+    return "${countedWorkDaysSum.toString().seRagham()} تومان";
+  }
+
+  List<WorkDayModel> _calcCountedWorkDays() {
+    return listOfCurrentWorkedDays
+        .where(
+          (element) => element.workDay == true || element.publicHoliday == true,
+        )
+        .toList();
+  }
+
+  List<WorkDayModel> _calcDayOffs() {
+    return listOfCurrentWorkedDays.where((element) => element.dayOff == true).toList();
   }
 }

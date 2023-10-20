@@ -44,8 +44,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
-  //Todo: add a switch insted of a button for activate/deactivate the notification
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -229,7 +227,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text("ماهانه"),
+          const Text("حقوق ماهیانه"),
           const SizedBox(height: 10),
           //? salary input
           TextField(
@@ -242,6 +240,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
               border: OutlineInputBorder(),
             ),
             textAlign: TextAlign.center,
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: Text(
+              "محاسبه بر اساس روز های کار کرده",
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                color: Colors.black54,
+                fontSize: 12.sp,
+              ),
+            ),
           ),
 
           const SizedBox(height: 10),
