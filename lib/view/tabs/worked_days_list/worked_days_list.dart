@@ -277,12 +277,18 @@ class WorkedDaysListPage extends StatelessWidget {
             height: double.infinity,
             width: double.infinity,
             color: ColorPallet.yaleBlue,
-            child: const Column(
+            child: Column(
               textDirection: TextDirection.rtl,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("لطفا از بخش تنظیمات حقوق را وارد کنید"),
+                Text(
+                  "لطفا از بخش تنظیمات حقوق را وارد کنید",
+                  style: TextStyle(
+                    fontSize: 17.sp,
+                    color: ColorPallet.smoke,
+                  ),
+                ),
               ],
             ),
           ),

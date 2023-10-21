@@ -37,7 +37,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     if (mainCubit.state is LoadedStableState) {
       loadedStableState = mainCubit.state as LoadedStableState;
 
-      notificationPeriodInString = loadedStableState.notificationSettings.notificationPeriod!;
+      notificationPeriodInString = loadedStableState.notificationSettings.notificationPeriod ?? "";
       isNotificationActive = loadedStableState.notificationSettings.notificationIsEnabled!;
       salaryTextEditingController.text =
           loadedStableState.settingsModel.salaryModel.salaryAmount != null
