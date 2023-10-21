@@ -9,14 +9,14 @@ import 'package:worked_days/model/worked_day_model.dart';
 import 'package:worked_days/view/screens/details_screen.dart';
 
 class WorkedDaysListPage extends StatelessWidget {
-  final ValueChanged<Jalali> onCureentMonthChanged;
+  final ValueChanged<Jalali> onCurrentMonthChanged;
   final List<WorkDayModel> listOfCurrentWorkedDays;
   final BuildContext context;
   final Jalali currentMonth;
   final LoadedStableState loadedStableState;
   const WorkedDaysListPage({
     super.key,
-    required this.onCureentMonthChanged,
+    required this.onCurrentMonthChanged,
     required this.listOfCurrentWorkedDays,
     required this.currentMonth,
     required this.context,
@@ -45,7 +45,7 @@ class WorkedDaysListPage extends StatelessWidget {
             IconButton(
               splashRadius: 30,
               onPressed: () {
-                onCureentMonthChanged(currentMonth.addMonths(-1));
+                onCurrentMonthChanged(currentMonth.addMonths(-1));
               },
               icon: const Icon(Icons.keyboard_arrow_left),
             ),
@@ -56,7 +56,7 @@ class WorkedDaysListPage extends StatelessWidget {
             IconButton(
               splashRadius: 30,
               onPressed: () {
-                onCureentMonthChanged(currentMonth.addMonths(1));
+                onCurrentMonthChanged(currentMonth.addMonths(1));
               },
               icon: const Icon(Icons.keyboard_arrow_right),
             ),

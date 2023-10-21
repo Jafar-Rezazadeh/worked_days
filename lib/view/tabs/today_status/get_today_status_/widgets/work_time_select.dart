@@ -10,7 +10,7 @@ double workTimeSelectFontSize = 16.sp;
 Widget workTimeSelect({
   required int radioGroupValue,
   required Function(int? value) onDefaultInOutRadioSelected,
-  required Function(int? value) onCustomInOutTimechanged,
+  required Function(int? value) onCustomInOutTimeRadioSelected,
   required Function(TimeOfDay? value) onInTimeChoosed,
   required Function(TimeOfDay? value) onOutTimeChoosed,
   required TimeOfDay? inTime,
@@ -69,7 +69,7 @@ Widget workTimeSelect({
           fillColor: MaterialStatePropertyAll(ColorPallet.yaleBlue),
           value: 1,
           groupValue: radioGroupValue,
-          onChanged: onCustomInOutTimechanged,
+          onChanged: onCustomInOutTimeRadioSelected,
           secondary: Row(
             textDirection: TextDirection.rtl,
             mainAxisSize: MainAxisSize.min,
