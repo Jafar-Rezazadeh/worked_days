@@ -77,11 +77,11 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
             SizedBox(height: 20.sp),
             workTimeSelect(
               context: context,
-              onInTimechanged: (value) => setState(() {
+              onCustomInOutTimechanged: (value) => setState(() {
                 radioGroupValue = value!;
                 error = false;
               }),
-              onOutTimechanged: (value) => setState(() => radioGroupValue = value!),
+              onDefaultInOutRadioSelected: (value) => setState(() => radioGroupValue = value!),
               radioGroupValue: radioGroupValue,
               onInTimeChoosed: (value) => setState(() => inTime = value),
               onOutTimeChoosed: (value) => setState(() => outTime = value),

@@ -34,9 +34,9 @@ class _WorkedDaysPageControllerState extends State<WorkedDaysPageController> {
     return WorkedDaysListPage(
       context: context,
       loadedStableState: loadedStableState,
-      currentDateTime: currentDateTime,
+      currentMonth: currentDateTime,
       listOfCurrentWorkedDays: _getCurrentSelectedDateWorkedDays(),
-      onCureentDateTimeChanged: (value) => setState(() => currentDateTime = value),
+      onCureentMonthChanged: (value) => setState(() => currentDateTime = value),
     );
   }
 

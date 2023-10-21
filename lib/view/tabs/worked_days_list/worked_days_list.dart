@@ -9,16 +9,16 @@ import 'package:worked_days/model/worked_day_model.dart';
 import 'package:worked_days/view/screens/details_screen.dart';
 
 class WorkedDaysListPage extends StatelessWidget {
-  final ValueChanged<Jalali> onCureentDateTimeChanged;
+  final ValueChanged<Jalali> onCureentMonthChanged;
   final List<WorkDayModel> listOfCurrentWorkedDays;
   final BuildContext context;
-  final Jalali currentDateTime;
+  final Jalali currentMonth;
   final LoadedStableState loadedStableState;
   const WorkedDaysListPage({
     super.key,
-    required this.onCureentDateTimeChanged,
+    required this.onCureentMonthChanged,
     required this.listOfCurrentWorkedDays,
-    required this.currentDateTime,
+    required this.currentMonth,
     required this.context,
     required this.loadedStableState,
   });
@@ -45,18 +45,18 @@ class WorkedDaysListPage extends StatelessWidget {
             IconButton(
               splashRadius: 30,
               onPressed: () {
-                onCureentDateTimeChanged(currentDateTime.addMonths(-1));
+                onCureentMonthChanged(currentMonth.addMonths(-1));
               },
               icon: const Icon(Icons.keyboard_arrow_left),
             ),
             GestureDetector(
               onTap: () async {},
-              child: Text(ShamsiFormatter.getYearAndMonth(currentDateTime)),
+              child: Text(ShamsiFormatter.getYearAndMonth(currentMonth)),
             ),
             IconButton(
               splashRadius: 30,
               onPressed: () {
-                onCureentDateTimeChanged(currentDateTime.addMonths(1));
+                onCureentMonthChanged(currentMonth.addMonths(1));
               },
               icon: const Icon(Icons.keyboard_arrow_right),
             ),
@@ -298,7 +298,7 @@ class WorkedDaysListPage extends StatelessWidget {
   }
 
   String _calculateThisMonthSalary() {
-    int currentMonthLength = currentDateTime.monthLength;
+    int currentMonthLength = currentMonth.monthLength;
     // print(currentMonthLength);
 
     double salaryPerDay =

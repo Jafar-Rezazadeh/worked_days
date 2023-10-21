@@ -9,8 +9,8 @@ import 'package:worked_days/model/worked_day_model.dart';
 double workTimeSelectFontSize = 16.sp;
 Widget workTimeSelect({
   required int radioGroupValue,
-  required Function(int? value) onInTimechanged,
-  required Function(int? value) onOutTimechanged,
+  required Function(int? value) onDefaultInOutRadioSelected,
+  required Function(int? value) onCustomInOutTimechanged,
   required Function(TimeOfDay? value) onInTimeChoosed,
   required Function(TimeOfDay? value) onOutTimeChoosed,
   required TimeOfDay? inTime,
@@ -39,7 +39,7 @@ Widget workTimeSelect({
           fillColor: MaterialStatePropertyAll(ColorPallet.yaleBlue),
           value: 0,
           groupValue: radioGroupValue,
-          onChanged: onInTimechanged,
+          onChanged: onDefaultInOutRadioSelected,
           secondary: Row(
             textDirection: TextDirection.rtl,
             mainAxisSize: MainAxisSize.min,
@@ -69,7 +69,7 @@ Widget workTimeSelect({
           fillColor: MaterialStatePropertyAll(ColorPallet.yaleBlue),
           value: 1,
           groupValue: radioGroupValue,
-          onChanged: onOutTimechanged,
+          onChanged: onCustomInOutTimechanged,
           secondary: Row(
             textDirection: TextDirection.rtl,
             mainAxisSize: MainAxisSize.min,
