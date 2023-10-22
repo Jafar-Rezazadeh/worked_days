@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:worked_days/model/notification_pref_model.dart';
-import 'package:worked_days/model/salary_model.dart';
+import 'package:worked_days/models/notification_pref_model.dart';
+import 'package:worked_days/models/salary_model.dart';
 import 'package:worked_days/services/notification_service.dart';
 import 'package:worked_days/services/shared_pref_service.dart';
 

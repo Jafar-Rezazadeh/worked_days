@@ -1,6 +1,6 @@
-import 'package:worked_days/model/notification_pref_model.dart';
-import 'package:worked_days/model/settings_model.dart';
-import 'package:worked_days/model/worked_day_model.dart';
+import 'package:worked_days/models/notification_pref_model.dart';
+import 'package:worked_days/models/settings_model.dart';
+import 'package:worked_days/models/worked_day_model.dart';
 
 abstract class MainCubitState {}
 

@@ -1,8 +1,8 @@
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:worked_days/model/color_schema.dart';
-import 'package:worked_days/model/worked_day_model.dart';
+import 'package:worked_days/models/color_schema.dart';
+import 'package:worked_days/models/worked_day_model.dart';
 
 Widget selectStatus(
     {required List<WorkDayModel> listOfStatus,

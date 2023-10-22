@@ -6,9 +6,9 @@ import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:provider/provider.dart';
 import 'package:worked_days/cubit/main_cubit_cubit.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
-import 'package:worked_days/extentions/my_extentions.dart';
-import 'package:worked_days/model/color_schema.dart';
-import 'package:worked_days/model/notification_pref_model.dart';
+import 'package:worked_days/extentions/to_persian_period.dart';
+import 'package:worked_days/models/color_schema.dart';
+import 'package:worked_days/models/notification_pref_model.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -182,7 +182,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               nS: NotificationPrefModel(
                 notificationIsEnabled: isNotificationActive,
                 notificationPeriod:
-                    "${value.hour}:${value.minute} ${value.period.name}".toPersionPeriod,
+                    "${value.hour}:${value.minute} ${value.period.name}".toPersianPeriod,
               ),
             );
           }

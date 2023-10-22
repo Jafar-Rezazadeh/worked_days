@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:sqflite/sqflite.dart';
-import 'package:worked_days/model/worked_day_model.dart';
+import 'package:worked_days/models/worked_day_model.dart';
 import 'package:path/path.dart' show join;
-import 'package:worked_days/model/tables_column_names.dart';
+import 'package:worked_days/models/tables_column_names.dart';
 
 class DataBaseHandlerService {
   final workedDayTable = "WorkedDays";

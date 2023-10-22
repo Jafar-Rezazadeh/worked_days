@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:worked_days/extentions/my_extentions.dart';
-import 'package:worked_days/model/notification_pref_model.dart';
-import 'package:worked_days/model/prefs_keys.dart';
+import 'package:worked_days/extentions/to_persian_period.dart';
+import 'package:worked_days/models/notification_pref_model.dart';
+import 'package:worked_days/models/prefs_keys.dart';
 
 class SharedPreferencesService {
   Future<SharedPreferences> getPrefs() async {
@@ -29,7 +29,7 @@ class SharedPreferencesService {
     }
     if (_isNotificationPeriodSet(notificationPrefModel)) {
       prefs.setString(PrefNames.notificationPeriod.name,
-          notificationPrefModel.notificationPeriod!.toPersionPeriod);
+          notificationPrefModel.notificationPeriod!.toPersianPeriod);
     }
   }
 

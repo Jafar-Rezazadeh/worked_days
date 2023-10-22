@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:worked_days/model/worked_day_model.dart';
+import 'package:worked_days/models/worked_day_model.dart';
 
 Widget addShortDescription({
   required WorkDayModel status,

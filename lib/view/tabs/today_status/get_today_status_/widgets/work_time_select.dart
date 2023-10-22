@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
-import 'package:worked_days/extentions/my_extentions.dart';
-import 'package:worked_days/model/color_schema.dart';
-import 'package:worked_days/model/worked_day_model.dart';
+import 'package:worked_days/extentions/to_persian_period.dart';
+import 'package:worked_days/models/color_schema.dart';
+import 'package:worked_days/models/worked_day_model.dart';
 
 double workTimeSelectFontSize = 16.sp;
 Widget workTimeSelect({
@@ -47,7 +47,7 @@ Widget workTimeSelect({
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: _regularText(
-                  const TimeOfDay(hour: 8, minute: 00).format(context).toPersionPeriod,
+                  const TimeOfDay(hour: 8, minute: 00).format(context).toPersianPeriod,
                   ColorPallet.orange,
                 ),
               ),
@@ -58,7 +58,7 @@ Widget workTimeSelect({
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: _regularText(
-                  const TimeOfDay(hour: 18, minute: 00).format(context).toPersionPeriod,
+                  const TimeOfDay(hour: 18, minute: 00).format(context).toPersianPeriod,
                   ColorPallet.orange,
                 ),
               ),
@@ -120,7 +120,7 @@ _selectInTime(BuildContext context, int radioGroupValue, onIntimeChoosed, TimeOf
             ).then(onIntimeChoosed);
           }
         : null,
-    child: inTime != null ? Text(inTime.format(context).toPersionPeriod) : const Text("زمان ورود"),
+    child: inTime != null ? Text(inTime.format(context).toPersianPeriod) : const Text("زمان ورود"),
   );
 }
 
@@ -135,7 +135,7 @@ _selectOutTime(BuildContext context, int radioGroupValue, onOutTimeChoosed, Time
           }
         : null,
     child:
-        outTime != null ? Text(outTime.format(context).toPersionPeriod) : const Text("زمان خروج"),
+        outTime != null ? Text(outTime.format(context).toPersianPeriod) : const Text("زمان خروج"),
   );
 }
 

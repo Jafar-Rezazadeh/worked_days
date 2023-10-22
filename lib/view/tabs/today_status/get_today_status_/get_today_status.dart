@@ -4,14 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:worked_days/cubit/main_cubit_cubit.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
-import 'package:worked_days/model/color_schema.dart';
-import 'package:worked_days/model/worked_day_model.dart';
+import 'package:worked_days/models/color_schema.dart';
+import 'package:worked_days/models/worked_day_model.dart';
 import 'package:worked_days/services/get_list_of_status.dart';
 import 'package:worked_days/view/tabs/today_status/get_today_status_/widgets/select_today_status.dart';
 import 'package:worked_days/view/tabs/today_status/get_today_status_/widgets/short_desc.dart';
 import 'package:worked_days/view/tabs/today_status/get_today_status_/widgets/today_date_time.dart';
 import 'package:worked_days/view/tabs/today_status/get_today_status_/widgets/work_time_select.dart';
-import '../../../../extentions/my_extentions.dart';
+import '../../../../extentions/to_persian_period.dart';
 
 class GetTodayStatusPage extends StatefulWidget {
   final ValueChanged<WorkDayModel> onSubmit;
@@ -147,8 +147,8 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
         ? {
             if (inTime != null && outTime != null)
               {
-                status.inTime = inTime!.format(context).toPersionPeriod,
-                status.outTime = outTime!.format(context).toPersionPeriod,
+                status.inTime = inTime!.format(context).toPersianPeriod,
+                status.outTime = outTime!.format(context).toPersianPeriod,
                 widget.onSubmit(status),
                 setState(() => error = false)
               }
@@ -158,8 +158,8 @@ class _GetTodayStatusPageState extends State<GetTodayStatusPage>
               }
           }
         : {
-            status.inTime = const TimeOfDay(hour: 8, minute: 00).format(context).toPersionPeriod,
-            status.outTime = const TimeOfDay(hour: 18, minute: 00).format(context).toPersionPeriod,
+            status.inTime = const TimeOfDay(hour: 8, minute: 00).format(context).toPersianPeriod,
+            status.outTime = const TimeOfDay(hour: 18, minute: 00).format(context).toPersianPeriod,
             widget.onSubmit(status)
           };
   }

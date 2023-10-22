@@ -1,4 +1,4 @@
-import 'package:worked_days/model/salary_model.dart';
+import 'package:worked_days/models/salary_model.dart';
 
 class SettingsModel {
   final SalaryModel salaryModel;

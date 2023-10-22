@@ -1,6 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:worked_days/model/notification_pref_model.dart';
+import 'package:worked_days/models/notification_pref_model.dart';
 import 'package:worked_days/services/settings_service.dart';
 
 class NotificationService {

@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
-import 'package:worked_days/model/notification_pref_model.dart';
-import 'package:worked_days/model/salary_model.dart';
-import 'package:worked_days/model/settings_model.dart';
-import 'package:worked_days/model/worked_day_model.dart';
+import 'package:worked_days/models/notification_pref_model.dart';
+import 'package:worked_days/models/salary_model.dart';
+import 'package:worked_days/models/settings_model.dart';
+import 'package:worked_days/models/worked_day_model.dart';
 import 'package:worked_days/services/db_provider_service.dart';
 import 'package:worked_days/services/settings_service.dart';
 
