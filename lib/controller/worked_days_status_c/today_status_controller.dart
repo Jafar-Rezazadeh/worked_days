@@ -5,17 +5,17 @@ import 'package:shamsi_date/shamsi_date.dart';
 import 'package:worked_days/cubit/main_cubit_cubit.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/models/worked_day_model.dart';
-import 'package:worked_days/view/screens/save_work_day_details/tabs/today_status/get_today_status_/get_today_status.dart';
-import 'package:worked_days/view/screens/save_work_day_details/tabs/today_status/show_today_status/show_saved_status.dart';
+import 'package:worked_days/view/screens/worked_days_status/tabs/today_status/get_today_status_/get_today_status.dart';
+import 'package:worked_days/view/screens/worked_days_status/tabs/today_status/show_today_status/show_saved_status.dart';
 
-class TodayStatusPageController extends StatefulWidget {
-  const TodayStatusPageController({super.key});
+class TodayStatusTabController extends StatefulWidget {
+  const TodayStatusTabController({super.key});
 
   @override
-  State<TodayStatusPageController> createState() => _TodayStatusPageControllerState();
+  State<TodayStatusTabController> createState() => _TodayStatusTabControllerState();
 }
 
-class _TodayStatusPageControllerState extends State<TodayStatusPageController> {
+class _TodayStatusTabControllerState extends State<TodayStatusTabController> {
   late LoadedStableState loadedStableState;
   late MainCubit mainCubit;
 

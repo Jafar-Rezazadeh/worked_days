@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:worked_days/controller/today_page_controller.dart';
-import 'package:worked_days/controller/worked_days_page_controller.dart';
+import 'package:worked_days/controller/worked_days_status_c/today_status_controller.dart';
+import 'package:worked_days/controller/worked_days_status_c/work_day_list_controller.dart';
 import 'package:worked_days/cubit/main_cubit_cubit.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/models/color_schema.dart';
@@ -54,7 +54,7 @@ class _WorkedDaysStatusScreenState extends State<WorkedDaysStatusScreen> {
       backgroundColor: ColorPallet.yaleBlue,
       centerTitle: true,
       title: const Text(
-        "Developed by Jafar.Rezazadeh ©",
+        "Developed by Jafar.Rezazadeh.",
         textAlign: TextAlign.center,
       ),
       titleTextStyle: TextStyle(
@@ -82,18 +82,15 @@ class _WorkedDaysStatusScreenState extends State<WorkedDaysStatusScreen> {
   _tabView() {
     return const TabBarView(
       children: [
-        TodayStatusPageController(),
-        WorkedDaysPageController(),
+        TodayStatusTabController(),
+        WorkedDaysTabController(),
       ],
     );
   }
 
   _tabBar() {
     return PreferredSize(
-      preferredSize: Size(
-        double.infinity,
-        75.sp,
-      ),
+      preferredSize: Size(double.infinity, 75.sp),
       child: TabBar(
         indicatorColor: ColorPallet.orange,
         indicatorWeight: 4,

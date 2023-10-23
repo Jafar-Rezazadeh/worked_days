@@ -7,16 +7,16 @@ import 'package:worked_days/models/notification_pref_model.dart';
 import 'package:worked_days/services/settings_service.dart';
 import 'package:worked_days/view/screens/error/error_screen.dart';
 import 'package:worked_days/view/screens/loading/loading_screen.dart';
-import 'package:worked_days/view/screens/save_work_day_details/worked_days_status_screen.dart';
+import 'package:worked_days/view/screens/worked_days_status/worked_days_status_screen.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+class MainScreenController extends StatefulWidget {
+  const MainScreenController({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<MainScreenController> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<MainScreenController> {
   @override
   void initState() {
     super.initState();
