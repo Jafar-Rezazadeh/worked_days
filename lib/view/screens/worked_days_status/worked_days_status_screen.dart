@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:worked_days/controller/worked_days_status_c/today_status_controller.dart';
-import 'package:worked_days/controller/worked_days_status_c/work_day_list_controller.dart';
+import 'package:worked_days/controller/screens/worked_days_status_c/today_status_controller.dart';
+import 'package:worked_days/controller/screens/worked_days_status_c/work_day_list_controller.dart';
 import 'package:worked_days/cubit/main_cubit.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/models/color_schema.dart';
