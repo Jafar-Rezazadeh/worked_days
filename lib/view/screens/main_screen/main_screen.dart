@@ -5,8 +5,9 @@ import 'package:worked_days/cubit/main_cubit_cubit.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/models/notification_pref_model.dart';
 import 'package:worked_days/services/settings_service.dart';
-import 'package:worked_days/view/screens/loading_screen.dart';
-import 'package:worked_days/view/screens/worked_days_status_screen.dart';
+import 'package:worked_days/view/screens/error/error_screen.dart';
+import 'package:worked_days/view/screens/loading/loading_screen.dart';
+import 'package:worked_days/view/screens/save_work_day_details/worked_days_status_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -34,7 +35,7 @@ class _MainScreenState extends State<MainScreen> {
         if (state is LoadedStableState) {
           return const WorkedDaysStatusScreen();
         } else {
-          return Container();
+          return const ErrorScreen(errorMessage: "There is some error");
         }
       },
     );

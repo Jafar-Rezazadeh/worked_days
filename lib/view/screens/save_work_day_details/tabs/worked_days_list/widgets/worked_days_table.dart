@@ -4,7 +4,7 @@ import 'package:worked_days/services/shamsi_formater_service.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/models/color_schema.dart';
 import 'package:worked_days/models/worked_day_model.dart';
-import 'package:worked_days/view/screens/details_screen.dart';
+import 'package:worked_days/view/screens/work_day_details/details_screen.dart';
 
 class WorkedDaysTableWidget extends StatelessWidget {
   final List<WorkDayModel> listOfCurrentWorkedDays;

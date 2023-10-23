@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:worked_days/cubit/main_cubit_cubit.dart';
 import 'package:worked_days/services/notification_service.dart';
-import 'package:worked_days/view/screens/main_screen.dart';
+import 'package:worked_days/view/screens/main_screen/main_screen.dart';
 
 Future<void> main(List<String> args) async {
   await ScreenUtil.ensureScreenSize();

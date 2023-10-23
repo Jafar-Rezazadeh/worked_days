@@ -7,11 +7,11 @@ import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/models/color_schema.dart';
 import 'package:worked_days/models/worked_day_model.dart';
 import 'package:worked_days/services/get_list_of_status.dart';
-import 'package:worked_days/view/tabs/today_status/get_today_status_/widgets/select_today_status.dart';
-import 'package:worked_days/view/tabs/today_status/get_today_status_/widgets/short_desc.dart';
-import 'package:worked_days/view/tabs/today_status/get_today_status_/widgets/today_date_time.dart';
-import 'package:worked_days/view/tabs/today_status/get_today_status_/widgets/work_time_select.dart';
-import '../../../../extentions/to_persian_period.dart';
+import 'package:worked_days/view/screens/save_work_day_details/tabs/today_status/get_today_status_/widgets/select_today_status.dart';
+import 'package:worked_days/view/screens/save_work_day_details/tabs/today_status/get_today_status_/widgets/short_desc.dart';
+import 'package:worked_days/view/screens/save_work_day_details/tabs/today_status/get_today_status_/widgets/today_date_time.dart';
+import 'package:worked_days/view/screens/save_work_day_details/tabs/today_status/get_today_status_/widgets/work_time_select.dart';
+import '../../../../../../extentions/to_persian_period.dart';
 
 class GetTodayStatusPage extends StatefulWidget {
   final ValueChanged<WorkDayModel> onSubmit;
