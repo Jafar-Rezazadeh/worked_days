@@ -6,13 +6,13 @@ import 'package:worked_days/view/screens/worked_days_status/tabs/work_days_list/
 import 'package:worked_days/view/screens/worked_days_status/tabs/work_days_list/widgets/salary_calc.dart';
 import 'package:worked_days/view/screens/worked_days_status/tabs/work_days_list/widgets/worked_days_table.dart';
 
-class WorkDaysListPage extends StatelessWidget {
+class WorkDaysListLayout extends StatelessWidget {
   final ValueChanged<Jalali> onCurrentMonthChanged;
   final List<WorkDayModel> listOfCurrentWorkedDays;
   final BuildContext context;
   final Jalali currentMonth;
   final LoadedStableState loadedStableState;
-  const WorkDaysListPage({
+  const WorkDaysListLayout({
     super.key,
     required this.onCurrentMonthChanged,
     required this.listOfCurrentWorkedDays,

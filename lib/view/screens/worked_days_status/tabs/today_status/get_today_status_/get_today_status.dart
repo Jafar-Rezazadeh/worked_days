@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:worked_days/cubit/main_cubit_cubit.dart';
-import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/models/color_schema.dart';
 import 'package:worked_days/models/worked_day_model.dart';
 import 'package:worked_days/services/get_list_of_status.dart';
@@ -13,34 +10,19 @@ import 'package:worked_days/view/screens/worked_days_status/tabs/today_status/ge
 import 'package:worked_days/view/screens/worked_days_status/tabs/today_status/get_today_status_/widgets/work_time_select.dart';
 import '../../../../../../extentions/to_persian_period.dart';
 
-class GetTodayStatusPage extends StatefulWidget {
+class GetTodayStatus extends StatefulWidget {
   final ValueChanged<WorkDayModel> onSubmit;
-  const GetTodayStatusPage({super.key, required this.onSubmit});
+  const GetTodayStatus({super.key, required this.onSubmit});
 
   @override
-  State<GetTodayStatusPage> createState() => _GetTodayStatusPageState();
+  State<GetTodayStatus> createState() => _GetTodayStatusState();
 }
 
-class _GetTodayStatusPageState extends State<GetTodayStatusPage>
-    with AutomaticKeepAliveClientMixin {
+class _GetTodayStatusState extends State<GetTodayStatus> with AutomaticKeepAliveClientMixin {
   final List<WorkDayModel> listOfStatus = getListOfStatus();
-  late MainCubit mainCubit;
-  late LoadedStableState loadedStableState;
+
   late WorkDayModel status = listOfStatus.first;
   double fontSize = 17.sp;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _getState();
-  }
-
-  _getState() {
-    mainCubit = BlocProvider.of<MainCubit>(context, listen: true);
-    if (mainCubit.state is LoadedStableState) {
-      loadedStableState = mainCubit.state as LoadedStableState;
-    }
-  }
 
   int radioGroupValue = 0;
   TimeOfDay? inTime;

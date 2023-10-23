@@ -31,7 +31,7 @@ class _WorkedDaysTabControllerState extends State<WorkedDaysTabController> {
 
   @override
   Widget build(BuildContext context) {
-    return WorkDaysListPage(
+    return WorkDaysListLayout(
       context: context,
       loadedStableState: loadedStableState,
       currentMonth: currentDateTime,

@@ -38,9 +38,9 @@ class _TodayStatusTabControllerState extends State<TodayStatusTabController> {
         ? ShowSavedStatus(
             context: context,
             todayStatus: _getTodaySavedStatus(loadedStableState.workedDays),
-            deleteTodayStatus: _deleteStatusHandler,
+            deleteTodayStatus: _deleteTodayStatus,
           )
-        : GetTodayStatusPage(onSubmit: _handleSubmit);
+        : GetTodayStatus(onSubmit: _handleSubmit);
   }
 
   _handleSubmit(WorkDayModel value) {
@@ -67,7 +67,7 @@ class _TodayStatusTabControllerState extends State<TodayStatusTabController> {
         element.dateTime.toJalali().distanceTo(DateTime.now().toJalali()).days.inDays == 0);
   }
 
-  _deleteStatusHandler(int id) {
+  _deleteTodayStatus(int id) {
     mainCubit.deleteWorkDay(loadedStableState: loadedStableState, id: id);
   }
 }
