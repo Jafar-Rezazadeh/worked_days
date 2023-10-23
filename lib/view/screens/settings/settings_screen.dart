@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:provider/provider.dart';
-import 'package:worked_days/cubit/main_cubit_cubit.dart';
+import 'package:worked_days/cubit/main_cubit.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/extentions/to_persian_period.dart';
 import 'package:worked_days/models/color_schema.dart';

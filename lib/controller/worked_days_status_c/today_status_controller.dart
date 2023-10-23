@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import 'package:shamsi_date/shamsi_date.dart';
-import 'package:worked_days/cubit/main_cubit_cubit.dart';
+import 'package:worked_days/cubit/main_cubit.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/models/worked_day_model.dart';
 import 'package:worked_days/view/screens/worked_days_status/tabs/today_status/get_today_status_/get_today_status.dart';
