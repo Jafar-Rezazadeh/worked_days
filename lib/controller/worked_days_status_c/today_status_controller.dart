@@ -45,6 +45,7 @@ class _TodayStatusTabControllerState extends State<TodayStatusTabController> {
 
   _handleSubmit(WorkDayModel value) {
     mainCubit.insertWorkedDay(loadedStableState: loadedStableState, newWorkDayModel: value);
+    //
   }
 
   bool doWeHaveTodayStatus() {
