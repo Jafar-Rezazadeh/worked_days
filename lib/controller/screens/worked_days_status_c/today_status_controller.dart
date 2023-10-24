@@ -5,8 +5,8 @@ import 'package:shamsi_date/shamsi_date.dart';
 import 'package:worked_days/cubit/main_cubit.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/models/worked_day_model.dart';
-import 'package:worked_days/view/screens/worked_days_status/tabs/today_status/get_today_status_/get_today_status.dart';
-import 'package:worked_days/view/screens/worked_days_status/tabs/today_status/show_today_status/show_saved_status.dart';
+import 'package:worked_days/view/screens/worked_days_status/tabs/today_status/parts/get_today_status_/get_today_status.dart';
+import 'package:worked_days/view/screens/worked_days_status/tabs/today_status/parts/show_today_status/show_saved_status.dart';
 
 class TodayStatusTabController extends StatefulWidget {
   const TodayStatusTabController({super.key});
