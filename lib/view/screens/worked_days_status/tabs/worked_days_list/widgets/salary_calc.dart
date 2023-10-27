@@ -2,27 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:worked_days/controller/screens/worked_days_status_c/worked_days_list/widgets/salary_cal_controller.dart';
+import 'package:worked_days/controller/screens/worked_days_status_c/worked_days_list/worked_day_list_tab_controller.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/models/color_schema.dart';
 import 'package:worked_days/models/worked_day_model.dart';
 
-class SalaryCalcWidget extends StatelessWidget {
-  final LoadedStableState loadedStableState;
+class SalaryCalcWidget extends StatefulWidget {
   final Jalali currentMonth;
   final List<WorkDayModel> listOfCurrentWorkedDays;
   const SalaryCalcWidget({
     super.key,
-    required this.loadedStableState,
     required this.currentMonth,
     required this.listOfCurrentWorkedDays,
   });
 
   @override
+  State<SalaryCalcWidget> createState() => _SalaryCalcWidgetState();
+}
+
+class _SalaryCalcWidgetState extends State<SalaryCalcWidget> {
+  late WorkedDaysTabController workedDaysTabController = WorkedDaysTabController(context: context);
+  late LoadedStableState loadedStableState = workedDaysTabController.loadedStableState;
+  @override
   Widget build(BuildContext context) {
     if (loadedStableState.settingsModel.salaryModel.salaryAmount != null) {
       final SalaryCalcController salaryCalcController = SalaryCalcController(
-        currentMonth: currentMonth,
-        listOfCurrentWorkedDays: listOfCurrentWorkedDays,
+        currentMonth: widget.currentMonth,
+        listOfCurrentWorkedDays: widget.listOfCurrentWorkedDays,
         loadedStableState: loadedStableState,
       );
       return Expanded(

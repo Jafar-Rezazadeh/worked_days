@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:worked_days/controller/screens/worked_days_status_c/worked_days_list/worked_day_list_tab_controller.dart';
 import 'package:worked_days/services/shamsi_formater_service.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/models/color_schema.dart';
 import 'package:worked_days/models/worked_day_model.dart';
 import 'package:worked_days/view/screens/details_work_day/details_screen.dart';
 
-class WorkedDaysTableWidget extends StatelessWidget {
+class WorkedDaysTableWidget extends StatefulWidget {
   final List<WorkDayModel> listOfCurrentWorkedDays;
-  final LoadedStableState loadedStableState;
-  final BuildContext context;
+
   const WorkedDaysTableWidget({
     super.key,
     required this.listOfCurrentWorkedDays,
-    required this.loadedStableState,
-    required this.context,
   });
+
+  @override
+  State<WorkedDaysTableWidget> createState() => _WorkedDaysTableWidgetState();
+}
+
+class _WorkedDaysTableWidgetState extends State<WorkedDaysTableWidget> {
+  late WorkedDaysTabController workedDaysTabController = WorkedDaysTabController(context: context);
+  late LoadedStableState loadedStableState = workedDaysTabController.loadedStableState;
 
   @override
   Widget build(BuildContext context) {
@@ -51,12 +57,12 @@ class WorkedDaysTableWidget extends StatelessWidget {
                   DataColumn(label: Container()),
                 ],
                 rows: List<DataRow>.generate(
-                  listOfCurrentWorkedDays.length,
+                  widget.listOfCurrentWorkedDays.length,
                   (i) => DataRow(
                     cells: [
-                      _title(listOfCurrentWorkedDays[i]),
-                      _dateTime(listOfCurrentWorkedDays[i]),
-                      _statusAvatar(listOfCurrentWorkedDays[i]),
+                      _title(widget.listOfCurrentWorkedDays[i]),
+                      _dateTime(widget.listOfCurrentWorkedDays[i]),
+                      _statusAvatar(widget.listOfCurrentWorkedDays[i]),
                     ],
                   ),
                 ),
