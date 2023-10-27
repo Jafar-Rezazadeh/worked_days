@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:shamsi_date/shamsi_date.dart';
+import 'package:worked_days/controller/screens/worked_days_status_c/worked_days_list/widgets/salary_cal_controller.dart';
 import 'package:worked_days/cubit/main_cubit_state.dart';
 import 'package:worked_days/models/color_schema.dart';
 import 'package:worked_days/models/worked_day_model.dart';
@@ -20,6 +20,11 @@ class SalaryCalcWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (loadedStableState.settingsModel.salaryModel.salaryAmount != null) {
+      final SalaryCalcController salaryCalcController = SalaryCalcController(
+        currentMonth: currentMonth,
+        listOfCurrentWorkedDays: listOfCurrentWorkedDays,
+        loadedStableState: loadedStableState,
+      );
       return Expanded(
         flex: 2,
         child: Directionality(
@@ -45,7 +50,7 @@ class SalaryCalcWidget extends StatelessWidget {
                     children: [
                       //? this month salary
                       TextSpan(
-                        text: _calculateThisMonthSalary(),
+                        text: salaryCalcController.calculateThisMonthSalary(),
                         style: TextStyle(color: ColorPallet.green),
                       ),
                       //? worked Days count
@@ -53,7 +58,8 @@ class SalaryCalcWidget extends StatelessWidget {
                         text: "\nروز کاری:",
                         children: [
                           TextSpan(
-                            text: " ${_calcCountedWorkDays().length.toString()} روز",
+                            text:
+                                " ${salaryCalcController.calcCountedWorkDays().length.toString()} روز",
                             style: TextStyle(color: ColorPallet.green),
                           ),
                         ],
@@ -63,10 +69,11 @@ class SalaryCalcWidget extends StatelessWidget {
                         text: "\nروز تعطیل:",
                         children: [
                           TextSpan(
-                            text: " ${_calcDayOffs().length.toString()} روز",
+                            text: " ${salaryCalcController.calcDayOffs().length.toString()} روز",
                             style: TextStyle(
-                              color:
-                                  _calcDayOffs().isEmpty ? ColorPallet.green : ColorPallet.orange,
+                              color: salaryCalcController.calcDayOffs().isEmpty
+                                  ? ColorPallet.green
+                                  : ColorPallet.orange,
                             ),
                           ),
                         ],
@@ -108,32 +115,5 @@ class SalaryCalcWidget extends StatelessWidget {
         ),
       );
     }
-  }
-
-  String _calculateThisMonthSalary() {
-    int currentMonthLength = currentMonth.monthLength;
-    // print(currentMonthLength);
-
-    double salaryPerDay =
-        loadedStableState.settingsModel.salaryModel.salaryAmount! / currentMonthLength;
-
-    List<WorkDayModel> countedWorkDays = _calcCountedWorkDays();
-    // print(countedWorkDays.length);
-
-    int countedWorkDaysSum = (salaryPerDay * countedWorkDays.length).toInt();
-
-    return "${countedWorkDaysSum.toString().seRagham()} تومان";
-  }
-
-  List<WorkDayModel> _calcCountedWorkDays() {
-    return listOfCurrentWorkedDays
-        .where(
-          (element) => element.workDay == true || element.publicHoliday == true,
-        )
-        .toList();
-  }
-
-  List<WorkDayModel> _calcDayOffs() {
-    return listOfCurrentWorkedDays.where((element) => element.dayOff == true).toList();
   }
 }

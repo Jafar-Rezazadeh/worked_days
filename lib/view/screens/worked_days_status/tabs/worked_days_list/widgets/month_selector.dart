@@ -3,7 +3,7 @@ import 'package:shamsi_date/shamsi_date.dart';
 import 'package:worked_days/services/shamsi_formater_service.dart';
 
 class MonthSelectorWidget extends StatelessWidget {
-  final Function onCurrentMonthChanged;
+  final Function(Jalali value) onCurrentMonthChanged;
   final Jalali currentMonth;
   const MonthSelectorWidget({
     super.key,
