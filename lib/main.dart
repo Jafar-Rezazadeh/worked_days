@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:worked_days/cubit/main_cubit.dart';
-import 'package:worked_days/services/notification_service.dart';
-import 'package:worked_days/controller/screens/main_screen_controller.dart';
+import 'package:worked_days/bloc/controller/main_screen_controller.dart';
+import 'package:worked_days/bloc/cubit/main_cubit.dart';
+import 'package:worked_days/bloc/services/notification_service.dart';
 
 Future<void> main(List<String> args) async {
   await ScreenUtil.ensureScreenSize();
