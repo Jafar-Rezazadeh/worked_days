@@ -1,102 +1,28 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:worked_days/bloc/cubit/main_cubit.dart';
-import 'package:worked_days/bloc/cubit/main_cubit_state.dart';
 import 'package:worked_days/bloc/models/notification_pref_model.dart';
 import 'package:worked_days/bloc/services/settings_service.dart';
-import 'package:worked_days/ui/view/screens/error/error_screen.dart';
-import 'package:worked_days/ui/view/screens/loading/loading_screen.dart';
-import 'package:worked_days/ui/view/screens/worked_days_status/worked_days_status_screen.dart';
 
-class MainScreenController extends StatefulWidget {
-  const MainScreenController({super.key});
+class MainScreenController {
+  NotificationPrefModel? _notificationPrefModel;
 
-  @override
-  State<MainScreenController> createState() => _MainScreenState();
-}
+  get notificationPrefModel => _notificationPrefModel;
 
-class _MainScreenState extends State<MainScreenController> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<MainCubit>().loadDataAndStartApp();
-    _showAlertForNotifications();
+  MainScreenController() {
+    getNotificationStatus();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocConsumer<MainCubit, MainCubitState>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        if (state is LoadingState) {
-          return const LoadingScreen();
-        }
-        if (state is LoadedStableState) {
-          return const WorkedDaysStatusScreen();
-        } else {
-          return const ErrorScreen(errorMessage: "There is some error");
-        }
-      },
-    );
+  getNotificationStatus() async {
+    _notificationPrefModel = await SettingsService.getNotificationStatus();
   }
 
-  Future<void> _showAlertForNotifications() async {
-    NotificationPrefModel? notificationPrefModel = await SettingsService.getNotificationStatus();
-
+  Future<bool> isNotificationStatusSaved() async {
     bool isNotificationAllowed = await AwesomeNotifications().isNotificationAllowed();
 
-    if (context.mounted) {
-      if (notificationPrefModel.notificationIsEnabled == null ||
-          isNotificationAllowed == false && notificationPrefModel.notificationIsEnabled != false) {
-        showDialog(
-          context: context,
-          builder: (context) => Directionality(
-            textDirection: TextDirection.rtl,
-            child: AlertDialog(
-              title: const Text("نمایش اعلان"),
-              content: const Text("آیا میخواهید برای شما یادآوری شود؟"),
-              actionsAlignment: MainAxisAlignment.spaceEvenly,
-              actions: [
-                //? showNotifications
-                TextButton(
-                  onPressed: () {
-                    AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
-                      if (isAllowed) {
-                        SettingsService.setNotificationStatus(
-                          notificationPrefModel: NotificationPrefModel(
-                            notificationIsEnabled: true,
-                            notificationPeriod: notificationPrefModel.notificationPeriod ??
-                                const TimeOfDay(hour: 18, minute: 0).format(context),
-                          ),
-                        );
-                      } else {
-                        AwesomeNotifications().requestPermissionToSendNotifications();
-                      }
-                    });
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text("بله"),
-                ),
-                //? do not showNotifications
-                TextButton(
-                  onPressed: () {
-                    SettingsService.setNotificationStatus(
-                      notificationPrefModel: NotificationPrefModel(
-                        notificationIsEnabled: false,
-                        notificationPeriod: notificationPrefModel.notificationPeriod ??
-                            const TimeOfDay(hour: 18, minute: 0).format(context),
-                      ),
-                    );
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text("خیر"),
-                )
-              ],
-            ),
-          ),
-        );
-      }
+    if (_notificationPrefModel!.notificationIsEnabled == null ||
+        isNotificationAllowed == false && _notificationPrefModel!.notificationIsEnabled != false) {
+      return true;
+    } else {
+      return false;
     }
   }
 }
