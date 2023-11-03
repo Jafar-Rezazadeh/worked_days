@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:sqflite/sqflite.dart';
+import 'package:worked_days/bloc/models/salary_model.dart';
 import 'package:worked_days/bloc/models/worked_day_model.dart';
 import 'package:path/path.dart' show join;
 import 'package:worked_days/bloc/models/tables_column_names.dart';
@@ -65,5 +66,12 @@ class DataBaseHandlerService {
   deleteWorkDay(int id) async {
     final Database db = await _openDb();
     await db.delete(workedDayTable, where: "${WorkedDaysColumnNames.id.name} = ?", whereArgs: [id]);
+  }
+
+  List<SalaryModel> getSalaries() {
+    return [
+      SalaryModel(salaryAmount: 8000000, dateTime: DateTime.now().add(const Duration(days: 40))),
+      SalaryModel(salaryAmount: 7000000, dateTime: DateTime.now()),
+    ];
   }
 }

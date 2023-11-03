@@ -34,7 +34,7 @@ class _WorkDaysListLayoutState extends State<WorkDaysListTab> {
 
       workedDaysTabController.setCurrentMonth = currentMonth;
       workedDaysTabController.setLoadedStableState = loadedStableState;
-      workedDaysTabController.updateListOfCurrentMonthWorkedDays();
+      workedDaysTabController.updateDataToCurrentSelectedMonth();
     }
   }
 
@@ -45,7 +45,7 @@ class _WorkDaysListLayoutState extends State<WorkDaysListTab> {
         MonthSelectorWidget(
           onCurrentMonthChanged: (value) => setState(() {
             workedDaysTabController.setCurrentMonth = value;
-            workedDaysTabController.updateListOfCurrentMonthWorkedDays();
+            workedDaysTabController.updateDataToCurrentSelectedMonth();
           }),
           currentMonth: workedDaysTabController.currentMonth,
         ),

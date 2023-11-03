@@ -39,10 +39,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
       notificationPeriodInString = loadedStableState.notificationSettings.notificationPeriod ?? "";
       isNotificationActive = loadedStableState.notificationSettings.notificationIsEnabled!;
-      salaryTextEditingController.text =
-          loadedStableState.settingsModel.salaryModel.salaryAmount != null
-              ? loadedStableState.settingsModel.salaryModel.salaryAmount.toString().seRagham()
-              : "میزان حقوق را وارد کنید";
+      salaryTextEditingController.text = loadedStableState.settingsModel.salaryDefaultAmount != 1
+          ? loadedStableState.settingsModel.salaryDefaultAmount.toString().seRagham()
+          : "میزان حقوق را وارد کنید";
     }
   }
 
@@ -264,7 +263,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   _submit() async {
     if (salaryTextEditingController.text.isNotEmpty) {
-      await mainCubit.setSalaryAmount(
+      await mainCubit.setDefaultSalaryAmount(
         loadedStableState: loadedStableState,
         salaryAmount: int.parse(
           salaryTextEditingController.text.extractNumber(toDigit: NumStrLanguage.English),

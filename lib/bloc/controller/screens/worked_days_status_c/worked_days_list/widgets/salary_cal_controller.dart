@@ -1,25 +1,28 @@
 import 'package:persian_number_utility/persian_number_utility.dart';
-import 'package:shamsi_date/shamsi_date.dart';
-import 'package:worked_days/bloc/cubit/main_cubit_state.dart';
+import 'package:worked_days/bloc/controller/screens/worked_days_status_c/worked_days_list/worked_day_list_tab_controller.dart';
+import 'package:worked_days/bloc/models/salary_model.dart';
 import 'package:worked_days/bloc/models/worked_day_model.dart';
 
 class SalaryCalcController {
-  final Jalali currentMonth;
-  final LoadedStableState loadedStableState;
-  final List<WorkDayModel> listOfCurrentWorkedDays;
-
+  final WorkedDaysTabController workedDaysTabController;
+  late SalaryModel? _storedSalary;
   SalaryCalcController({
-    required this.currentMonth,
-    required this.loadedStableState,
-    required this.listOfCurrentWorkedDays,
-  });
+    required this.workedDaysTabController,
+  }) {
+    _storedSalary = workedDaysTabController.currentMonthSalary;
+  }
+
+  SalaryModel? get storedSalary => _storedSalary;
+
+  //
 
   String calculateThisMonthSalary() {
-    int currentMonthLength = currentMonth.monthLength;
+    int currentMonthLength = workedDaysTabController.currentMonth.monthLength;
     // print(currentMonthLength);
 
     double salaryPerDay =
-        loadedStableState.settingsModel.salaryModel.salaryAmount! / currentMonthLength;
+        workedDaysTabController.loadedStableState.settingsModel.salaryDefaultAmount /
+            currentMonthLength;
 
     List<WorkDayModel> countedWorkDays = calcCountedWorkDays();
     // print(countedWorkDays.length);
@@ -30,7 +33,7 @@ class SalaryCalcController {
   }
 
   List<WorkDayModel> calcCountedWorkDays() {
-    return listOfCurrentWorkedDays
+    return workedDaysTabController.listOfCurrentMonthWorkedDays
         .where(
           (element) => element.workDay == true || element.publicHoliday == true,
         )
@@ -38,6 +41,8 @@ class SalaryCalcController {
   }
 
   List<WorkDayModel> calcDayOffs() {
-    return listOfCurrentWorkedDays.where((element) => element.dayOff == true).toList();
+    return workedDaysTabController.listOfCurrentMonthWorkedDays
+        .where((element) => element.dayOff == true)
+        .toList();
   }
 }

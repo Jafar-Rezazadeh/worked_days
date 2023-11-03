@@ -17,14 +17,15 @@ class MainCubit extends Cubit<MainCubitState> {
     //? GettingData
     NotificationPrefModel notificationPrefModel = await SettingsService.getNotificationStatus();
     List<WorkDayModel> workedDaysData = await DataBaseHandlerService().getWorkDays();
-
-    SalaryModel salaryModel = await SettingsService.getSalary();
+    int defaultSalaryAmount = await SettingsService.getSalary();
+    List<SalaryModel> storedSalaries = DataBaseHandlerService().getSalaries();
 
     emit(
       LoadedStableState(
         notificationSettings: notificationPrefModel,
         workedDays: workedDaysData,
-        settingsModel: SettingsModel(salaryModel: salaryModel),
+        settingsModel: SettingsModel(salaryDefaultAmount: defaultSalaryAmount),
+        salaries: storedSalaries,
       ),
     );
   }
@@ -43,6 +44,7 @@ class MainCubit extends Cubit<MainCubitState> {
       workedDays: listOfWorkDaysData,
       notificationSettings: loadedStableState.notificationSettings,
       settingsModel: loadedStableState.settingsModel,
+      salaries: loadedStableState.salaries,
     );
 
     emit(newloadedStableState);
@@ -61,6 +63,7 @@ class MainCubit extends Cubit<MainCubitState> {
       workedDays: listOfWorkDaysData,
       notificationSettings: loadedStableState.notificationSettings,
       settingsModel: loadedStableState.settingsModel,
+      salaries: loadedStableState.salaries,
     );
 
     emit(newloadedStableState);
@@ -77,18 +80,22 @@ class MainCubit extends Cubit<MainCubitState> {
       workedDays: loadedStableState.workedDays,
       notificationSettings: nS,
       settingsModel: loadedStableState.settingsModel,
+      salaries: loadedStableState.salaries,
     );
 
     emit(newloadedStableState);
   }
 
-  setSalaryAmount({int? salaryAmount, required LoadedStableState loadedStableState}) async {
+  setDefaultSalaryAmount({int? salaryAmount, required LoadedStableState loadedStableState}) async {
     await SettingsService.setSalaryAmount(salaryAmount);
 
     LoadedStableState newloadedStableState = LoadedStableState(
       notificationSettings: loadedStableState.notificationSettings,
       workedDays: loadedStableState.workedDays,
-      settingsModel: SettingsModel(salaryModel: SalaryModel(salaryAmount: salaryAmount)),
+      settingsModel: SettingsModel(
+        salaryDefaultAmount: salaryAmount ?? 1,
+      ),
+      salaries: loadedStableState.salaries,
     );
 
     emit(newloadedStableState);

@@ -1,5 +1,9 @@
 class SalaryModel {
-  final int? salaryAmount;
+  final int salaryAmount;
+  final DateTime dateTime;
 
-  SalaryModel({required this.salaryAmount});
+  SalaryModel({
+    required this.salaryAmount,
+    required this.dateTime,
+  });
 }

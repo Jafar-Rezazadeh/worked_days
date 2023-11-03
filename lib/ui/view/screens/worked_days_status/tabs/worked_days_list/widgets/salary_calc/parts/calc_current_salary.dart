@@ -12,7 +12,7 @@ class CalcCurrentMonthSalary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (workedDaysTabController.loadedStableState.settingsModel.salaryModel.salaryAmount != null) {
+    if (workedDaysTabController.loadedStableState.settingsModel.salaryDefaultAmount != 1) {
       return Column(
         textDirection: TextDirection.rtl,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

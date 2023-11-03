@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:worked_days/bloc/models/notification_pref_model.dart';
-import 'package:worked_days/bloc/models/salary_model.dart';
 import 'package:worked_days/bloc/services/notification_service.dart';
 import 'package:worked_days/bloc/services/shared_pref_service.dart';
 
@@ -38,10 +37,10 @@ class SettingsService {
     return notificationPrefModel.notificationPeriod != null;
   }
 
-  static getSalary() async {
-    int? salaryAmount = await SharedPreferencesService.getSalaryAmountPref();
+  static Future<int> getSalary() async {
+    int salaryAmount = await SharedPreferencesService.getSalaryAmountPref();
 
-    return SalaryModel(salaryAmount: salaryAmount);
+    return salaryAmount;
   }
 
   static setSalaryAmount(int? salaryAmount) async {

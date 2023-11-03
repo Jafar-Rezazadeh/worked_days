@@ -16,9 +16,7 @@ class SalaryCalcWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SalaryCalcController salaryCalcController = SalaryCalcController(
-      currentMonth: workedDaysTabController.currentMonth,
-      listOfCurrentWorkedDays: workedDaysTabController.listOfCurrentMonthWorkedDays,
-      loadedStableState: workedDaysTabController.loadedStableState,
+      workedDaysTabController: workedDaysTabController,
     );
 
     return Expanded(

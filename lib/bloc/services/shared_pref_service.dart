@@ -45,9 +45,13 @@ class SharedPreferencesService {
     }
   }
 
-  static getSalaryAmountPref() async {
-    final prefs = await SharedPreferencesService().getPrefs();
-
-    return prefs.getInt(PrefNames.salaryAmount.name);
+  static Future<int> getSalaryAmountPref() async {
+    try {
+      final prefs = await SharedPreferencesService().getPrefs();
+      int salaryAmount = prefs.getInt(PrefNames.salaryAmount.name) ?? 1;
+      return salaryAmount;
+    } catch (e) {
+      return 1;
+    }
   }
 }
