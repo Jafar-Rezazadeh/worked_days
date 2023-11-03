@@ -18,7 +18,7 @@ class WorkDaysListTab extends StatefulWidget {
 class _WorkDaysListLayoutState extends State<WorkDaysListTab> {
   late MainCubit mainCubit;
   late LoadedStableState loadedStableState;
-  WorkedDaysTabController workedDaysTabController = WorkedDaysTabController();
+  late WorkedDaysTabController workedDaysTabController;
   Jalali currentMonth = Jalali.now();
 
   @override
@@ -31,7 +31,7 @@ class _WorkDaysListLayoutState extends State<WorkDaysListTab> {
     mainCubit = BlocProvider.of<MainCubit>(context, listen: true);
     if (mainCubit.state is LoadedStableState) {
       loadedStableState = mainCubit.state as LoadedStableState;
-
+      workedDaysTabController = WorkedDaysTabController(mainCubit: mainCubit);
       workedDaysTabController.setCurrentMonth = currentMonth;
       workedDaysTabController.setLoadedStableState = loadedStableState;
       workedDaysTabController.updateDataToCurrentSelectedMonth();

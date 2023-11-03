@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:shamsi_date/shamsi_date.dart';
+import 'package:worked_days/bloc/cubit/main_cubit.dart';
 import 'package:worked_days/bloc/cubit/main_cubit_state.dart';
 import 'package:worked_days/bloc/models/salary_model.dart';
 import 'package:worked_days/bloc/models/worked_day_model.dart';
@@ -9,6 +10,8 @@ class WorkedDaysTabController {
   late List<WorkDayModel> _listOfCurrentMonthWorkedDays;
   late SalaryModel? _currentMonthSalary;
   late Jalali _currentMonth;
+  final MainCubit mainCubit;
+  WorkedDaysTabController({required this.mainCubit});
 
   // getter
   LoadedStableState get loadedStableState => _loadedStableState;
