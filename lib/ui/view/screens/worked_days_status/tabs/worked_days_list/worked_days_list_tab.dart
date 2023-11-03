@@ -5,7 +5,7 @@ import 'package:worked_days/bloc/controller/screens/worked_days_status_c/worked_
 import 'package:worked_days/bloc/cubit/main_cubit.dart';
 import 'package:worked_days/bloc/cubit/main_cubit_state.dart';
 import 'package:worked_days/ui/view/screens/worked_days_status/tabs/worked_days_list/widgets/month_selector.dart';
-import 'package:worked_days/ui/view/screens/worked_days_status/tabs/worked_days_list/widgets/salary_calc.dart';
+import 'package:worked_days/ui/view/screens/worked_days_status/tabs/worked_days_list/widgets/salary_calc/salary_calc.dart';
 import 'package:worked_days/ui/view/screens/worked_days_status/tabs/worked_days_list/widgets/worked_days_table.dart';
 
 class WorkDaysListTab extends StatefulWidget {

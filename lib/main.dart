@@ -32,7 +32,7 @@ class _WorkedDaysState extends State<WorkedDays> {
   @override
   void initState() {
     super.initState();
-    showDoYouWannaGetNotificationOnceTime();
+    showDoYouWannaGetNotificationOrNot();
   }
 
   @override
@@ -65,7 +65,7 @@ class _WorkedDaysState extends State<WorkedDays> {
     );
   }
 
-  void showDoYouWannaGetNotificationOnceTime() async {
+  void showDoYouWannaGetNotificationOrNot() async {
     bool isNotificationShowStatusAlreadySet =
         await mainScreenController.isNotificationStatusSaved();
 
