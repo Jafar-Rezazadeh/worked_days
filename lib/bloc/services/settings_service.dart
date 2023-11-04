@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:worked_days/bloc/models/notification_pref_model.dart';
+import 'package:worked_days/data/entities/notification_pref_model.dart';
 import 'package:worked_days/bloc/services/notification_service.dart';
 import 'package:worked_days/bloc/services/shared_pref_service.dart';
 

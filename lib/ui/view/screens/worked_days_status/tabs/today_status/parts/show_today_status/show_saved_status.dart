@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:worked_days/bloc/services/shamsi_formater_service.dart';
-import 'package:worked_days/bloc/models/color_schema.dart';
-import 'package:worked_days/bloc/models/worked_day_model.dart';
+import 'package:worked_days/data/entities/color_schema.dart';
+import 'package:worked_days/data/entities/worked_day_model.dart';
 
 class ShowSavedStatus extends StatelessWidget {
   final BuildContext context;

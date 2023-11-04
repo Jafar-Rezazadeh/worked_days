@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:worked_days/ui/extentions/to_persian_period.dart';
-import 'package:worked_days/bloc/models/notification_pref_model.dart';
-import 'package:worked_days/bloc/models/prefs_keys.dart';
+import 'package:worked_days/data/entities/notification_pref_model.dart';
+import 'package:worked_days/data/entities/prefs_keys.dart';
 
 class SharedPreferencesService {
   Future<SharedPreferences> getPrefs() async {

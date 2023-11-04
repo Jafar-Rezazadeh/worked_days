@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:worked_days/bloc/controller/main_screen_controller.dart';
 import 'package:worked_days/bloc/cubit/main_cubit.dart';
 import 'package:worked_days/bloc/cubit/main_cubit_state.dart';
-import 'package:worked_days/bloc/models/notification_pref_model.dart';
+import 'package:worked_days/data/entities/notification_pref_model.dart';
 import 'package:worked_days/bloc/services/notification_service.dart';
 import 'package:worked_days/bloc/services/settings_service.dart';
 import 'package:worked_days/ui/view/screens/error/error_screen.dart';

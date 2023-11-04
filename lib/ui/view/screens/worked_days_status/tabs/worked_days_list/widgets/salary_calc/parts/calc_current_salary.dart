@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:worked_days/bloc/controller/screens/worked_days_status_c/worked_days_list/widgets/salary_cal_controller.dart';
 import 'package:worked_days/bloc/controller/screens/worked_days_status_c/worked_days_list/worked_day_list_tab_controller.dart';
-import 'package:worked_days/bloc/models/color_schema.dart';
+import 'package:worked_days/data/entities/color_schema.dart';
 
 class CalcCurrentMonthSalary extends StatelessWidget {
   final WorkedDaysTabController workedDaysTabController;
@@ -46,7 +46,7 @@ class CalcCurrentMonthSalary extends StatelessWidget {
       children: [
         Text("حقوق این ماه: ", style: _titleStyle()),
         Text(
-          salaryCalcController.calculateThisMonthSalary(),
+          "${salaryCalcController.calculateThisMonthSalary(null)} تومان",
           style: _descriptionStyle(),
         ),
       ],

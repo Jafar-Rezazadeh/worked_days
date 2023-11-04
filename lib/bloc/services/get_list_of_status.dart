@@ -1,4 +1,4 @@
-import 'package:worked_days/bloc/models/worked_day_model.dart';
+import 'package:worked_days/data/entities/worked_day_model.dart';
 
 List<WorkDayModel> getListOfStatus() => [
       WorkDayModel(

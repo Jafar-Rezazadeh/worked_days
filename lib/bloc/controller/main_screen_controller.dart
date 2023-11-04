@@ -1,5 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:worked_days/bloc/models/notification_pref_model.dart';
+import 'package:worked_days/data/entities/notification_pref_model.dart';
 import 'package:worked_days/bloc/services/settings_service.dart';
 
 class MainScreenController {

@@ -1,12 +1,13 @@
 import 'dart:io';
 import 'package:sqflite/sqflite.dart';
-import 'package:worked_days/bloc/models/salary_model.dart';
-import 'package:worked_days/bloc/models/worked_day_model.dart';
+import 'package:worked_days/data/entities/salary_model.dart';
+import 'package:worked_days/data/entities/worked_day_model.dart';
 import 'package:path/path.dart' show join;
-import 'package:worked_days/bloc/models/tables_column_names.dart';
+import 'package:worked_days/data/entities/tables_column_names.dart';
 
-class DataBaseHandlerService {
+class DbProvider {
   final workedDayTable = "WorkedDays";
+  final salariesTable = "Salaries";
 
   _openDb() async {
     if (Platform.isAndroid) {
@@ -15,7 +16,7 @@ class DataBaseHandlerService {
       final path = join(databasePath, "WD.db");
       db = await openDatabase(
         path,
-        version: 3,
+        version: 5,
         onCreate: (db, version) async {
           await db.execute('''
           CREATE TABLE $workedDayTable (
@@ -31,12 +32,31 @@ class DataBaseHandlerService {
           )
           ''');
         },
-        onUpgrade: (db, oldVersion, newVersion) async {},
+        onUpgrade: (db, oldVersion, newVersion) async {
+          if (newVersion > 3) {
+            if (await _salaryTableNotExsist(db)) {
+              await db.execute('''
+              CREATE TABLE $salariesTable (
+                ${SalariesColumnNames.id.name} INTEGER PRIMARY KEY AUTOINCREMENT,
+                ${SalariesColumnNames.salary.name} INTEGER,
+                ${WorkedDaysColumnNames.dateTime.name} TEXT
+              )
+              ''');
+            }
+          }
+        },
       );
       return db;
     }
   }
 
+  Future<bool> _salaryTableNotExsist(Database db) async {
+    return await db.query("sqlite_master", where: "name = ?", whereArgs: [salariesTable]) == []
+        ? true
+        : false;
+  }
+
+  //?=================================== worked days Table===================================
   Future<List<WorkDayModel>> getWorkDays() async {
     final Database db = await _openDb();
     List<Map<String, dynamic>> dataAsMap = await db.query(workedDayTable);
@@ -68,10 +88,36 @@ class DataBaseHandlerService {
     await db.delete(workedDayTable, where: "${WorkedDaysColumnNames.id.name} = ?", whereArgs: [id]);
   }
 
-  List<SalaryModel> getSalaries() {
-    return [
-      SalaryModel(salaryAmount: 8000000, dateTime: DateTime.now().add(const Duration(days: 40))),
-      SalaryModel(salaryAmount: 7000000, dateTime: DateTime.now()),
-    ];
+  //?=================================== salaries Table ===================================
+
+  Future<int> insertSalary(SalaryModel salaryModel) async {
+    final Database db = await _openDb();
+
+    int id = await db.insert(
+      salariesTable,
+      salaryModel.tomap_(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+    return id;
+  }
+
+  deleteSalary(int id) async {
+    final Database db = await _openDb();
+    await db.delete(salariesTable, where: "id = ?", whereArgs: [id]);
+  }
+
+  Future<List<SalaryModel>> getSalaries() async {
+    final Database db = await _openDb();
+
+    List<Map<String, dynamic>> dataAsMap = await db.query(salariesTable);
+
+    return List.generate(
+      dataAsMap.length,
+      (i) => SalaryModel(
+        id: dataAsMap[i][SalariesColumnNames.id.name],
+        salaryAmount: dataAsMap[i][SalariesColumnNames.salary.name],
+        dateTime: DateTime.parse(dataAsMap[i][SalariesColumnNames.dateTime.name]),
+      ),
+    );
   }
 }

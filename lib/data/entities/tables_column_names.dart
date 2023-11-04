@@ -9,3 +9,9 @@ enum WorkedDaysColumnNames {
   dayOff,
   publicHoliday,
 }
+
+enum SalariesColumnNames {
+  id,
+  salary,
+  dateTime,
+}

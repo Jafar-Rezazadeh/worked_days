@@ -1,7 +1,6 @@
-import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:worked_days/bloc/controller/screens/worked_days_status_c/worked_days_list/worked_day_list_tab_controller.dart';
-import 'package:worked_days/bloc/models/salary_model.dart';
-import 'package:worked_days/bloc/models/worked_day_model.dart';
+import 'package:worked_days/data/entities/salary_model.dart';
+import 'package:worked_days/data/entities/worked_day_model.dart';
 
 class SalaryCalcController {
   final WorkedDaysTabController workedDaysTabController;
@@ -16,20 +15,20 @@ class SalaryCalcController {
 
   //
 
-  String calculateThisMonthSalary() {
+  int calculateThisMonthSalary(int? salary) {
+    salary ??= workedDaysTabController.loadedStableState.settingsModel.salaryDefaultAmount;
+
     int currentMonthLength = workedDaysTabController.currentMonth.monthLength;
     // print(currentMonthLength);
 
-    double salaryPerDay =
-        workedDaysTabController.loadedStableState.settingsModel.salaryDefaultAmount /
-            currentMonthLength;
+    double salaryPerDay = salary / currentMonthLength;
 
     List<WorkDayModel> countedWorkDays = calcCountedWorkDays();
     // print(countedWorkDays.length);
 
     int countedWorkDaysSum = (salaryPerDay * countedWorkDays.length).toInt();
 
-    return "${countedWorkDaysSum.toString().seRagham()} تومان";
+    return countedWorkDaysSum;
   }
 
   List<WorkDayModel> calcCountedWorkDays() {

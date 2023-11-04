@@ -3,8 +3,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:worked_days/ui/extentions/to_persian_period.dart';
-import 'package:worked_days/bloc/models/color_schema.dart';
-import 'package:worked_days/bloc/models/worked_day_model.dart';
+import 'package:worked_days/data/entities/color_schema.dart';
+import 'package:worked_days/data/entities/worked_day_model.dart';
 
 double workTimeSelectFontSize = 16.sp;
 Widget workTimeSelect({

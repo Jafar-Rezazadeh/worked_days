@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:worked_days/bloc/controller/screens/worked_days_status_c/today_status_controller.dart';
 import 'package:worked_days/bloc/cubit/main_cubit.dart';
 import 'package:worked_days/bloc/cubit/main_cubit_state.dart';
-import 'package:worked_days/bloc/models/color_schema.dart';
+import 'package:worked_days/data/entities/color_schema.dart';
 import 'package:worked_days/ui/view/screens/settings/settings_screen.dart';
 import 'package:worked_days/ui/view/screens/worked_days_status/tabs/worked_days_list/worked_days_list_tab.dart';
 

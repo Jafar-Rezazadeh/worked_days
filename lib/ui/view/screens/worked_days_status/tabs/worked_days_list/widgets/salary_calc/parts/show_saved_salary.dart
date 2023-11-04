@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:worked_days/bloc/controller/screens/worked_days_status_c/worked_days_list/widgets/salary_cal_controller.dart';
-import 'package:worked_days/bloc/models/color_schema.dart';
+import 'package:worked_days/data/entities/color_schema.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
+import 'package:worked_days/data/entities/salary_model.dart';
 
 class ShowSavedSalaryCalc extends StatelessWidget {
   final SalaryCalcController salaryCalcController;
@@ -150,7 +151,21 @@ class ShowSavedSalaryCalc extends StatelessWidget {
                   children: [
                     FilledButton(
                       onPressed: () {
-                        //Todo: insert the salary amount to db
+                        int calculatedThisMonthSalary = _getCalculatedThisMonthSalary();
+
+                        SalaryModel salaryModel = SalaryModel(
+                          id: salaryCalcController.storedSalary?.id ?? 0,
+                          salaryAmount: calculatedThisMonthSalary,
+                          dateTime: salaryCalcController.workedDaysTabController.currentMonth
+                              .toDateTime(),
+                        );
+
+                        salaryCalcController.workedDaysTabController.mainCubit.insertSalary(
+                          loadedStableState:
+                              salaryCalcController.workedDaysTabController.loadedStableState,
+                          salaryModel: salaryModel,
+                        );
+                        Navigator.pop(context);
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll<Color>(ColorPallet.yaleBlue),
@@ -177,13 +192,14 @@ class ShowSavedSalaryCalc extends StatelessWidget {
   }
 
   String _setSalaryTotextField() {
-    if (salaryCalcController.storedSalary != null) {
-      return salaryCalcController.storedSalary?.salaryAmount.toString().seRagham() ?? "";
-    } else {
-      return salaryCalcController
-          .workedDaysTabController.loadedStableState.settingsModel.salaryDefaultAmount
-          .toString()
-          .seRagham();
-    }
+    return salaryCalcController
+        .workedDaysTabController.loadedStableState.settingsModel.salaryDefaultAmount
+        .toString()
+        .seRagham();
+  }
+
+  int _getCalculatedThisMonthSalary() {
+    return salaryCalcController.calculateThisMonthSalary(int.parse(
+        salaryAmountTextFieldController.text.extractNumber(toDigit: NumStrLanguage.English)));
   }
 }

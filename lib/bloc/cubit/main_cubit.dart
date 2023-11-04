@@ -1,24 +1,24 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worked_days/bloc/cubit/main_cubit_state.dart';
-import 'package:worked_days/bloc/models/notification_pref_model.dart';
-import 'package:worked_days/bloc/models/salary_model.dart';
-import 'package:worked_days/bloc/models/settings_model.dart';
-import 'package:worked_days/bloc/models/worked_day_model.dart';
-import 'package:worked_days/data/db_provider_service.dart';
+import 'package:worked_days/data/entities/notification_pref_model.dart';
+import 'package:worked_days/data/entities/salary_model.dart';
+import 'package:worked_days/data/entities/settings_model.dart';
+import 'package:worked_days/data/entities/worked_day_model.dart';
+import 'package:worked_days/data/local_database/db_provider.dart';
 import 'package:worked_days/bloc/services/settings_service.dart';
 
 class MainCubit extends Cubit<MainCubitState> {
   MainCubit() : super(MainCubitInitial());
 
-  //?----------Events----------
   loadDataAndStartApp() async {
     emit(LoadingState());
 
-    //? GettingData
     NotificationPrefModel notificationPrefModel = await SettingsService.getNotificationStatus();
-    List<WorkDayModel> workedDaysData = await DataBaseHandlerService().getWorkDays();
+    List<WorkDayModel> workedDaysData = await DbProvider().getWorkDays();
     int defaultSalaryAmount = await SettingsService.getSalary();
-    List<SalaryModel> storedSalaries = DataBaseHandlerService().getSalaries();
+    List<SalaryModel> storedSalaries = await DbProvider().getSalaries();
+
+    print(storedSalaries);
 
     emit(
       LoadedStableState(
@@ -30,12 +30,11 @@ class MainCubit extends Cubit<MainCubitState> {
     );
   }
 
+  //? database
   insertWorkedDay(
       {required LoadedStableState loadedStableState, required WorkDayModel newWorkDayModel}) async {
-    //? DataBase
-    newWorkDayModel.id = await DataBaseHandlerService().insertWorkDay(newWorkDayModel);
+    newWorkDayModel.id = await DbProvider().insertWorkDay(newWorkDayModel);
 
-    //? StateUpdates
     List<WorkDayModel> listOfWorkDaysData = loadedStableState.workedDays;
 
     listOfWorkDaysData.add(newWorkDayModel);
@@ -51,10 +50,8 @@ class MainCubit extends Cubit<MainCubitState> {
   }
 
   deleteWorkDay({required int id, required LoadedStableState loadedStableState}) async {
-    //? DataBase
-    await DataBaseHandlerService().deleteWorkDay(id);
+    await DbProvider().deleteWorkDay(id);
 
-    //? StateUpdates
     List<WorkDayModel> listOfWorkDaysData = loadedStableState.workedDays;
 
     listOfWorkDaysData.removeWhere((element) => element.id == id);
@@ -69,13 +66,35 @@ class MainCubit extends Cubit<MainCubitState> {
     emit(newloadedStableState);
   }
 
+  insertSalary(
+      {required SalaryModel salaryModel, required LoadedStableState loadedStableState}) async {
+    List<SalaryModel> salaries = loadedStableState.salaries;
+
+    salaries.removeWhere((element) => element.id == salaryModel.id);
+    await DbProvider().deleteSalary(salaryModel.id);
+
+    int id = await DbProvider().insertSalary(salaryModel);
+
+    salaryModel.id = id;
+    salaries.add(salaryModel);
+    LoadedStableState newLoadedStableState = LoadedStableState(
+      notificationSettings: loadedStableState.notificationSettings,
+      salaries: salaries,
+      settingsModel: loadedStableState.settingsModel,
+      workedDays: loadedStableState.workedDays,
+    );
+
+    emit(newLoadedStableState);
+    // if (_isSalaryStoredAlready(loadedStableState, id)) {}
+  }
+
+  //? notification
   setNotificationSettings(
       {required LoadedStableState loadedStableState, required NotificationPrefModel nS}) async {
     //
-    //? Set the notification settings
+
     await SettingsService.setNotificationStatus(notificationPrefModel: nS);
 
-    //? StateUpdates
     LoadedStableState newloadedStableState = LoadedStableState(
       workedDays: loadedStableState.workedDays,
       notificationSettings: nS,
@@ -100,5 +119,4 @@ class MainCubit extends Cubit<MainCubitState> {
 
     emit(newloadedStableState);
   }
-  //* ----------tear down functions----------
 }
