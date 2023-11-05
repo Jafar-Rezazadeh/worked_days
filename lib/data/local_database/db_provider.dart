@@ -90,14 +90,16 @@ class DbProvider {
 
   //?=================================== salaries Table ===================================
 
+  // deleteAllDataInSalariesTable() async {
+  //   final Database db = await _openDb();
+
+  //   await db.rawDelete("DELETE FROM $salariesTable");
+  // }
+
   Future<int> insertSalary(SalaryModel salaryModel) async {
     final Database db = await _openDb();
 
-    int id = await db.insert(
-      salariesTable,
-      salaryModel.tomap_(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    int id = await db.insert(salariesTable, salaryModel.tomap_());
     return id;
   }
 

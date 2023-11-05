@@ -12,11 +12,9 @@ class ShowSavedSalaryCalc extends StatelessWidget {
 
   final TextEditingController salaryAmountTextFieldController = TextEditingController();
 
-  //Todo: make a table in db to save salaries
   @override
   Widget build(BuildContext context) {
-    salaryAmountTextFieldController.text = "${_setSalaryTotextField()} تومان";
-
+    salaryAmountTextFieldController.text = "0 تومان";
     return salaryCalcController.calcCountedWorkDays().isNotEmpty
         ? Expanded(
             child: Column(
@@ -45,19 +43,6 @@ class ShowSavedSalaryCalc extends StatelessWidget {
     return salaryCalcController.storedSalary != null ? true : false;
   }
 
-  Widget _paidSalary() {
-    return ifSalaryStored()
-        ? Text(
-            salaryCalcController.storedSalary?.salaryAmount.toString().seRagham() ?? "",
-            style: TextStyle(
-              color: ColorPallet.smoke,
-              fontSize: 11.sp,
-              fontWeight: FontWeight.bold,
-            ),
-          )
-        : Container();
-  }
-
   Widget _title() {
     return Text(
       ifSalaryStored() ? "حقوق پرداخت شده" : "ذخیره حقوق پرداختی",
@@ -66,6 +51,19 @@ class ShowSavedSalaryCalc extends StatelessWidget {
         fontSize: 11.sp,
       ),
     );
+  }
+
+  Widget _paidSalary() {
+    return ifSalaryStored()
+        ? Text(
+            "${salaryCalcController.storedSalary?.salaryAmount.toString().seRagham() ?? 0} تومان",
+            style: TextStyle(
+              color: ColorPallet.smoke,
+              fontSize: 11.sp,
+              fontWeight: FontWeight.bold,
+            ),
+          )
+        : Container();
   }
 
   Widget _updateOrSubmit({required BuildContext context}) {
@@ -81,6 +79,8 @@ class ShowSavedSalaryCalc extends StatelessWidget {
         },
         style: ButtonStyle(
           backgroundColor: MaterialStatePropertyAll<Color>(ColorPallet.green),
+          shadowColor: MaterialStatePropertyAll<Color>(ColorPallet.yaleBlue.withBlue(0)),
+          elevation: const MaterialStatePropertyAll<double>(5),
         ),
         child: Text(
           ifSalaryStored() ? "تغییر" : "ذخیره",
@@ -111,19 +111,17 @@ class ShowSavedSalaryCalc extends StatelessWidget {
               //? title
               Title(
                 color: Colors.black,
-                child: const Text("حقوق ماهیانه از"),
+                child: const Text("حقوق پرداخت شده رو به تومان وارد کنید"),
               ),
               //? salary input
               TextField(
                 onTap: () => salaryAmountTextFieldController.text = "",
                 onTapOutside: (event) {
                   if (salaryAmountTextFieldController.text.isEmpty) {
-                    salaryAmountTextFieldController.text = "${_setSalaryTotextField()} تومان";
+                    salaryAmountTextFieldController.text = "0 تومان";
                   }
-                  if (!salaryAmountTextFieldController.text.contains("تومان")) {
-                    salaryAmountTextFieldController.text =
-                        "${salaryAmountTextFieldController.text} تومان";
-                  }
+
+                  _addPrefixTextToTextField();
                 },
                 controller: salaryAmountTextFieldController,
                 cursorColor: ColorPallet.yaleBlue,
@@ -151,11 +149,11 @@ class ShowSavedSalaryCalc extends StatelessWidget {
                   children: [
                     FilledButton(
                       onPressed: () {
-                        int calculatedThisMonthSalary = _getCalculatedThisMonthSalary();
+                        int paidSalary = _getSalaryFromTextField();
 
                         SalaryModel salaryModel = SalaryModel(
                           id: salaryCalcController.storedSalary?.id ?? 0,
-                          salaryAmount: calculatedThisMonthSalary,
+                          salaryAmount: paidSalary,
                           dateTime: salaryCalcController.workedDaysTabController.currentMonth
                               .toDateTime(),
                         );
@@ -191,15 +189,14 @@ class ShowSavedSalaryCalc extends StatelessWidget {
     );
   }
 
-  String _setSalaryTotextField() {
-    return salaryCalcController
-        .workedDaysTabController.loadedStableState.settingsModel.salaryDefaultAmount
-        .toString()
-        .seRagham();
+  int _getSalaryFromTextField() {
+    return int.parse(
+        salaryAmountTextFieldController.text.extractNumber(toDigit: NumStrLanguage.English));
   }
 
-  int _getCalculatedThisMonthSalary() {
-    return salaryCalcController.calculateThisMonthSalary(int.parse(
-        salaryAmountTextFieldController.text.extractNumber(toDigit: NumStrLanguage.English)));
+  void _addPrefixTextToTextField() {
+    if (!salaryAmountTextFieldController.text.contains("تومان")) {
+      salaryAmountTextFieldController.text = "${salaryAmountTextFieldController.text} تومان";
+    }
   }
 }

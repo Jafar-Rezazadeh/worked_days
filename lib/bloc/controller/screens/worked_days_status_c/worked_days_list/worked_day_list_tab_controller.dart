@@ -59,9 +59,6 @@ class WorkedDaysTabController {
             element.dateTime.toJalali().year == _currentMonth.year,
       );
     } catch (e) {
-      if (kDebugMode) {
-        print(e.toString());
-      }
       return null;
     }
   }

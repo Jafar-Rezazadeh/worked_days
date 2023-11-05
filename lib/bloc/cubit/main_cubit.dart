@@ -18,7 +18,7 @@ class MainCubit extends Cubit<MainCubitState> {
     int defaultSalaryAmount = await SettingsService.getSalary();
     List<SalaryModel> storedSalaries = await DbProvider().getSalaries();
 
-    print(storedSalaries);
+    // print(storedSalaries);
 
     emit(
       LoadedStableState(
@@ -85,7 +85,6 @@ class MainCubit extends Cubit<MainCubitState> {
     );
 
     emit(newLoadedStableState);
-    // if (_isSalaryStoredAlready(loadedStableState, id)) {}
   }
 
   //? notification
