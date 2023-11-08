@@ -1,4 +1,4 @@
-import 'package:worked_days/data/entities/tables_column_names.dart';
+import 'package:worked_days/bloc/entities/tables_column_names.dart';
 
 class SalaryModel {
   int id;

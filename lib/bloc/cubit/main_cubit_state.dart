@@ -1,7 +1,7 @@
-import 'package:worked_days/data/entities/notification_pref_model.dart';
-import 'package:worked_days/data/entities/salary_model.dart';
-import 'package:worked_days/data/entities/settings_model.dart';
-import 'package:worked_days/data/entities/worked_day_model.dart';
+import 'package:worked_days/bloc/entities/notification_pref_model.dart';
+import 'package:worked_days/bloc/entities/salary_model.dart';
+import 'package:worked_days/bloc/entities/settings_model.dart';
+import 'package:worked_days/bloc/entities/worked_day_model.dart';
 
 abstract class MainCubitState {}
 

@@ -1,7 +1,7 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:worked_days/data/entities/notification_pref_model.dart';
+import 'package:worked_days/bloc/entities/notification_pref_model.dart';
 import 'package:worked_days/bloc/services/settings_service.dart';
 
 class NotificationService {
@@ -32,8 +32,7 @@ class NotificationService {
               await AwesomeNotifications().listScheduledNotifications();
 
           if (_isNotAlreadyScheduled(listOfnotif)) {
-            createPeriodicNotification(
-                notificationPrefModel.toTimeOfDay() ?? const TimeOfDay(hour: 18, minute: 0));
+            createPeriodicNotification(notificationPrefModel.toTimeOfDay());
           } else {
             if (kDebugMode) {
               print(listOfnotif.first.content!.id);
@@ -48,7 +47,7 @@ class NotificationService {
     NotificationPrefModel? notificationPrefModel = await SettingsService.getNotificationStatus();
     await cancelPeriodicNotifications();
     if (notificationPrefModel.notificationIsEnabled != null &&
-        notificationPrefModel.notificationIsEnabled != false) {
+        notificationPrefModel.notificationIsEnabled == true) {
       await AwesomeNotifications().createNotification(
         content: NotificationContent(
           id: 0,

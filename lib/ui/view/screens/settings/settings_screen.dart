@@ -7,8 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:worked_days/bloc/cubit/main_cubit.dart';
 import 'package:worked_days/bloc/cubit/main_cubit_state.dart';
 import 'package:worked_days/ui/extentions/to_persian_period.dart';
-import 'package:worked_days/data/entities/color_schema.dart';
-import 'package:worked_days/data/entities/notification_pref_model.dart';
+import 'package:worked_days/bloc/entities/color_schema.dart';
+import 'package:worked_days/bloc/entities/notification_pref_model.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -37,10 +37,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     if (mainCubit.state is LoadedStableState) {
       loadedStableState = mainCubit.state as LoadedStableState;
 
-      notificationPeriodInString = loadedStableState.notificationSettings.notificationPeriod ?? "";
-      isNotificationActive = loadedStableState.notificationSettings.notificationIsEnabled!;
-      salaryTextEditingController.text = loadedStableState.settingsModel.salaryDefaultAmount != 1
-          ? loadedStableState.settingsModel.salaryDefaultAmount.toString().seRagham()
+      notificationPeriodInString = loadedStableState.notificationSettings.notificationPeriod;
+      isNotificationActive = loadedStableState.notificationSettings.notificationIsEnabled;
+      salaryTextEditingController.text = loadedStableState.settingsModel.salaryDefaultAmount != null
+          ? "${loadedStableState.settingsModel.salaryDefaultAmount.toString().seRagham()} تومان"
           : "میزان حقوق را وارد کنید";
     }
   }
@@ -56,26 +56,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           backgroundColor: ColorPallet.yaleBlue,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: ElevatedButton(
-          style: ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll<Color>(ColorPallet.yaleBlue),
-            foregroundColor: MaterialStatePropertyAll<Color>(ColorPallet.smoke),
-            textStyle: MaterialStatePropertyAll<TextStyle>(
-              TextStyle(fontSize: 20.sp, fontFamily: "Vazir"),
-            ),
-            minimumSize: MaterialStatePropertyAll<Size>(Size(0.9.sw, 50)),
-            shape: const MaterialStatePropertyAll<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(5),
-                  topRight: Radius.circular(5),
-                ),
-              ),
-            ),
-          ),
-          onPressed: () => _submit(),
-          child: const Text("ذخیره"),
-        ),
+        floatingActionButton: _elevatedButton(),
         body: Directionality(
           textDirection: TextDirection.rtl,
           child: ExpandableTheme(
@@ -235,13 +216,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
             onTap: () => salaryTextEditingController.clear(),
             controller: salaryTextEditingController,
             onChanged: (value) =>
-                salaryTextEditingController.text = value.seRagham().toEnglishDigit(),
+                salaryTextEditingController.text = "${value.seRagham().toEnglishDigit()} تومان",
             inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9۰-۹]'))],
             decoration: const InputDecoration(
               contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               border: OutlineInputBorder(),
             ),
             textAlign: TextAlign.center,
+            textDirection: TextDirection.rtl,
           ),
           Align(
             alignment: Alignment.center,
@@ -272,5 +254,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
 
     if (mounted) Navigator.pop(context);
+  }
+
+  Widget _elevatedButton() {
+    return ElevatedButton(
+      style: ButtonStyle(
+        backgroundColor: MaterialStatePropertyAll<Color>(ColorPallet.yaleBlue),
+        foregroundColor: MaterialStatePropertyAll<Color>(ColorPallet.smoke),
+        textStyle: MaterialStatePropertyAll<TextStyle>(
+          TextStyle(fontSize: 20.sp, fontFamily: "Vazir"),
+        ),
+        minimumSize: MaterialStatePropertyAll<Size>(Size(0.9.sw, 50)),
+        shape: const MaterialStatePropertyAll<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(5),
+              topRight: Radius.circular(5),
+            ),
+          ),
+        ),
+      ),
+      onPressed: () => _submit(),
+      child: const Text("ذخیره"),
+    );
   }
 }

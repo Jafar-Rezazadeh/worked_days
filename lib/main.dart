@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:worked_days/bloc/controller/main_screen_controller.dart';
 import 'package:worked_days/bloc/cubit/main_cubit.dart';
 import 'package:worked_days/bloc/cubit/main_cubit_state.dart';
-import 'package:worked_days/data/entities/notification_pref_model.dart';
+import 'package:worked_days/bloc/entities/notification_pref_model.dart';
 import 'package:worked_days/bloc/services/notification_service.dart';
 import 'package:worked_days/bloc/services/settings_service.dart';
 import 'package:worked_days/ui/view/screens/error/error_screen.dart';
@@ -14,9 +14,13 @@ import 'package:worked_days/ui/view/screens/worked_days_status/worked_days_statu
 
 Future<void> main(List<String> args) async {
   await ScreenUtil.ensureScreenSize();
-  runApp(const WorkedDays());
-
   NotificationService.initalize();
+  runApp(
+    MaterialApp(
+      theme: ThemeData(fontFamily: "Vazir"),
+      home: const WorkedDays(),
+    ),
+  );
 }
 
 class WorkedDays extends StatefulWidget {
@@ -32,6 +36,7 @@ class _WorkedDaysState extends State<WorkedDays> {
   @override
   void initState() {
     super.initState();
+
     showDoYouWannaGetNotificationOrNot();
   }
 
@@ -45,20 +50,17 @@ class _WorkedDaysState extends State<WorkedDays> {
           //
           BlocProvider.of<MainCubit>(context).loadDataAndStartApp();
 
-          return MaterialApp(
-            theme: ThemeData(fontFamily: "Vazir"),
-            home: BlocBuilder<MainCubit, MainCubitState>(
-              builder: (context, state) {
-                if (state is LoadingState) {
-                  return const LoadingScreen();
-                }
-                if (state is LoadedStableState) {
-                  return const WorkedDaysStatusScreen();
-                } else {
-                  return const ErrorScreen(errorMessage: "There is some error");
-                }
-              },
-            ),
+          return BlocBuilder<MainCubit, MainCubitState>(
+            builder: (context, state) {
+              if (state is LoadingState) {
+                return const LoadingScreen();
+              }
+              if (state is LoadedStableState) {
+                return const WorkedDaysStatusScreen();
+              } else {
+                return const ErrorScreen(errorMessage: "There is some error");
+              }
+            },
           );
         },
       ),

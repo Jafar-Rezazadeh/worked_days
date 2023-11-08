@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:sqflite/sqflite.dart';
-import 'package:worked_days/data/entities/salary_model.dart';
-import 'package:worked_days/data/entities/worked_day_model.dart';
+import 'package:worked_days/bloc/entities/salary_model.dart';
+import 'package:worked_days/bloc/entities/worked_day_model.dart';
 import 'package:path/path.dart' show join;
-import 'package:worked_days/data/entities/tables_column_names.dart';
+import 'package:worked_days/bloc/entities/tables_column_names.dart';
 
 class DbProvider {
   final workedDayTable = "WorkedDays";
@@ -18,7 +18,8 @@ class DbProvider {
         path,
         version: 5,
         onCreate: (db, version) async {
-          await db.execute('''
+          await db.execute(
+            '''
           CREATE TABLE $workedDayTable (
             ${WorkedDaysColumnNames.id.name} INTEGER PRIMARY KEY AUTOINCREMENT,
             ${WorkedDaysColumnNames.title.name} TEXT,
@@ -30,19 +31,29 @@ class DbProvider {
             ${WorkedDaysColumnNames.dayOff.name} INTEGER,
             ${WorkedDaysColumnNames.publicHoliday.name} INTEGER
           )
-          ''');
-        },
-        onUpgrade: (db, oldVersion, newVersion) async {
-          if (newVersion > 3) {
-            if (await _salaryTableNotExsist(db)) {
-              await db.execute('''
+          ''',
+          );
+          await db.execute(
+            '''
               CREATE TABLE $salariesTable (
                 ${SalariesColumnNames.id.name} INTEGER PRIMARY KEY AUTOINCREMENT,
                 ${SalariesColumnNames.salary.name} INTEGER,
                 ${WorkedDaysColumnNames.dateTime.name} TEXT
               )
-              ''');
-            }
+            ''',
+          );
+        },
+        onUpgrade: (db, oldVersion, newVersion) async {
+          if (await _salaryTableNotExsist(db)) {
+            await db.execute(
+              '''
+              CREATE TABLE $salariesTable (
+                ${SalariesColumnNames.id.name} INTEGER PRIMARY KEY AUTOINCREMENT,
+                ${SalariesColumnNames.salary.name} INTEGER,
+                ${WorkedDaysColumnNames.dateTime.name} TEXT
+              )
+              ''',
+            );
           }
         },
       );

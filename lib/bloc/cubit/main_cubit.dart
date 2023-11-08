@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worked_days/bloc/cubit/main_cubit_state.dart';
-import 'package:worked_days/data/entities/notification_pref_model.dart';
-import 'package:worked_days/data/entities/salary_model.dart';
-import 'package:worked_days/data/entities/settings_model.dart';
-import 'package:worked_days/data/entities/worked_day_model.dart';
+import 'package:worked_days/bloc/entities/notification_pref_model.dart';
+import 'package:worked_days/bloc/entities/salary_model.dart';
+import 'package:worked_days/bloc/entities/settings_model.dart';
+import 'package:worked_days/bloc/entities/worked_day_model.dart';
 import 'package:worked_days/data/local_database/db_provider.dart';
 import 'package:worked_days/bloc/services/settings_service.dart';
 
@@ -15,7 +15,7 @@ class MainCubit extends Cubit<MainCubitState> {
 
     NotificationPrefModel notificationPrefModel = await SettingsService.getNotificationStatus();
     List<WorkDayModel> workedDaysData = await DbProvider().getWorkDays();
-    int defaultSalaryAmount = await SettingsService.getSalary();
+    int? defaultSalaryAmount = await SettingsService.getSalary();
     List<SalaryModel> storedSalaries = await DbProvider().getSalaries();
 
     // print(storedSalaries);

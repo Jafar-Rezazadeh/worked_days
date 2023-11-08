@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:worked_days/ui/extentions/to_persian_period.dart';
-import 'package:worked_days/data/entities/notification_pref_model.dart';
-import 'package:worked_days/data/entities/prefs_keys.dart';
+import 'package:worked_days/bloc/entities/notification_pref_model.dart';
+import 'package:worked_days/bloc/entities/prefs_keys.dart';
 
 class SharedPreferencesService {
   Future<SharedPreferences> getPrefs() async {
@@ -45,13 +45,9 @@ class SharedPreferencesService {
     }
   }
 
-  static Future<int> getSalaryAmountPref() async {
-    try {
-      final prefs = await SharedPreferencesService().getPrefs();
-      int salaryAmount = prefs.getInt(PrefNames.salaryAmount.name) ?? 1;
-      return salaryAmount;
-    } catch (e) {
-      return 1;
-    }
+  static Future<int?> getSalaryAmountPref() async {
+    final prefs = await SharedPreferencesService().getPrefs();
+    int? salaryAmount = prefs.getInt(PrefNames.salaryAmount.name);
+    return salaryAmount;
   }
 }

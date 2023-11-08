@@ -2,8 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:worked_days/bloc/cubit/main_cubit.dart';
 import 'package:worked_days/bloc/cubit/main_cubit_state.dart';
-import 'package:worked_days/data/entities/salary_model.dart';
-import 'package:worked_days/data/entities/worked_day_model.dart';
+import 'package:worked_days/bloc/entities/salary_model.dart';
+import 'package:worked_days/bloc/entities/worked_day_model.dart';
 
 class WorkedDaysTabController {
   late LoadedStableState _loadedStableState;

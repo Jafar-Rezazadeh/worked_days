@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:worked_days/bloc/cubit/main_cubit.dart';
 import 'package:worked_days/bloc/cubit/main_cubit_state.dart';
-import 'package:worked_days/data/entities/worked_day_model.dart';
+import 'package:worked_days/bloc/entities/worked_day_model.dart';
 import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/parts/get_today_status_/get_today_status.dart';
 import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/parts/show_today_status/show_saved_status.dart';
 

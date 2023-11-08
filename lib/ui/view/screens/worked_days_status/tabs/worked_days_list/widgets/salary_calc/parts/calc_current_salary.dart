@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:worked_days/bloc/controller/screens/worked_days_status_c/worked_days_list/widgets/salary_cal_controller.dart';
 import 'package:worked_days/bloc/controller/screens/worked_days_status_c/worked_days_list/worked_day_list_tab_controller.dart';
-import 'package:worked_days/data/entities/color_schema.dart';
+import 'package:worked_days/bloc/entities/color_schema.dart';
 
 class CalcCurrentMonthSalary extends StatelessWidget {
   final WorkedDaysTabController workedDaysTabController;
@@ -13,39 +13,22 @@ class CalcCurrentMonthSalary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (workedDaysTabController.loadedStableState.settingsModel.salaryDefaultAmount != 1) {
-      return Column(
-        textDirection: TextDirection.rtl,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _thisMonthSalary(),
-          _workedDaysCount(),
-          _dayOff(),
-        ],
-      );
-    } else {
-      return Column(
-        textDirection: TextDirection.rtl,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "لطفا از بخش تنظیمات حقوق را وارد کنید",
-            style: TextStyle(
-              fontSize: 17.sp,
-              color: ColorPallet.smoke,
-            ),
-          ),
-        ],
-      );
-    }
+    return Column(
+      textDirection: TextDirection.rtl,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _thisMonthSalary(),
+        _workedDaysCount(),
+        _dayOff(),
+      ],
+    );
   }
 
   Widget _thisMonthSalary() {
     return Row(
       children: [
-        Text("حقوق این ماه: ", style: _titleStyle()),
+        Text("حقوق تا امروز: ", style: _titleStyle()),
         Text(
           "${salaryCalcController.calculateThisMonthSalary(null).toString().seRagham()} تومان",
           style: _descriptionStyle(),

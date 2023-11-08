@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:worked_days/data/entities/notification_pref_model.dart';
+import 'package:worked_days/bloc/entities/notification_pref_model.dart';
 import 'package:worked_days/bloc/services/notification_service.dart';
 import 'package:worked_days/bloc/services/shared_pref_service.dart';
 
@@ -16,13 +15,7 @@ class SettingsService {
 
     if (_isNotificationPeriodSet(notificationPrefModel)) {
       if (_isNotificationActive(notificationPrefModel)) {
-        NotificationService.createPeriodicNotification(
-          TimeOfDay(
-            hour: int.parse(notificationPrefModel.notificationPeriod!.split(':').first),
-            minute:
-                int.parse(notificationPrefModel.notificationPeriod!.split(':')[1].split(" ").first),
-          ),
-        );
+        NotificationService.createPeriodicNotification(notificationPrefModel.toTimeOfDay());
       } else {
         NotificationService.cancelPeriodicNotifications();
       }
@@ -37,8 +30,8 @@ class SettingsService {
     return notificationPrefModel.notificationPeriod != null;
   }
 
-  static Future<int> getSalary() async {
-    int salaryAmount = await SharedPreferencesService.getSalaryAmountPref();
+  static Future<int?> getSalary() async {
+    int? salaryAmount = await SharedPreferencesService.getSalaryAmountPref();
 
     return salaryAmount;
   }

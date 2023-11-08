@@ -1,5 +1,5 @@
 class SettingsModel {
-  final int salaryDefaultAmount;
+  final int? salaryDefaultAmount;
 
   SettingsModel({required this.salaryDefaultAmount});
 }

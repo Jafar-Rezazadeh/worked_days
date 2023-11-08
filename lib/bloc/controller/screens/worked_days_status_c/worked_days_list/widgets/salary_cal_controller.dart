@@ -1,6 +1,7 @@
+import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:worked_days/bloc/controller/screens/worked_days_status_c/worked_days_list/worked_day_list_tab_controller.dart';
-import 'package:worked_days/data/entities/salary_model.dart';
-import 'package:worked_days/data/entities/worked_day_model.dart';
+import 'package:worked_days/bloc/entities/salary_model.dart';
+import 'package:worked_days/bloc/entities/worked_day_model.dart';
 
 class SalaryCalcController {
   final WorkedDaysTabController workedDaysTabController;
@@ -16,7 +17,7 @@ class SalaryCalcController {
   //
 
   int calculateThisMonthSalary(int? salary) {
-    salary ??= workedDaysTabController.loadedStableState.settingsModel.salaryDefaultAmount;
+    salary ??= workedDaysTabController.loadedStableState.settingsModel.salaryDefaultAmount ?? 0;
 
     int currentMonthLength = workedDaysTabController.currentMonth.monthLength;
     // print(currentMonthLength);
@@ -43,5 +44,32 @@ class SalaryCalcController {
     return workedDaysTabController.listOfCurrentMonthWorkedDays
         .where((element) => element.dayOff == true)
         .toList();
+  }
+
+  insertSalary({required SalaryCalcController salaryCalcController, required String paidSalary}) {
+    SalaryModel salaryModel = SalaryModel(
+      id: salaryCalcController.storedSalary?.id ?? 0,
+      salaryAmount: _extractNumberFromString(paidSalary),
+      dateTime: salaryCalcController.workedDaysTabController.currentMonth.toDateTime(),
+    );
+
+    salaryCalcController.workedDaysTabController.mainCubit.insertSalary(
+      loadedStableState: salaryCalcController.workedDaysTabController.loadedStableState,
+      salaryModel: salaryModel,
+    );
+  }
+
+  int _extractNumberFromString(String paidSalary) {
+    return int.parse(
+      paidSalary.extractNumber(toDigit: NumStrLanguage.English),
+    );
+  }
+
+  bool ifSalaryStored() {
+    return storedSalary != null ? true : false;
+  }
+
+  bool ifSalaryAmountIsSet() {
+    return workedDaysTabController.loadedStableState.settingsModel.salaryDefaultAmount != null;
   }
 }

@@ -5,12 +5,14 @@ class NotificationPrefModel {
   final String? notificationPeriod;
   NotificationPrefModel({required this.notificationIsEnabled, required this.notificationPeriod});
 
-  TimeOfDay? toTimeOfDay() {
-    notificationPeriod;
+  TimeOfDay toTimeOfDay() {
     if (notificationPeriod == null) {
-      return null;
+      return const TimeOfDay(hour: 18, minute: 0);
     } else {
-      return const TimeOfDay(hour: 00, minute: 00);
+      return TimeOfDay(
+        hour: int.parse(notificationPeriod!.split(':').first),
+        minute: int.parse(notificationPeriod!.split(':')[1].split(" ").first),
+      );
     }
   }
 }
