@@ -7,7 +7,6 @@
 
 ![workedDays](https://github.com/Jafar-Rezazadeh/worked_days/assets/59100135/1b60af51-08dc-4bc4-9932-a874f3074e65)
 
-
 ### Preview
 
 ![alt](https://)
