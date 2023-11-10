@@ -1,16 +1,15 @@
 # worked_days
 
-A new Flutter project.
+نرم افزاری برای ذخیره و محاسبه روز های کاری بصورت شخصی
 
-## Getting Started
+- State Managment: Cubit(bloc)
+- Architecture pattern :
 
-This project is a starting point for a Flutter application.
+![alt](https://)
 
-A few resources to get you started if this is your first Flutter project:
+### Preview
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![alt](https://)
+![alt](https://)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<br/>
