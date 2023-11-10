@@ -16,7 +16,7 @@ class DbProvider {
       final path = join(databasePath, "WD.db");
       db = await openDatabase(
         path,
-        version: 5,
+        version: 2,
         onCreate: (db, version) async {
           await db.execute(
             '''
@@ -62,9 +62,10 @@ class DbProvider {
   }
 
   Future<bool> _salaryTableNotExsist(Database db) async {
-    return await db.query("sqlite_master", where: "name = ?", whereArgs: [salariesTable]) == []
-        ? true
-        : false;
+    var tableInfo = await db
+        .rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='$salariesTable';");
+
+    return tableInfo.isEmpty;
   }
 
   //?=================================== worked days Table===================================
