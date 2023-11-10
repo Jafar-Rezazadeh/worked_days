@@ -21,6 +21,6 @@
 - Architecture pattern :
 
 <img style="height:800px; width:500px;" src="https://github.com/Jafar-Rezazadeh/worked_days/assets/59100135/69d64cab-0b04-4fd9-895e-c03219705d7a" />
-![workedDays(1)]()
+
 
 <br/>
