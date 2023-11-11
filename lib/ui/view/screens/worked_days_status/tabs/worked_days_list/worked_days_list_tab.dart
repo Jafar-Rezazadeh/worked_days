@@ -43,6 +43,7 @@ class _WorkDaysListLayoutState extends State<WorkDaysListTab> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        //
         MonthSelectorWidget(
           onCurrentMonthChanged: (value) => setState(() {
             workedDaysTabController.setCurrentMonth = value;
@@ -50,11 +51,16 @@ class _WorkDaysListLayoutState extends State<WorkDaysListTab> {
           }),
           currentMonth: workedDaysTabController.currentMonth,
         ),
-        const UnknownDays(),
+        //
+        UnknownDays(
+          workedDaysTabController: workedDaysTabController,
+        ),
+        //
         WorkedDaysTableWidget(
           context: context,
           workedDaysTabController: workedDaysTabController,
         ),
+        //
         SalaryCalcWidget(
           workedDaysTabController: workedDaysTabController,
         ),

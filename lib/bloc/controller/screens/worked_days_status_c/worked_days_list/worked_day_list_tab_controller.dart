@@ -31,7 +31,11 @@ class WorkedDaysTabController {
   }
 
   set setCurrentMonth(Jalali value) {
-    _currentMonth = value;
+    if (value.month != Jalali.now().month) {
+      _currentMonth = value.withDay(1);
+    } else {
+      _currentMonth = value;
+    }
   }
 
   List<WorkDayModel> getCurrentSelectedDateWorkedDays() {
@@ -61,5 +65,31 @@ class WorkedDaysTabController {
     } catch (e) {
       return null;
     }
+  }
+
+  extractUnknownDaysOfCurrentMonth() {
+    Jalali localCurrentMonth = _currentMonth;
+
+    localCurrentMonth = localCurrentMonth.addDays(-_currentMonth.day);
+
+    List<Jalali> unknownDaysJalaliDateList = [];
+
+    for (int i = 1; i <= _currentMonth.monthLength; i++) {
+      localCurrentMonth = localCurrentMonth.addDays(1);
+
+      if (_listOfCurrentMonthWorkedDays.any(
+        (element) =>
+            element.dateTime.toJalali().month == localCurrentMonth.month &&
+            element.dateTime.toJalali().day == localCurrentMonth.day,
+      )) {
+      } else {
+        unknownDaysJalaliDateList.add(localCurrentMonth);
+      }
+    }
+
+    print("unknown days ${unknownDaysJalaliDateList.length}");
+    // print("list of unknown days Date: $unknownDaysJalaliDateList");
+
+    return unknownDaysJalaliDateList.length;
   }
 }
