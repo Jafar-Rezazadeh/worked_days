@@ -87,8 +87,13 @@ class WorkedDaysTabController {
       }
     }
 
-    print("unknown days ${unknownDaysJalaliDateList.length}");
+    //print("unknown days ${unknownDaysJalaliDateList.length}");
     // print("list of unknown days Date: $unknownDaysJalaliDateList");
+
+    if (_currentMonth.year == Jalali.now().year && _currentMonth.month == Jalali.now().month) {
+      unknownDaysJalaliDateList =
+          unknownDaysJalaliDateList.where((element) => element.day < Jalali.now().day).toList();
+    }
 
     return unknownDaysJalaliDateList.length;
   }

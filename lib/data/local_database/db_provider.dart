@@ -73,7 +73,7 @@ class DbProvider {
     final Database db = await _openDb();
     List<Map<String, dynamic>> dataAsMap = await db.query(workedDayTable);
 
-    return List.generate(
+    List<WorkDayModel> listOfWorkDays = List.generate(
       dataAsMap.length,
       (i) => WorkDayModel(
         id: dataAsMap[i][WorkedDaysColumnNames.id.name],
@@ -87,6 +87,9 @@ class DbProvider {
         publicHoliday: dataAsMap[i][WorkedDaysColumnNames.publicHoliday.name] == 1 ? true : false,
       ),
     );
+
+    listOfWorkDays.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+    return listOfWorkDays;
   }
 
   Future<int> insertWorkDay(WorkDayModel workDayModel) async {

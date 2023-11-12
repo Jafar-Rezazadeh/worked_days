@@ -15,7 +15,7 @@ class CalcCurrentMonthSalary extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       textDirection: TextDirection.rtl,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _thisMonthSalary(),

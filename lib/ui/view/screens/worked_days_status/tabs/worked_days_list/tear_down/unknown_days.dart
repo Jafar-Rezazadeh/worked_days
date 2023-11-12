@@ -32,8 +32,11 @@ class UnknownDays extends StatelessWidget {
             SizedBox(
               height: 30.sp,
               child: ElevatedButton(
-                onPressed:
-                    workedDaysTabController.currentMonth.month == Jalali.now().month ? () {} : null,
+                onPressed: ifIsCurrentMonth()
+                    ? () {
+                        //Todo: make a ui to show the unknown Days
+                      }
+                    : null,
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
                     if (states.contains(MaterialState.disabled)) {
@@ -51,5 +54,10 @@ class UnknownDays extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  bool ifIsCurrentMonth() {
+    return workedDaysTabController.currentMonth.month == Jalali.now().month &&
+        workedDaysTabController.currentMonth.year == Jalali.now().year;
   }
 }
