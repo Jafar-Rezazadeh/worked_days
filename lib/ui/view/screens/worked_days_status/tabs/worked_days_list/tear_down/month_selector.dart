@@ -22,24 +22,28 @@ class MonthSelectorWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            //? backward
             ElevatedButton(
               onPressed: () {
                 onCurrentMonthChanged(currentMonth.addMonths(-1));
               },
-              style: backAndForwardButtonStyle(),
+              style: _backAndForwardButtonStyle(),
               child: const Icon(Icons.keyboard_arrow_left),
             ),
             GestureDetector(
               onTap: () async {},
               child: Text(ShamsiFormatterService.getYearAndMonth(currentMonth)),
             ),
+            //? forward
             ElevatedButton(
               onPressed: () {
                 if (_selectedDateNotBiggerThanNow()) {
                   onCurrentMonthChanged(currentMonth.addMonths(1));
                 }
               },
-              style: backAndForwardButtonStyle(),
+              style: _selectedDateNotBiggerThanNow()
+                  ? _backAndForwardButtonStyle()
+                  : _disabledButtonStyle(),
               child: const Icon(Icons.keyboard_arrow_right),
             ),
           ],
@@ -48,13 +52,27 @@ class MonthSelectorWidget extends StatelessWidget {
     );
   }
 
-  ButtonStyle backAndForwardButtonStyle() {
+  ButtonStyle _backAndForwardButtonStyle() {
     return ButtonStyle(
       backgroundColor: MaterialStatePropertyAll<Color>(ColorPallet.yaleBlue),
       shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
         RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.sp)),
           side: BorderSide(color: ColorPallet.orange, width: 2),
+        ),
+      ),
+    );
+  }
+
+  ButtonStyle _disabledButtonStyle() {
+    return ButtonStyle(
+      enableFeedback: false,
+      splashFactory: NoSplash.splashFactory,
+      backgroundColor: MaterialStatePropertyAll<Color>(ColorPallet.yaleBlue.withOpacity(0.5)),
+      shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.sp)),
+          side: BorderSide(color: ColorPallet.yaleBlue.withOpacity(0.3), width: 2),
         ),
       ),
     );
