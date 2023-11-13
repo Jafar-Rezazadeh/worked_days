@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:worked_days/bloc/services/shamsi_formater_service.dart';
+import 'package:worked_days/ui/extentions/shamsi_formater.dart';
 import 'package:worked_days/bloc/entities/color_schema.dart';
 import 'package:worked_days/bloc/entities/worked_day_model.dart';
 
@@ -26,7 +26,7 @@ class ShowSavedStatus extends StatelessWidget {
         children: [
           _customizedText("وضعیت امروز ", color: ColorPallet.yaleBlue, sizeMultiplier: 1.8),
           SizedBox(height: 20.sp),
-          _customizedText(ShamsiFormatterService.getTodayFullDateTime(null)),
+          _customizedText(FormatJalaliTo.getTodayFullDateTime(null)),
           SizedBox(height: 10.sp),
           _customizedText(
             todayStatus.title,

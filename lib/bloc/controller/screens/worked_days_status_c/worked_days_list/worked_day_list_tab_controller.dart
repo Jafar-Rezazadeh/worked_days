@@ -67,7 +67,7 @@ class WorkedDaysTabController {
     }
   }
 
-  extractUnknownDaysOfCurrentMonth() {
+  List<Jalali> extractUnknownDaysOfCurrentMonth() {
     Jalali localCurrentMonth = _currentMonth;
 
     localCurrentMonth = localCurrentMonth.addDays(-_currentMonth.day);
@@ -95,6 +95,6 @@ class WorkedDaysTabController {
           unknownDaysJalaliDateList.where((element) => element.day < Jalali.now().day).toList();
     }
 
-    return unknownDaysJalaliDateList.length;
+    return unknownDaysJalaliDateList;
   }
 }

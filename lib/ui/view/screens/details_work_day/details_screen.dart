@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:worked_days/bloc/cubit/main_cubit_state.dart';
-import 'package:worked_days/bloc/services/shamsi_formater_service.dart';
+import 'package:worked_days/ui/extentions/shamsi_formater.dart';
 import 'package:worked_days/bloc/entities/color_schema.dart';
 import 'package:worked_days/bloc/entities/worked_day_model.dart';
 
@@ -36,7 +36,7 @@ class DetailsWorkDay extends StatelessWidget {
               const SizedBox(height: 20),
               _textContainer(
                 title: "تاریخ",
-                txt: ShamsiFormatterService.getTodayFullDateTime(workDayModel.dateTime),
+                txt: FormatJalaliTo.getTodayFullDateTime(workDayModel.dateTime),
                 fontsizeMult: -2,
               ),
               const SizedBox(height: 20),

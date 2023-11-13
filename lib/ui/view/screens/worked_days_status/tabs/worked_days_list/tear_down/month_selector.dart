@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:worked_days/bloc/entities/color_schema.dart';
-import 'package:worked_days/bloc/services/shamsi_formater_service.dart';
+import 'package:worked_days/ui/extentions/shamsi_formater.dart';
 
 class MonthSelectorWidget extends StatelessWidget {
   final Function(Jalali value) onCurrentMonthChanged;
@@ -32,7 +32,7 @@ class MonthSelectorWidget extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () async {},
-              child: Text(ShamsiFormatterService.getYearAndMonth(currentMonth)),
+              child: Text(FormatJalaliTo.yearAndMonth(currentMonth)),
             ),
             //? forward
             ElevatedButton(
@@ -83,6 +83,5 @@ class MonthSelectorWidget extends StatelessWidget {
             !currentMonth.compareTo(Jalali.now()).isNegative
         ? false
         : true;
-    // return currentMonth.year <= Jalali.now().year && currentMonth.month < Jalali.now().month;
   }
 }
