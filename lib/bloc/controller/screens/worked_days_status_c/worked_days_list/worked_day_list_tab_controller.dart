@@ -40,13 +40,16 @@ class WorkedDaysTabController {
 
   List<WorkDayModel> getCurrentSelectedDateWorkedDays() {
     try {
-      return _loadedStableState.workedDays
+      List<WorkDayModel> result = _loadedStableState.workedDays
           .where(
             (element) =>
                 element.dateTime.toJalali().month == _currentMonth.month &&
                 element.dateTime.toJalali().year == _currentMonth.year,
           )
           .toList();
+
+      result.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+      return result;
     } catch (e) {
       if (kDebugMode) {
         print(e.toString());
@@ -96,5 +99,9 @@ class WorkedDaysTabController {
     }
 
     return unknownDaysJalaliDateList;
+  }
+
+  insertUnknownDayToDb(WorkDayModel workDayModel) {
+    mainCubit.insertWorkedDay(loadedStableState: loadedStableState, newWorkDayModel: workDayModel);
   }
 }

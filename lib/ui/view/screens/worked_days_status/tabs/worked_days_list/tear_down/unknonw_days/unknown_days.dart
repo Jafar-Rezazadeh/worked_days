@@ -37,7 +37,10 @@ class UnknownDays extends StatelessWidget {
                       onPressed: () {
                         showDialog(
                           context: context,
-                          builder: (context) => SelectUnknownDay(unknownDaysDateTime: unknownDays),
+                          builder: (context) => SelectUnknownDay(
+                            unknownDaysDateTime: unknownDays,
+                            workedDaysTabController: workedDaysTabController,
+                          ),
                         );
                       },
                       style: ButtonStyle(

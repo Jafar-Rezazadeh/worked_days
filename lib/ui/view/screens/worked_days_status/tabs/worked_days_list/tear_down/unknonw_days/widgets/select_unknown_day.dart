@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shamsi_date/shamsi_date.dart';
+import 'package:worked_days/bloc/controller/screens/worked_days_status_c/worked_days_list/worked_day_list_tab_controller.dart';
 import 'package:worked_days/bloc/entities/color_schema.dart';
 import 'package:worked_days/ui/extentions/shamsi_formater.dart';
+import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_/get_today_status.dart';
 
 class SelectUnknownDay extends StatelessWidget {
   final List<Jalali> unknownDaysDateTime;
-  const SelectUnknownDay({super.key, required this.unknownDaysDateTime});
+  final WorkedDaysTabController workedDaysTabController;
+  const SelectUnknownDay({
+    super.key,
+    required this.unknownDaysDateTime,
+    required this.workedDaysTabController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -46,28 +53,19 @@ class SelectUnknownDay extends StatelessWidget {
         itemCount: unknownDaysDateTime.length,
         itemBuilder: (context, index) {
           return Center(
-            child: _item(item: unknownDaysDateTime[index]),
+            child: _item(item: unknownDaysDateTime[index], context: context),
           );
         },
       ),
     );
   }
 
-  Widget _item({required Jalali item}) {
+  Widget _item({required Jalali item, required BuildContext context}) {
     return GestureDetector(
-      onTap: () {
-        //Todo: show the add today status and insert it in db and rewrite the controlller for get today status
-        print(FormatJalaliTo.dayAndMonth(item.toDateTime()));
-      },
+      onTap: () => _getUnkownDayStatusAndSaveIt(context, item),
       child: Container(
         decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: ColorPallet.yaleBlue,
-              blurRadius: 5,
-              spreadRadius: 1,
-            )
-          ],
+          boxShadow: [BoxShadow(color: ColorPallet.yaleBlue, blurRadius: 5, spreadRadius: 1)],
           borderRadius: BorderRadius.circular(10),
         ),
         child: Container(
@@ -78,10 +76,25 @@ class SelectUnknownDay extends StatelessWidget {
             color: ColorPallet.smoke,
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Text(
-            FormatJalaliTo.dayAndMonth(item.toDateTime()),
-            style: const TextStyle(),
-          ),
+          child: Text(FormatJalaliTo.dayAndMonth(item.toDateTime()), style: const TextStyle()),
+        ),
+      ),
+    );
+  }
+
+  void _getUnkownDayStatusAndSaveIt(BuildContext context, Jalali item) {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: GetTodayStatus(
+          currentDateTime: item.toDateTime(),
+          onSubmit: (value) {
+            workedDaysTabController.insertUnknownDayToDb(value);
+            Navigator.of(context)
+              ..pop()
+              ..pop();
+          },
         ),
       ),
     );
