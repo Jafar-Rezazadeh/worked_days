@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
-import 'package:worked_days/bloc/controller/screens/worked_days_status_c/worked_days_list/widgets/salary_cal_controller.dart';
-import 'package:worked_days/bloc/controller/screens/worked_days_status_c/worked_days_list/worked_day_list_tab_controller.dart';
+import 'package:worked_days/bloc/controller/screens/worked_days_status_screen/worked_days_list/widgets/salary_cal_controller.dart';
+import 'package:worked_days/bloc/controller/screens/worked_days_status_screen/worked_days_list/worked_day_list_tab_controller.dart';
 import 'package:worked_days/bloc/entities/color_schema.dart';
 
 class CalcCurrentMonthSalary extends StatelessWidget {

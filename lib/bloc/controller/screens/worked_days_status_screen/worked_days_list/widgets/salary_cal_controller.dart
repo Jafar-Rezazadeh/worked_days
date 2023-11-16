@@ -1,5 +1,5 @@
 import 'package:persian_number_utility/persian_number_utility.dart';
-import 'package:worked_days/bloc/controller/screens/worked_days_status_c/worked_days_list/worked_day_list_tab_controller.dart';
+import 'package:worked_days/bloc/controller/screens/worked_days_status_screen/worked_days_list/worked_day_list_tab_controller.dart';
 import 'package:worked_days/bloc/entities/salary_model.dart';
 import 'package:worked_days/bloc/entities/worked_day_model.dart';
 

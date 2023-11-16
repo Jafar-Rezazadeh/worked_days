@@ -12,7 +12,7 @@ import '../../../../../../../extentions/to_persian_period.dart';
 
 class GetTodayStatus extends StatefulWidget {
   final DateTime? currentDateTime;
-  final ValueChanged<WorkDayModel> onSubmit;
+  final Function onSubmit;
   const GetTodayStatus({super.key, required this.onSubmit, required this.currentDateTime});
 
   @override
