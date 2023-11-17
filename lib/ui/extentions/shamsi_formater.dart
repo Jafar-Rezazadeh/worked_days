@@ -1,6 +1,6 @@
 import 'package:shamsi_date/shamsi_date.dart';
 
-class ShamsiFormatterService {
+class FormatJalaliTo {
   static getTodayFullDateTime(DateTime? dateTime) {
     JalaliFormatter dt;
     if (dateTime != null) {
@@ -11,13 +11,13 @@ class ShamsiFormatterService {
     return "${dt.wN} ${dt.dd} ${dt.mN} ${dt.yyyy}";
   }
 
-  static getYearAndMonth(Jalali jl) {
+  static yearAndMonth(Jalali jl) {
     final dt = jl.formatter;
 
     return "${dt.yyyy} ${dt.mN} ";
   }
 
-  static getDayAndMonth(DateTime dateTime) {
+  static dayAndMonth(DateTime dateTime) {
     final dt = dateTime.toJalali().formatter;
 
     return "${dt.wN} ${dt.dd} ${dt.mN}";

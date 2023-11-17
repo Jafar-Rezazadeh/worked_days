@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:worked_days/bloc/controller/screens/worked_days_status_c/worked_days_list/worked_day_list_tab_controller.dart';
-import 'package:worked_days/bloc/services/shamsi_formater_service.dart';
+import 'package:worked_days/bloc/controller/screens/worked_days_status_screen/worked_days_list/worked_day_list_tab_controller.dart';
+import 'package:worked_days/ui/extentions/shamsi_formater.dart';
 import 'package:worked_days/bloc/entities/color_schema.dart';
 import 'package:worked_days/bloc/entities/worked_day_model.dart';
 import 'package:worked_days/ui/view/screens/details_work_day/details_screen.dart';
@@ -87,7 +87,7 @@ class WorkedDaysTableWidget extends StatelessWidget {
     return DataCell(
       Center(
         child: Text(
-          ShamsiFormatterService.getDayAndMonth(workDayModel.dateTime),
+          FormatJalaliTo.dayAndMonth(workDayModel.dateTime),
           style: TextStyle(
             color: Colors.black.withOpacity(0.6),
           ),

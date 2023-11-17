@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:worked_days/bloc/entities/color_schema.dart';
-import 'package:worked_days/bloc/services/shamsi_formater_service.dart';
+import 'package:worked_days/ui/extentions/shamsi_formater.dart';
 
-class MonthSelectorWidget extends StatefulWidget {
+class MonthSelectorWidget extends StatelessWidget {
   final Function(Jalali value) onCurrentMonthChanged;
   final Jalali currentMonth;
   const MonthSelectorWidget({
@@ -14,11 +14,6 @@ class MonthSelectorWidget extends StatefulWidget {
   });
 
   @override
-  State<MonthSelectorWidget> createState() => _MonthSelectorWidgetState();
-}
-
-class _MonthSelectorWidgetState extends State<MonthSelectorWidget> {
-  @override
   Widget build(BuildContext context) {
     return Expanded(
       flex: 1,
@@ -27,22 +22,28 @@ class _MonthSelectorWidgetState extends State<MonthSelectorWidget> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            //? backward
             ElevatedButton(
               onPressed: () {
-                widget.onCurrentMonthChanged(widget.currentMonth.addMonths(-1));
+                onCurrentMonthChanged(currentMonth.addMonths(-1));
               },
-              style: backAndForwardButtonStyle(),
+              style: _backAndForwardButtonStyle(),
               child: const Icon(Icons.keyboard_arrow_left),
             ),
             GestureDetector(
               onTap: () async {},
-              child: Text(ShamsiFormatterService.getYearAndMonth(widget.currentMonth)),
+              child: Text(FormatJalaliTo.yearAndMonth(currentMonth)),
             ),
+            //? forward
             ElevatedButton(
               onPressed: () {
-                widget.onCurrentMonthChanged(widget.currentMonth.addMonths(1));
+                if (_selectedDateNotBiggerThanNow()) {
+                  onCurrentMonthChanged(currentMonth.addMonths(1));
+                }
               },
-              style: backAndForwardButtonStyle(),
+              style: _selectedDateNotBiggerThanNow()
+                  ? _backAndForwardButtonStyle()
+                  : _disabledButtonStyle(),
               child: const Icon(Icons.keyboard_arrow_right),
             ),
           ],
@@ -51,7 +52,7 @@ class _MonthSelectorWidgetState extends State<MonthSelectorWidget> {
     );
   }
 
-  ButtonStyle backAndForwardButtonStyle() {
+  ButtonStyle _backAndForwardButtonStyle() {
     return ButtonStyle(
       backgroundColor: MaterialStatePropertyAll<Color>(ColorPallet.yaleBlue),
       shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
@@ -61,5 +62,26 @@ class _MonthSelectorWidgetState extends State<MonthSelectorWidget> {
         ),
       ),
     );
+  }
+
+  ButtonStyle _disabledButtonStyle() {
+    return ButtonStyle(
+      enableFeedback: false,
+      splashFactory: NoSplash.splashFactory,
+      backgroundColor: MaterialStatePropertyAll<Color>(ColorPallet.yaleBlue.withOpacity(0.5)),
+      shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.sp)),
+          side: BorderSide(color: ColorPallet.yaleBlue.withOpacity(0.3), width: 2),
+        ),
+      ),
+    );
+  }
+
+  bool _selectedDateNotBiggerThanNow() {
+    return currentMonth.month == Jalali.now().month && currentMonth.year == Jalali.now().year ||
+            !currentMonth.compareTo(Jalali.now()).isNegative
+        ? false
+        : true;
   }
 }

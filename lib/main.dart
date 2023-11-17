@@ -44,14 +44,11 @@ class _WorkedDaysState extends State<WorkedDays> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => MainCubit(),
-      child: ScreenUtilInit(
-        designSize: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height),
-        builder: (context, child) {
-          //
-          BlocProvider.of<MainCubit>(context).loadDataAndStartApp();
-
-          return BlocBuilder<MainCubit, MainCubitState>(
-            builder: (context, state) {
+      child: BlocBuilder<MainCubit, MainCubitState>(
+        builder: (context, state) {
+          return ScreenUtilInit(
+            designSize: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height),
+            builder: (context, child) {
               if (state is LoadingState) {
                 return const LoadingScreen();
               }

@@ -4,15 +4,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:worked_days/bloc/entities/color_schema.dart';
 import 'package:worked_days/bloc/entities/worked_day_model.dart';
 import 'package:worked_days/bloc/services/get_list_of_status.dart';
-import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/parts/get_today_status_/widgets/select_today_status.dart';
-import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/parts/get_today_status_/widgets/short_desc.dart';
-import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/parts/get_today_status_/widgets/today_date_time.dart';
-import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/parts/get_today_status_/widgets/work_time_select.dart';
+import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_/widgets/select_today_status.dart';
+import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_/widgets/short_desc.dart';
+import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_/widgets/today_date_time.dart';
+import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_/widgets/work_time_select.dart';
 import '../../../../../../../extentions/to_persian_period.dart';
 
 class GetTodayStatus extends StatefulWidget {
-  final ValueChanged<WorkDayModel> onSubmit;
-  const GetTodayStatus({super.key, required this.onSubmit});
+  final DateTime? currentDateTime;
+  final Function onSubmit;
+  const GetTodayStatus({super.key, required this.onSubmit, required this.currentDateTime});
 
   @override
   State<GetTodayStatus> createState() => _GetTodayStatusState();
@@ -49,7 +50,7 @@ class _GetTodayStatusState extends State<GetTodayStatus> with AutomaticKeepAlive
               ),
             ),
             SizedBox(height: 10.sp),
-            todayDateTime(fontSize),
+            todayDateTime(fontSize: fontSize, currentDateTime: widget.currentDateTime),
             SizedBox(height: 25.sp),
             selectStatus(
               listOfStatus: listOfStatus,
@@ -113,7 +114,12 @@ class _GetTodayStatusState extends State<GetTodayStatus> with AutomaticKeepAlive
 
   handleSubmit() {
     status.shortDescription = shortDescription;
-    isWorkedDay() ? setInOutTime() : widget.onSubmit(status);
+    isWorkedDay()
+        ? setInOutTime()
+        : {
+            status.dateTime = widget.currentDateTime ?? status.dateTime,
+            widget.onSubmit(status),
+          };
   }
 
   bool isWorkedDay() {
@@ -129,6 +135,7 @@ class _GetTodayStatusState extends State<GetTodayStatus> with AutomaticKeepAlive
         ? {
             if (inTime != null && outTime != null)
               {
+                status.dateTime = widget.currentDateTime ?? status.dateTime,
                 status.inTime = inTime!.format(context).toPersianPeriod,
                 status.outTime = outTime!.format(context).toPersianPeriod,
                 widget.onSubmit(status),
@@ -140,6 +147,7 @@ class _GetTodayStatusState extends State<GetTodayStatus> with AutomaticKeepAlive
               }
           }
         : {
+            status.dateTime = widget.currentDateTime ?? status.dateTime,
             status.inTime = const TimeOfDay(hour: 8, minute: 00).format(context).toPersianPeriod,
             status.outTime = const TimeOfDay(hour: 18, minute: 00).format(context).toPersianPeriod,
             widget.onSubmit(status)
