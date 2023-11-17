@@ -3,7 +3,7 @@ import 'package:worked_days/bloc/entities/tables_column_names.dart';
 class WorkDayModel {
   int id;
   final String title;
-  final DateTime dateTime;
+  DateTime dateTime;
   String? inTime;
   String? outTime;
   String? shortDescription;

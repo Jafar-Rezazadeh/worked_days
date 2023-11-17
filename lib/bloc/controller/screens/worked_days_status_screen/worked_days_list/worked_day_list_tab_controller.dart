@@ -31,18 +31,25 @@ class WorkedDaysTabController {
   }
 
   set setCurrentMonth(Jalali value) {
-    _currentMonth = value;
+    if (value.month != Jalali.now().month) {
+      _currentMonth = value.withDay(1);
+    } else {
+      _currentMonth = value;
+    }
   }
 
   List<WorkDayModel> getCurrentSelectedDateWorkedDays() {
     try {
-      return _loadedStableState.workedDays
+      List<WorkDayModel> result = _loadedStableState.workedDays
           .where(
             (element) =>
                 element.dateTime.toJalali().month == _currentMonth.month &&
                 element.dateTime.toJalali().year == _currentMonth.year,
           )
           .toList();
+
+      result.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+      return result;
     } catch (e) {
       if (kDebugMode) {
         print(e.toString());
@@ -61,5 +68,40 @@ class WorkedDaysTabController {
     } catch (e) {
       return null;
     }
+  }
+
+  List<Jalali> extractUnknownDaysOfCurrentMonth() {
+    Jalali localCurrentMonth = _currentMonth;
+
+    localCurrentMonth = localCurrentMonth.addDays(-_currentMonth.day);
+
+    List<Jalali> unknownDaysJalaliDateList = [];
+
+    for (int i = 1; i <= _currentMonth.monthLength; i++) {
+      localCurrentMonth = localCurrentMonth.addDays(1);
+
+      if (_listOfCurrentMonthWorkedDays.any(
+        (element) =>
+            element.dateTime.toJalali().month == localCurrentMonth.month &&
+            element.dateTime.toJalali().day == localCurrentMonth.day,
+      )) {
+      } else {
+        unknownDaysJalaliDateList.add(localCurrentMonth);
+      }
+    }
+
+    //print("unknown days ${unknownDaysJalaliDateList.length}");
+    // print("list of unknown days Date: $unknownDaysJalaliDateList");
+
+    if (_currentMonth.year == Jalali.now().year && _currentMonth.month == Jalali.now().month) {
+      unknownDaysJalaliDateList =
+          unknownDaysJalaliDateList.where((element) => element.day < Jalali.now().day).toList();
+    }
+
+    return unknownDaysJalaliDateList;
+  }
+
+  insertUnknownDayToDb(WorkDayModel workDayModel) {
+    mainCubit.insertWorkedDay(loadedStableState: loadedStableState, newWorkDayModel: workDayModel);
   }
 }

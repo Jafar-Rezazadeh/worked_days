@@ -8,7 +8,9 @@ import 'package:worked_days/data/local_database/db_provider.dart';
 import 'package:worked_days/bloc/services/settings_service.dart';
 
 class MainCubit extends Cubit<MainCubitState> {
-  MainCubit() : super(MainCubitInitial());
+  MainCubit() : super(MainCubitInitial()) {
+    loadDataAndStartApp();
+  }
 
   loadDataAndStartApp() async {
     emit(LoadingState());
