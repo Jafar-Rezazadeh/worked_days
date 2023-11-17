@@ -28,7 +28,7 @@ class CalcCurrentMonthSalary extends StatelessWidget {
   Widget _thisMonthSalary() {
     return Row(
       children: [
-        Text("حقوق تا امروز: ", style: _titleStyle()),
+        Text("حقوق محاسبه شده: ", style: _titleStyle()),
         Text(
           "${salaryCalcController.calculateThisMonthSalary(null).toString().seRagham()} تومان",
           style: _descriptionStyle(),
