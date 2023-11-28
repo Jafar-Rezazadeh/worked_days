@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:worked_days/bloc/controller/screens/worked_days_status_screen/worked_days_list/worked_day_list_tab_controller.dart';
 import 'package:worked_days/ui/extentions/shamsi_formater.dart';
-import 'package:worked_days/bloc/entities/color_schema.dart';
+import 'package:worked_days/ui/theme/color_schema.dart';
 import 'package:worked_days/bloc/entities/worked_day_model.dart';
 import 'package:worked_days/ui/view/screens/details_work_day/details_screen.dart';
 

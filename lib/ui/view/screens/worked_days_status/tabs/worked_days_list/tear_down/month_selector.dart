@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shamsi_date/shamsi_date.dart';
-import 'package:worked_days/bloc/entities/color_schema.dart';
+import 'package:worked_days/ui/theme/color_schema.dart';
 import 'package:worked_days/ui/extentions/shamsi_formater.dart';
 
 class MonthSelectorWidget extends StatelessWidget {

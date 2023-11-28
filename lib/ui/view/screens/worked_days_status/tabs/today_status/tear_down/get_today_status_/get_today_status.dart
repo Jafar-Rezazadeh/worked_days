@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:worked_days/bloc/entities/color_schema.dart';
+import 'package:worked_days/ui/theme/color_schema.dart';
 import 'package:worked_days/bloc/entities/worked_day_model.dart';
 import 'package:worked_days/bloc/services/get_list_of_status.dart';
 import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_/widgets/select_today_status.dart';

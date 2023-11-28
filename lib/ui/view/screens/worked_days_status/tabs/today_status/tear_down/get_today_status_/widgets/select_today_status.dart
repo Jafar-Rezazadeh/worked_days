@@ -1,7 +1,7 @@
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:worked_days/bloc/entities/color_schema.dart';
+import 'package:worked_days/ui/theme/color_schema.dart';
 import 'package:worked_days/bloc/entities/worked_day_model.dart';
 
 Widget selectStatus(
