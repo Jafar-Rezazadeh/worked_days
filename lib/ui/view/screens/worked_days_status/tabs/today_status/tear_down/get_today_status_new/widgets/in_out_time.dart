@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
+import 'package:worked_days/ui/extentions/to_persian_period.dart';
 import 'package:worked_days/ui/theme/color_schema.dart';
 
 class InOutTimeSelector extends StatefulWidget {
-  const InOutTimeSelector({super.key});
+  final Function(TimeOfDay? inTime, TimeOfDay? outTime) onChange;
+  const InOutTimeSelector({super.key, required this.onChange});
 
   @override
   State<InOutTimeSelector> createState() => _InOutTimeSelectorState();
 }
 
 class _InOutTimeSelectorState extends State<InOutTimeSelector> {
-  //Todo: add 2 option for selecting in and out time as right now or in a specific time
+  TimeOfDay? inTime;
+  TimeOfDay? outTime;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -19,22 +23,56 @@ class _InOutTimeSelectorState extends State<InOutTimeSelector> {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          //In Time
           _inOutLayout(
-            child: ElevatedButton(
-              style: _elevetedButtonStyle(backgroundColor: ColorPallet.green),
-              onPressed: () {},
-              child: const Text("زمان ورود"),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  "زمان ورود",
+                  style: TextStyle(
+                    color: ColorPallet.smoke,
+                  ),
+                ),
+                inTime == null
+                    ? _inTimeGetters()
+                    : Text(
+                        inTime!.format(context).toPersianPeriod,
+                        style: TextStyle(
+                          color: ColorPallet.green,
+                          fontSize: 20.sp,
+                        ),
+                      )
+              ],
             ),
           ),
+          //
           Dash(
             length: 0.9.sw,
             dashColor: ColorPallet.yaleBlue.withOpacity(0.8),
           ),
+          //
+          //Out time
           _inOutLayout(
-            child: ElevatedButton(
-              style: _elevetedButtonStyle(backgroundColor: ColorPallet.orange),
-              onPressed: () {},
-              child: const Text("زمان خروج"),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  "زمان خروج",
+                  style: TextStyle(
+                    color: ColorPallet.smoke,
+                  ),
+                ),
+                outTime == null
+                    ? _outTimeGetters()
+                    : Text(
+                        outTime!.format(context).toPersianPeriod,
+                        style: TextStyle(
+                          color: ColorPallet.orange,
+                          fontSize: 20.sp,
+                        ),
+                      ),
+              ],
             ),
           )
         ],
@@ -46,8 +84,13 @@ class _InOutTimeSelectorState extends State<InOutTimeSelector> {
     return Expanded(
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 20.sp),
-        child: SizedBox(
-          width: 0.6.sw,
+        child: Container(
+          decoration: BoxDecoration(
+            color: ColorPallet.yaleBlue,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          padding: const EdgeInsets.all(10),
+          width: 0.8.sw,
           child: child,
         ),
       ),
@@ -55,12 +98,83 @@ class _InOutTimeSelectorState extends State<InOutTimeSelector> {
   }
 
   ButtonStyle _elevetedButtonStyle({Color? foregroundColor, Color? backgroundColor}) {
-    Color backgroundColor_ = backgroundColor ?? ColorPallet.green;
-    Color foregroundColor_ = foregroundColor ?? ColorPallet.smoke;
-
     return ButtonStyle(
-      backgroundColor: MaterialStatePropertyAll<Color>(backgroundColor_),
-      foregroundColor: MaterialStatePropertyAll<Color>(foregroundColor_),
+      textStyle: MaterialStatePropertyAll<TextStyle>(
+        TextStyle(
+          fontSize: 12.sp,
+          fontFamily: "Vazir",
+        ),
+      ),
+      backgroundColor: MaterialStatePropertyAll<Color>(backgroundColor ?? ColorPallet.green),
+      foregroundColor: MaterialStatePropertyAll<Color>(foregroundColor ?? ColorPallet.smoke),
+    );
+  }
+
+  Widget _inTimeGetters() {
+    return Row(
+      textDirection: TextDirection.rtl,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        // Right Now
+        ElevatedButton(
+          style: _elevetedButtonStyle(backgroundColor: ColorPallet.green),
+          onPressed: () {
+            setState(() => inTime = TimeOfDay.now());
+            widget.onChange(inTime, outTime);
+          },
+          child: const Text("!همین الان"),
+        ),
+        // Another Time
+        ElevatedButton(
+          style: _elevetedButtonStyle(backgroundColor: Colors.transparent),
+          onPressed: () async {
+            await showPersianTimePicker(
+              context: context,
+              initialTime: TimeOfDay.now(),
+            ).then(
+              (value) {
+                setState(() => inTime = value);
+                widget.onChange(inTime, outTime);
+              },
+            );
+          },
+          child: const Text("...ساعت دیگه"),
+        ),
+      ],
+    );
+  }
+
+  Widget _outTimeGetters() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      textDirection: TextDirection.rtl,
+      children: [
+        // Right now
+        ElevatedButton(
+          style: _elevetedButtonStyle(backgroundColor: ColorPallet.orange),
+          onPressed: () {
+            setState(() => outTime = TimeOfDay.now());
+            widget.onChange(inTime, outTime);
+          },
+          child: const Text("!همین الان"),
+        ),
+        // Another Time
+        ElevatedButton(
+          style: _elevetedButtonStyle(backgroundColor: Colors.transparent),
+          onPressed: () async {
+            await showPersianTimePicker(
+              context: context,
+              initialTime: TimeOfDay.now(),
+            ).then(
+              (value) {
+                setState(() => outTime = value);
+                widget.onChange(inTime, outTime);
+              },
+            );
+          },
+          child: const Text("...ساعت دیگه"),
+        ),
+      ],
     );
   }
 }

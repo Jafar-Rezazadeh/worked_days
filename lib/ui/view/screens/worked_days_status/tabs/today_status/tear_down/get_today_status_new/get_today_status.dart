@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:worked_days/bloc/entities/worked_day_model.dart';
 import 'package:worked_days/bloc/services/get_list_of_status.dart';
+import 'package:worked_days/ui/extentions/to_persian_period.dart';
 import 'package:worked_days/ui/theme/color_schema.dart';
 import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_new/widgets/in_out_time.dart';
 import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_new/widgets/radio_buttons_of_status.dart';
+import 'package:worked_days/ui/view/shared/widgets/custom_snackbar.dart';
 
 class GetTodayStatusNewUI extends StatefulWidget {
-  final Function onSubmit;
+  final Function(WorkDayModel) onSubmit;
+
   const GetTodayStatusNewUI({super.key, required this.onSubmit});
 
   @override
@@ -16,20 +19,43 @@ class GetTodayStatusNewUI extends StatefulWidget {
 
 class _GetTodayStatusNewUIState extends State<GetTodayStatusNewUI> {
   WorkDayModel todayStatusInfo = getListOfStatus().first;
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 15.sp),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          RadioButtonsOfTodayStatus(onChange: (value) => setState(() => todayStatusInfo = value)),
-          if (todayStatusInfo.workDay) _inOutTime(),
-          _submitButton(),
-        ],
+    return SingleChildScrollView(
+      child: Container(
+        height: 0.758.sh,
+        padding: EdgeInsets.symmetric(vertical: 15.sp),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            RadioButtonsOfTodayStatus(onChange: (value) => setState(() => todayStatusInfo = value)),
+            if (todayStatusInfo.workDay) ..._inOutTime(),
+            _submitButton(),
+          ],
+        ),
       ),
     );
+  }
+
+  List<Widget> _inOutTime() {
+    return [
+      Divider(
+        height: 20.sp,
+        color: ColorPallet.yaleBlue.withOpacity(0.5),
+        thickness: 1,
+      ),
+      InOutTimeSelector(onChange: (inTime, outTime) {
+        todayStatusInfo.inTime = inTime?.format(context).toPersianPeriod;
+        todayStatusInfo.outTime = outTime?.format(context).toPersianPeriod;
+      }),
+      Divider(
+        height: 20.sp,
+        color: ColorPallet.yaleBlue.withOpacity(0.5),
+        thickness: 1,
+      ),
+    ];
   }
 
   Widget _submitButton() {
@@ -47,28 +73,17 @@ class _GetTodayStatusNewUIState extends State<GetTodayStatusNewUI> {
             ),
           ),
         ),
-        onPressed: () {},
+        onPressed: () {
+          if (todayStatusInfo.inTime != null && todayStatusInfo.outTime != null) {
+            widget.onSubmit(todayStatusInfo);
+          } else {
+            showCustomSnackBar(
+              context: context,
+              text: "لطفا زمان ورود و خروج را مشخص کنید.",
+            );
+          }
+        },
         child: const Text("ذخیره"),
-      ),
-    );
-  }
-
-  Widget _inOutTime() {
-    return Expanded(
-      child: Column(
-        children: [
-          Divider(
-            height: 20.sp,
-            color: ColorPallet.yaleBlue.withOpacity(0.5),
-            thickness: 1,
-          ),
-          const InOutTimeSelector(),
-          Divider(
-            height: 20.sp,
-            color: ColorPallet.yaleBlue.withOpacity(0.5),
-            thickness: 1,
-          ),
-        ],
       ),
     );
   }
