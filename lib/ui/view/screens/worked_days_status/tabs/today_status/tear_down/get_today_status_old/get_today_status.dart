@@ -4,10 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:worked_days/ui/theme/color_schema.dart';
 import 'package:worked_days/bloc/entities/worked_day_model.dart';
 import 'package:worked_days/bloc/services/get_list_of_status.dart';
-import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_/widgets/select_today_status.dart';
-import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_/widgets/short_desc.dart';
-import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_/widgets/today_date_time.dart';
-import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_/widgets/work_time_select.dart';
+import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_old/widgets/select_today_status.dart';
+import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_old/widgets/short_desc.dart';
+import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_old/widgets/today_date_time.dart';
+import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_old/widgets/work_time_select.dart';
 import '../../../../../../../extentions/to_persian_period.dart';
 
 class GetTodayStatus extends StatefulWidget {

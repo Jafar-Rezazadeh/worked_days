@@ -5,15 +5,15 @@ import 'package:worked_days/bloc/entities/worked_day_model.dart';
 import 'package:worked_days/bloc/services/get_list_of_status.dart';
 import 'package:worked_days/ui/theme/color_schema.dart';
 
-class RadioButtonsOfTodayStatus extends StatefulWidget {
+class SelectTodayStatus extends StatefulWidget {
   final Function(WorkDayModel) onChange;
-  const RadioButtonsOfTodayStatus({super.key, required this.onChange});
+  const SelectTodayStatus({super.key, required this.onChange});
 
   @override
-  State<RadioButtonsOfTodayStatus> createState() => _RadioButtonsOfTodayStatusState();
+  State<SelectTodayStatus> createState() => _SelectTodayStatusState();
 }
 
-class _RadioButtonsOfTodayStatusState extends State<RadioButtonsOfTodayStatus> {
+class _SelectTodayStatusState extends State<SelectTodayStatus> {
   List<WorkDayModel> listOfstatus = getListOfStatus();
 
   @override

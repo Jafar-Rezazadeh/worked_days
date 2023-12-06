@@ -5,7 +5,8 @@ import 'package:worked_days/bloc/services/get_list_of_status.dart';
 import 'package:worked_days/ui/extentions/to_persian_period.dart';
 import 'package:worked_days/ui/theme/color_schema.dart';
 import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_new/widgets/in_out_time.dart';
-import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_new/widgets/radio_buttons_of_status.dart';
+import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_new/widgets/select_today_status.dart';
+import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_new/widgets/short_description.dart';
 import 'package:worked_days/ui/view/shared/widgets/custom_snackbar.dart';
 
 class GetTodayStatusNewUI extends StatefulWidget {
@@ -30,8 +31,9 @@ class _GetTodayStatusNewUIState extends State<GetTodayStatusNewUI> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           mainAxisSize: MainAxisSize.max,
           children: [
-            RadioButtonsOfTodayStatus(onChange: (value) => setState(() => todayStatusInfo = value)),
-            if (todayStatusInfo.workDay) ..._inOutTime(),
+            SelectTodayStatus(onChange: (value) => setState(() => todayStatusInfo = value)),
+            if (todayStatusInfo.workDay) ..._selectInOutTime(),
+            GetDescription(onTextChanged: (value) => todayStatusInfo.shortDescription = value),
             _submitButton(),
           ],
         ),
@@ -39,7 +41,7 @@ class _GetTodayStatusNewUIState extends State<GetTodayStatusNewUI> {
     );
   }
 
-  List<Widget> _inOutTime() {
+  List<Widget> _selectInOutTime() {
     return [
       Divider(
         height: 20.sp,
