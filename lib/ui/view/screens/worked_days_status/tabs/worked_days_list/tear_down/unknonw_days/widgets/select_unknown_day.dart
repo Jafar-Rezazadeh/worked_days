@@ -4,7 +4,7 @@ import 'package:shamsi_date/shamsi_date.dart';
 import 'package:worked_days/bloc/controller/screens/worked_days_status_screen/worked_days_list/worked_day_list_tab_controller.dart';
 import 'package:worked_days/ui/theme/color_schema.dart';
 import 'package:worked_days/ui/extentions/shamsi_formater.dart';
-import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_old/get_today_status.dart';
+import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_new/get_today_status.dart';
 
 class SelectUnknownDay extends StatelessWidget {
   final List<Jalali> unknownDaysDateTime;
@@ -86,9 +86,9 @@ class SelectUnknownDay extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => Dialog(
-        insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: GetTodayStatus(
-          currentDateTime: item.toDateTime(),
+        insetPadding: const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
+        child: GetTodayStatusNewUI(
+          setCurrentTime: item.toDateTime(),
           onSubmit: (value) {
             workedDaysTabController.insertUnknownDayToDb(value);
             Navigator.of(context)

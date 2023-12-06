@@ -10,9 +10,10 @@ import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status
 import 'package:worked_days/ui/view/shared/widgets/custom_snackbar.dart';
 
 class GetTodayStatusNewUI extends StatefulWidget {
+  final DateTime? setCurrentTime;
   final Function(WorkDayModel) onSubmit;
 
-  const GetTodayStatusNewUI({super.key, required this.onSubmit});
+  const GetTodayStatusNewUI({super.key, required this.onSubmit, this.setCurrentTime});
 
   @override
   State<GetTodayStatusNewUI> createState() => _GetTodayStatusNewUIState();
@@ -20,6 +21,13 @@ class GetTodayStatusNewUI extends StatefulWidget {
 
 class _GetTodayStatusNewUIState extends State<GetTodayStatusNewUI> {
   WorkDayModel todayStatusInfo = getListOfStatus().first;
+
+  @override
+  void initState() {
+    //setting the current time if it is set
+    todayStatusInfo.dateTime = widget.setCurrentTime ?? todayStatusInfo.dateTime;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
