@@ -4,22 +4,22 @@ import 'package:worked_days/bloc/entities/worked_day_model.dart';
 import 'package:worked_days/bloc/services/get_list_of_status.dart';
 import 'package:worked_days/ui/extentions/to_persian_period.dart';
 import 'package:worked_days/ui/theme/color_schema.dart';
-import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_new/widgets/in_out_time.dart';
-import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_new/widgets/select_today_status.dart';
-import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_new/widgets/short_description.dart';
+import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status/widgets/in_out_time.dart';
+import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status/widgets/select_today_status.dart';
+import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status/widgets/short_description.dart';
 import 'package:worked_days/ui/view/shared/widgets/custom_snackbar.dart';
 
-class GetTodayStatusNewUI extends StatefulWidget {
+class GetTodayStatusUi extends StatefulWidget {
   final DateTime? setCurrentTime;
   final Function(WorkDayModel) onSubmit;
 
-  const GetTodayStatusNewUI({super.key, required this.onSubmit, this.setCurrentTime});
+  const GetTodayStatusUi({super.key, required this.onSubmit, this.setCurrentTime});
 
   @override
-  State<GetTodayStatusNewUI> createState() => _GetTodayStatusNewUIState();
+  State<GetTodayStatusUi> createState() => _GetTodayStatusUiState();
 }
 
-class _GetTodayStatusNewUIState extends State<GetTodayStatusNewUI> {
+class _GetTodayStatusUiState extends State<GetTodayStatusUi> {
   WorkDayModel todayStatusInfo = getListOfStatus().first;
 
   @override
