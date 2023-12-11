@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:worked_days/bloc/cubit/main_cubit.dart';
 import 'package:worked_days/bloc/cubit/main_cubit_state.dart';
 import 'package:worked_days/ui/extentions/to_persian_period.dart';
-import 'package:worked_days/bloc/entities/color_schema.dart';
+import 'package:worked_days/ui/theme/color_schema.dart';
 import 'package:worked_days/bloc/entities/notification_pref_model.dart';
 
 class SettingsScreen extends StatefulWidget {

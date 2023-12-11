@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:worked_days/bloc/controller/screens/worked_days_status_screen/today_status_controller.dart';
 import 'package:worked_days/bloc/cubit/main_cubit.dart';
 import 'package:worked_days/bloc/cubit/main_cubit_state.dart';
-import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status_/get_today_status.dart';
+import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status/get_today_status.dart';
 import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/show_today_status/show_saved_status.dart';
 
 class TodayStatusLayout extends StatefulWidget {
@@ -42,9 +42,8 @@ class _TodayStatusLayoutState extends State<TodayStatusLayout> {
             todayStatus: todayStatusTabController.getTodaySavedStatus(loadedStableState.workedDays),
             deleteTodayStatus: todayStatusTabController.deleteTodayStatus,
           )
-        : GetTodayStatus(
+        : GetTodayStatusUi(
             onSubmit: todayStatusTabController.handleSubmit,
-            currentDateTime: null,
           );
   }
 }

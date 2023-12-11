@@ -3,13 +3,12 @@ import 'package:worked_days/bloc/entities/notification_pref_model.dart';
 import 'package:worked_days/bloc/services/settings_service.dart';
 
 class MainScreenController {
-  NotificationPrefModel? _notificationPrefModel;
-
-  get notificationPrefModel => _notificationPrefModel;
-
+  late NotificationPrefModel _notificationPrefModel = getNotificationStatus();
   MainScreenController() {
     getNotificationStatus();
   }
+
+  get notificationPrefModel => _notificationPrefModel;
 
   getNotificationStatus() async {
     _notificationPrefModel = await SettingsService.getNotificationStatus();
@@ -18,8 +17,8 @@ class MainScreenController {
   Future<bool> isNotificationStatusSaved() async {
     bool isNotificationAllowed = await AwesomeNotifications().isNotificationAllowed();
 
-    if (_notificationPrefModel!.notificationIsEnabled == null ||
-        isNotificationAllowed == false && _notificationPrefModel!.notificationIsEnabled != false) {
+    if (_notificationPrefModel.notificationIsEnabled == null ||
+        isNotificationAllowed == false && _notificationPrefModel.notificationIsEnabled != false) {
       return true;
     } else {
       return false;

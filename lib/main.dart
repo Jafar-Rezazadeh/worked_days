@@ -8,6 +8,7 @@ import 'package:worked_days/bloc/cubit/main_cubit_state.dart';
 import 'package:worked_days/bloc/entities/notification_pref_model.dart';
 import 'package:worked_days/bloc/services/notification_service.dart';
 import 'package:worked_days/bloc/services/settings_service.dart';
+import 'package:worked_days/ui/theme/theme_class.dart';
 import 'package:worked_days/ui/view/screens/error/error_screen.dart';
 import 'package:worked_days/ui/view/screens/loading/loading_screen.dart';
 import 'package:worked_days/ui/view/screens/worked_days_status/worked_days_status_screen.dart';
@@ -17,7 +18,7 @@ Future<void> main(List<String> args) async {
   NotificationService.initalize();
   runApp(
     MaterialApp(
-      theme: ThemeData(fontFamily: "Vazir"),
+      theme: MainThemeClass.lightTheme,
       home: const WorkedDays(),
     ),
   );
