@@ -7,7 +7,6 @@ import 'package:worked_days/ui/theme/color_schema.dart';
 import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status/widgets/in_out_time.dart';
 import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status/widgets/select_today_status.dart';
 import 'package:worked_days/ui/view/screens/worked_days_status/tabs/today_status/tear_down/get_today_status/widgets/short_description.dart';
-import 'package:worked_days/ui/view/shared/widgets/custom_snackbar.dart';
 
 class GetTodayStatusUi extends StatefulWidget {
   final DateTime? setCurrentTime;
@@ -84,14 +83,7 @@ class _GetTodayStatusUiState extends State<GetTodayStatusUi> {
           ),
         ),
         onPressed: () {
-          if (todayStatusInfo.inTime != null && todayStatusInfo.outTime != null) {
-            widget.onSubmit(todayStatusInfo);
-          } else {
-            showCustomSnackBar(
-              context: context,
-              text: "لطفا زمان ورود و خروج را مشخص کنید.",
-            );
-          }
+          widget.onSubmit(todayStatusInfo);
         },
         child: const Text("ذخیره"),
       ),
