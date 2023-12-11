@@ -10,34 +10,23 @@
       "type": "dart"
     },
     {
-      "name": "run-windows",
-      "type": "dart",
-      "request": "launch",
-      "deviceId": "Windows"
-    },
-    {
-      "name": "run-android",
-      "type": "dart",
-      "request": "launch",
-      "deviceId": "SM G960N"
-    },
-    {
-      "name": "worked_days (profile mode)",
+      "name": "clean_architecture_worked_days",
       "request": "launch",
       "type": "dart",
-      "flutterMode": "profile"
+      "program": "lib-copy/main.dart"
     },
+
     {
       "name": "worked_days (release mode)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "release"
     }
-  ],
-  "compounds": [
-    {
-      "name": "windows and android",
-      "configurations": ["run-windows", "run-android"]
-    }
   ]
+  // "compounds": [
+  //   {
+  //     "name": "windows and android",
+  //     "configurations": ["run-windows", "run-android"]
+  //   }
+  // ]
 }
