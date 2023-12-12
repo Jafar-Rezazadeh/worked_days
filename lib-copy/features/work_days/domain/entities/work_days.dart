@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class WorkDay {
   final int id;
   final String title;
-  final String shortDescription;
+  final String? shortDescription;
   final DateTime date;
-  final TimeOfDay inTime;
-  final TimeOfDay outTime;
+  final TimeOfDay? inTime;
+  final TimeOfDay? outTime;
   final bool isWorkDay;
   final bool isDayOff;
   final bool isPublicHoliday;

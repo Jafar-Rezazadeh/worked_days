@@ -5,6 +5,6 @@ import '../entities/work_days.dart';
 
 abstract class WorkDaysRepository {
   Future<Either<Failure, List<WorkDay>>> getWorkDays();
-  Future<Either<Failure, bool>> insertWorkDay({required int id});
+  Future<Either<Failure, bool>> insertWorkDay({required WorkDay workDay});
   Future<Either<Failure, bool>> deleteWorkDay({required int id});
 }

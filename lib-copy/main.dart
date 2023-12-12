@@ -10,6 +10,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Material App',
       home: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+        ),
         appBar: AppBar(
           title: const Text('Material App Bar'),
         ),

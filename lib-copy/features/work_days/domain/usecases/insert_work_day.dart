@@ -11,6 +11,6 @@ class InsertWorkDay implements UseCaseContract {
 
   @override
   Future<Either<Failure, dynamic>> call(params) async {
-    return await workDaysRepository.insertWorkDay(id: params);
+    return await workDaysRepository.insertWorkDay(workDay: params);
   }
 }

@@ -9,6 +9,10 @@ abstract class Failure extends Equatable {
   List<Object?> get props => [message];
 }
 
-class CachFailure extends Failure {
-  const CachFailure({required super.message});
+class LocalDataFailure extends Failure {
+  const LocalDataFailure({required super.message});
+}
+
+class UnExpectedFailure extends Failure {
+  const UnExpectedFailure({required super.message});
 }
