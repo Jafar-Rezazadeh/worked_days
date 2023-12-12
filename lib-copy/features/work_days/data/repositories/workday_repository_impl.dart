@@ -25,34 +25,25 @@ class WorkDayRepositoryImpl implements WorkDaysRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> insertWorkDay({required WorkDay workDay}) async {
+  Future<Either<Failure, int>> insertWorkDay({required WorkDay workDay}) async {
     try {
-      final isInserted =
-          await workDaysLocalDataSource.insertWorkDay(WorkDayModel.fromEntity(workDay));
-      if (isInserted) {
-        return right(isInserted);
-      } else {
-        return left(
-          const UnExpectedFailure(
-              message: "there is and unexpected error while inserting data to data base"),
-        );
-      }
+      final int id = await workDaysLocalDataSource.insertWorkDay(WorkDayModel.fromEntity(workDay));
+
+      return right(id);
     } on LocalDataSourceException {
-      return left(const LocalDataFailure(
-          message: "there was an error while inserting the data to local data base"));
+      return left(
+        const LocalDataFailure(
+            message: "there was an error while inserting the data to local data base"),
+      );
     }
   }
 
   @override
-  Future<Either<Failure, bool>> deleteWorkDay({required int id}) async {
+  Future<Either<Failure, int>> deleteWorkDay({required int id}) async {
     try {
-      final isDeleted = await workDaysLocalDataSource.deleteWorkDay(id);
-      if (isDeleted) {
-        return right(isDeleted);
-      } else {
-        return left(const UnExpectedFailure(
-            message: "there is and unexpected error while deleting data from data base"));
-      }
+      final int count = await workDaysLocalDataSource.deleteWorkDay(id);
+
+      return right(count);
     } on LocalDataSourceException {
       return left(
         const LocalDataFailure(
