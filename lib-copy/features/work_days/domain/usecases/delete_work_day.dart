@@ -9,7 +9,7 @@ class DeleteWorkDayUseCase implements UseCaseContract {
 
   DeleteWorkDayUseCase({required this.workDaysRepository});
   @override
-  Future<Either<Failure, dynamic>> call(params) async {
+  Future<Either<Failure, int>> call(params) async {
     return await workDaysRepository.deleteWorkDay(id: params);
   }
 }

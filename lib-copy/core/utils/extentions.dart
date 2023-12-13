@@ -4,12 +4,8 @@ import 'package:persian_number_utility/persian_number_utility.dart';
 extension ConverterTimeOfDay on TimeOfDay {
   String get toStringFormat {
     TimeOfDay time = this;
-    return '${_twoDigits(time.hour)}:${_twoDigits(time.minute)} ${time.period.name.toPersianPeriod}';
-  }
 
-  static String _twoDigits(int n) {
-    if (n >= 10) return '$n';
-    return '0$n';
+    return '${_twoDigits(time.hour)}:${_twoDigits(time.minute)} ${time.period.name.toPersianPeriod}';
   }
 }
 
@@ -19,9 +15,11 @@ extension ConverterString on String {
     String timeString = this;
 
     List<String> splittedString = timeString.split(":");
+
     //
+
     TimeOfDay timeOfDay = TimeOfDay(
-      hour: int.parse(splittedString.first),
+      hour: int.parse(splittedString.first.extractNumber(toDigit: NumStrLanguage.English)),
       minute: int.parse(splittedString.last.extractNumber(toDigit: NumStrLanguage.English)),
     );
 
@@ -33,4 +31,9 @@ extension ExtendedTimeOfday on String {
   String get toPersianPeriod {
     return toUpperCase().replaceAll("AM", "ق.ظ").replaceAll("PM", "ب.ظ");
   }
+}
+
+String _twoDigits(int n) {
+  if (n >= 10) return '$n';
+  return '0$n';
 }

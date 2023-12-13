@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../../../../core/constacts/constacts.dart';
 import '../../../../core/utils/extentions.dart';
 import '../../domain/entities/work_days.dart';
@@ -19,13 +21,17 @@ class WorkDayModel extends WorkDay {
       return rawData == 1 ? true : false;
     }
 
+    TimeOfDay? nullOrTime(String? rawData) {
+      return rawData?.toTimeOfDayFormat;
+    }
+
     return WorkDayModel(
       id: rawData[WorkDayColumns.id.name],
       title: rawData[WorkDayColumns.title.name],
       shortDescription: rawData[WorkDayColumns.shortDescription.name],
       date: DateTime.parse(rawData[WorkDayColumns.dateTime.name]),
-      inTime: rawData[WorkDayColumns.inTime.name].toString().toTimeOfDayFormat,
-      outTime: rawData[WorkDayColumns.outTime.name].toString().toTimeOfDayFormat,
+      inTime: nullOrTime(rawData[WorkDayColumns.inTime.name]),
+      outTime: nullOrTime(rawData[WorkDayColumns.outTime.name]),
       isWorkDay: isOrNot(rawData[WorkDayColumns.workDay.name]),
       isDayOff: isOrNot(rawData[WorkDayColumns.dayOff.name]),
       isPublicHoliday: isOrNot(rawData[WorkDayColumns.publicHoliday.name]),

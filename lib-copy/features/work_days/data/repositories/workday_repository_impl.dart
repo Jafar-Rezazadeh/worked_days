@@ -7,10 +7,10 @@ import '../../domain/repositories/workdays_repository.dart';
 import '../datasources/workdays_local_datasource.dart';
 import '../models/workday_model.dart';
 
-class WorkDayRepositoryImpl implements WorkDaysRepository {
+class WorkDaysRepositoryImpl implements WorkDaysRepository {
   final WorkDaysLocalDataSource workDaysLocalDataSource;
 
-  WorkDayRepositoryImpl({required this.workDaysLocalDataSource});
+  WorkDaysRepositoryImpl({required this.workDaysLocalDataSource});
 
   @override
   Future<Either<Failure, List<WorkDay>>> getWorkDays() async {

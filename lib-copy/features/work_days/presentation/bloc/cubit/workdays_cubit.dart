@@ -25,29 +25,37 @@ class WorkdaysCubit extends Cubit<WorkdaysState> {
     await _getWorkDays();
   }
 
-  insertWorkDay(WorkDay workDay) async {
+  Future<int> insertWorkDay(WorkDay workDay) async {
     emit(LoadingState());
 
     final failureOrId = await insertWorkDayUseCase(workDay);
 
-    failureOrId.fold(
+    return failureOrId.fold(
       (failure) {
         emit(ErrorState(message: failure.message));
+        return 0;
       },
-      (id) => _getWorkDays(),
+      (id) {
+        _getWorkDays();
+        return id;
+      },
     );
   }
 
-  deleteWorkDay(int id) async {
+  Future<int> deleteWorkDay(int id) async {
     emit(LoadingState());
 
     final failureOrCount = await deleteWorkDayUseCase(id);
 
-    failureOrCount.fold(
+    return failureOrCount.fold(
       (failure) {
         emit(ErrorState(message: failure.message));
+        return 0;
       },
-      (id) => _getWorkDays(),
+      (id) {
+        _getWorkDays();
+        return id;
+      },
     );
   }
 
