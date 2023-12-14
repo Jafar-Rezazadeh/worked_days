@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/theme/color_schema.dart';
-import '../../domain/entities/work_days.dart';
-import '../bloc/cubit/workdays_cubit.dart';
-import '../shared_functions/list_of_status_samples.dart';
-import '../widgets/get_description.dart';
-import '../widgets/in_out_time_selector.dart';
-import '../widgets/select_today_status.dart';
+import '../../../../../../core/theme/color_schema.dart';
+import '../../../../domain/entities/work_days.dart';
+import '../../../bloc/cubit/workdays_cubit.dart';
+import '../../../../../../core/shared_functions/list_of_status_samples.dart';
+import '../../../widgets/get_description.dart';
+import '../../../widgets/in_out_time_selector.dart';
+import '../../../widgets/select_today_status.dart';
 
 class GetTodayStatus extends StatefulWidget {
   final DateTime? currentDate;
@@ -21,13 +21,7 @@ class GetTodayStatus extends StatefulWidget {
 }
 
 class _GetTodayStatusUiState extends State<GetTodayStatus> {
-  late WorkDay todayStatusInfo = getListOfStatus().first;
-
-  @override
-  void initState() {
-    todayStatusInfo.date = widget.currentDate ?? DateTime.now();
-    super.initState();
-  }
+  late WorkDay todayStatusInfo = getListOfStatus(widget.currentDate).first;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +33,10 @@ class _GetTodayStatusUiState extends State<GetTodayStatus> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           mainAxisSize: MainAxisSize.max,
           children: [
-            SelectTodayStatus(onChange: (value) => setState(() => todayStatusInfo = value)),
+            SelectTodayStatus(
+              onChange: (value) => setState(() => todayStatusInfo = value),
+              currentDate: widget.currentDate,
+            ),
             if (todayStatusInfo.isWorkDay) ..._selectInOutTime(),
             GetDescription(onTextChanged: (value) => todayStatusInfo.shortDescription = value),
             _submitButton(),
@@ -85,7 +82,9 @@ class _GetTodayStatusUiState extends State<GetTodayStatus> {
         ),
         onPressed: () {
           BlocProvider.of<WorkdaysCubit>(context).insertWorkDay(todayStatusInfo);
-          widget.onSubmit!();
+          if (widget.onSubmit != null) {
+            widget.onSubmit!();
+          }
         },
         child: const Text("ذخیره"),
       ),

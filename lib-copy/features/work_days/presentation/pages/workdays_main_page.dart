@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shamsi_date/shamsi_date.dart';
 import '../../domain/entities/work_days.dart';
 import '../bloc/cubit/workdays_cubit.dart';
-import '../widgets/list_workdays.dart';
-import '../widgets/month_selector_workdays.dart';
-import '../widgets/unknow_days/unknown_days_workdays.dart';
+import 'show_all_workdays.dart';
+import 'today_status/today_status.dart';
 
-class WorkDaysPage extends StatefulWidget {
-  const WorkDaysPage({super.key});
+class WorkDaysMainPage extends StatefulWidget {
+  const WorkDaysMainPage({super.key});
 
   @override
-  State<WorkDaysPage> createState() => _WorkDaysPageState();
+  State<WorkDaysMainPage> createState() => _WorkDaysMainPageState();
 }
 
-class _WorkDaysPageState extends State<WorkDaysPage> {
-  Jalali currentDate = Jalali.now();
+class _WorkDaysMainPageState extends State<WorkDaysMainPage> {
   @override
   void initState() {
     BlocProvider.of<WorkdaysCubit>(context).getWorkDays();
@@ -54,21 +51,11 @@ class _WorkDaysPageState extends State<WorkDaysPage> {
     return const Center(child: CircularProgressIndicator());
   }
 
-  Column _loadedWidget(List<WorkDay> listOfWorkDays_) {
-    return Column(
+  Widget _loadedWidget(List<WorkDay> listOfWorkDays_) {
+    return TabBarView(
       children: [
-        MonthSelectorWorkDays(
-          currentDate: currentDate,
-          onCurrentDateChanged: (value) => setState(() => currentDate = value),
-        ),
-        UnknownDaysWorkDays(
-          currentDate: currentDate,
-          listOfWorkDays: listOfWorkDays_,
-        ),
-        ListWorkDays(
-          currentDate: currentDate,
-          listOfWorkDays: listOfWorkDays_,
-        ),
+        TodayStatusLayout(listOfWorkDay: listOfWorkDays_),
+        ShowAllWorkDays(listOfWorkDays: listOfWorkDays_),
       ],
     );
   }

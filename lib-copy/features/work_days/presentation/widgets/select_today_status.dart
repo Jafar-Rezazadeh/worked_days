@@ -4,18 +4,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/theme/color_schema.dart';
 import '../../domain/entities/work_days.dart';
-import '../shared_functions/list_of_status_samples.dart';
+import '../../../../core/shared_functions/list_of_status_samples.dart';
 
 class SelectTodayStatus extends StatefulWidget {
+  final DateTime? currentDate;
   final Function(WorkDay) onChange;
-  const SelectTodayStatus({super.key, required this.onChange});
+  const SelectTodayStatus({super.key, required this.onChange, required this.currentDate});
 
   @override
   State<SelectTodayStatus> createState() => _SelectTodayStatusState();
 }
 
 class _SelectTodayStatusState extends State<SelectTodayStatus> {
-  final List<WorkDay> listOfStatus = getListOfStatus();
+  late List<WorkDay> listOfStatus = getListOfStatus(widget.currentDate);
   @override
   Widget build(BuildContext context) {
     return CustomRadioButton(

@@ -19,10 +19,10 @@ class WorkdaysCubit extends Cubit<WorkdaysState> {
       : super(EmptyState());
 
 // Actions
-  getWorkDays() async {
+  Future<List<WorkDay>> getWorkDays() async {
     emit(LoadingState());
 
-    await _getWorkDays();
+    return _getWorkDays();
   }
 
   Future<int> insertWorkDay(WorkDay workDay) async {
@@ -60,16 +60,19 @@ class WorkdaysCubit extends Cubit<WorkdaysState> {
   }
 
 //
-  Future<void> _getWorkDays() async {
+  Future<List<WorkDay>> _getWorkDays() async {
     final failureOrListofWorkDay = await getWorkDaysUseCase(NoParams());
 
     failureOrListofWorkDay.fold(
       (failure) {
         emit(ErrorState(message: failure.message));
+        return [];
       },
       (listOfWorkday) {
         emit(LoadedState(listOfWorkDay: listOfWorkday));
+        return listOfWorkday;
       },
     );
+    return [];
   }
 }

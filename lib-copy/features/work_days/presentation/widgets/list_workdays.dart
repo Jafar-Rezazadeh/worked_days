@@ -155,10 +155,20 @@ class ListWorkDays extends StatelessWidget {
     );
   }
 
-  DataCell _inOutTime(WorkDay currentMonthWorkDay) {
+  DataCell _inOutTime(WorkDay workDay) {
     return DataCell(
       Center(
-        child: Text(currentMonthWorkDay.inTime?.toStringFormat ?? "-"),
+        child: Text.rich(
+          workDay.inTime != null && workDay.outTime != null
+              ? TextSpan(
+                  children: [
+                    TextSpan(text: workDay.inTime?.toStringFormat ?? "-"),
+                    TextSpan(text: " تا ", style: TextStyle(color: ColorPallet.orange)),
+                    TextSpan(text: workDay.outTime?.toStringFormat ?? "-"),
+                  ],
+                )
+              : const TextSpan(text: "-"),
+        ),
       ),
     );
   }
@@ -187,7 +197,7 @@ class ListWorkDays extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 50.sp),
       child: const Center(
-        child: Text("داده ای ثپت نشده لطفا وضعیت روز ها را مشخص کنید."),
+        child: Text("داده ای ثبت نشده لطفا وضعیت روز ها را مشخص کنید."),
       ),
     );
   }

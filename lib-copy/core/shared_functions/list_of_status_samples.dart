@@ -1,10 +1,10 @@
-import '../../domain/entities/work_days.dart';
+import '../../features/work_days/domain/entities/work_days.dart';
 
-List<WorkDay> getListOfStatus() => [
+List<WorkDay> getListOfStatus(DateTime? date) => [
       WorkDay(
         id: 0,
         title: "کار کردم",
-        date: DateTime.now(),
+        date: date ?? DateTime.now(),
         shortDescription: null,
         inTime: null,
         outTime: null,
@@ -15,7 +15,7 @@ List<WorkDay> getListOfStatus() => [
       WorkDay(
         id: 1,
         title: "تعطیل رسمی",
-        date: DateTime.now(),
+        date: date ?? DateTime.now(),
         shortDescription: null,
         inTime: null,
         outTime: null,
@@ -26,7 +26,7 @@ List<WorkDay> getListOfStatus() => [
       WorkDay(
         id: 2,
         title: "تعطیل",
-        date: DateTime.now(),
+        date: date ?? DateTime.now(),
         shortDescription: null,
         inTime: null,
         outTime: null,
