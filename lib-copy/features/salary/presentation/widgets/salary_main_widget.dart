@@ -35,7 +35,13 @@ class _SalaryMainWidgetState extends State<SalaryMainWidget> {
           flex: 2,
           child: Directionality(
             textDirection: TextDirection.rtl,
-            child: _stateDecider(state),
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+              height: double.infinity,
+              width: double.infinity,
+              color: ColorPallet.yaleBlue,
+              child: _stateDecider(state),
+            ),
           ),
         );
       },
@@ -49,16 +55,13 @@ class _SalaryMainWidgetState extends State<SalaryMainWidget> {
       );
     }
     if (state is SalaryLoadingState) {
-      return const Center(child: CircularProgressIndicator());
+      return Center(
+          child: CircularProgressIndicator(
+        color: ColorPallet.smoke,
+      ));
     }
     if (state is SalaryLoadedState) {
-      return Container(
-        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-        height: double.infinity,
-        width: double.infinity,
-        color: ColorPallet.yaleBlue,
-        child: _showPaidSalaryAndCalcSalary(state.listOfSalaries),
-      );
+      return _showPaidSalaryAndCalcSalary(state.listOfSalaries);
     }
     if (state is SalaryErrorState) {
       return Center(
