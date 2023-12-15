@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shamsi_date/shamsi_date.dart';
@@ -9,10 +8,10 @@ import '../../domain/entities/work_days.dart';
 import '../../../../core/utils/extentions.dart';
 
 class ListWorkDays extends StatelessWidget {
-  final List<WorkDay> listOfWorkDays;
+  final List<WorkDay> currentMonthWorkDays;
   final Jalali currentDate;
 
-  ListWorkDays({super.key, required this.listOfWorkDays, required this.currentDate});
+  ListWorkDays({super.key, required this.currentMonthWorkDays, required this.currentDate});
 
   final ScrollController horizontalScrollCont = ScrollController();
   final ScrollController verticalScrollCont = ScrollController();
@@ -21,30 +20,27 @@ class ListWorkDays extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       flex: 6,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 20),
-        child: Scrollbar(
-          trackVisibility: true,
-          thumbVisibility: true,
-          scrollbarOrientation: ScrollbarOrientation.left,
+      child: Scrollbar(
+        trackVisibility: true,
+        thumbVisibility: true,
+        scrollbarOrientation: ScrollbarOrientation.left,
+        controller: verticalScrollCont,
+        child: SingleChildScrollView(
           controller: verticalScrollCont,
-          child: SingleChildScrollView(
-            controller: verticalScrollCont,
-            scrollDirection: Axis.vertical,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Scrollbar(
+          scrollDirection: Axis.vertical,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Scrollbar(
+              controller: horizontalScrollCont,
+              trackVisibility: true,
+              thumbVisibility: true,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
                 controller: horizontalScrollCont,
-                trackVisibility: true,
-                thumbVisibility: true,
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  controller: horizontalScrollCont,
-                  scrollDirection: Axis.horizontal,
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: _currentMonthWorkDays().isEmpty ? _noData() : _dataTable(),
-                  ),
+                scrollDirection: Axis.horizontal,
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: currentMonthWorkDays.isEmpty ? _noData() : _dataTable(),
                 ),
               ),
             ),
@@ -81,38 +77,18 @@ class ListWorkDays extends StatelessWidget {
         DataColumn(label: Container()),
       ],
       rows: List<DataRow>.generate(
-        _currentMonthWorkDays().length,
+        currentMonthWorkDays.length,
         (i) => DataRow(
           //Todo: make the list selectable()
           cells: [
-            _inOutTime(_currentMonthWorkDays()[i]),
-            _dateTime(_currentMonthWorkDays()[i]),
-            _title(_currentMonthWorkDays()[i]),
-            _statusAvatar(_currentMonthWorkDays()[i]),
+            _inOutTime(currentMonthWorkDays[i]),
+            _dateTime(currentMonthWorkDays[i]),
+            _title(currentMonthWorkDays[i]),
+            _statusAvatar(currentMonthWorkDays[i]),
           ],
         ),
       ),
     );
-  }
-
-  List<WorkDay> _currentMonthWorkDays() {
-    try {
-      List<WorkDay> result = listOfWorkDays
-          .where(
-            (element) =>
-                element.date.toJalali().month == currentDate.month &&
-                element.date.toJalali().year == currentDate.year,
-          )
-          .toList();
-
-      result.sort((a, b) => a.date.compareTo(b.date));
-      return result;
-    } catch (e) {
-      if (kDebugMode) {
-        print(e.toString());
-      }
-      return [];
-    }
   }
 
   DataCell _title(WorkDay workDay) {

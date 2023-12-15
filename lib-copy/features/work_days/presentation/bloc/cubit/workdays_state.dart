@@ -17,7 +17,7 @@ final class LoadedState extends WorkdaysState {
   const LoadedState({required this.listOfWorkDay});
 
   @override
-  List<Object> get props => [super.props, listOfWorkDay];
+  List<Object> get props => [...super.props, listOfWorkDay];
 }
 
 final class InsertWorkDayState extends WorkdaysState {
@@ -26,7 +26,7 @@ final class InsertWorkDayState extends WorkdaysState {
   const InsertWorkDayState({required this.id});
 
   @override
-  List<Object> get props => [super.props, id];
+  List<Object> get props => [...super.props, id];
 }
 
 final class ErrorState extends WorkdaysState {
@@ -35,5 +35,5 @@ final class ErrorState extends WorkdaysState {
   const ErrorState({required this.message});
 
   @override
-  List<Object> get props => [super.props, message];
+  List<Object> get props => [...super.props, message];
 }

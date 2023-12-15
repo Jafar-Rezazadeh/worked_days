@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
+import '../../../salary/presentation/widgets/salary_main_widget.dart';
 import '../../domain/entities/work_days.dart';
 import '../widgets/list_workdays.dart';
 import '../widgets/month_selector_workdays.dart';
@@ -30,9 +32,33 @@ class _ShowAllWorkDaysState extends State<ShowAllWorkDays> {
         ),
         ListWorkDays(
           currentDate: currentDate,
-          listOfWorkDays: widget.listOfWorkDays,
+          currentMonthWorkDays: _currentMonthWorkDays(),
         ),
+        SalaryMainWidget(
+          currentMonth: currentDate,
+          listOfCurrentMonthWorkDay: _currentMonthWorkDays(),
+        )
       ],
     );
+  }
+
+  List<WorkDay> _currentMonthWorkDays() {
+    try {
+      List<WorkDay> result = widget.listOfWorkDays
+          .where(
+            (element) =>
+                element.date.toJalali().month == currentDate.month &&
+                element.date.toJalali().year == currentDate.year,
+          )
+          .toList();
+
+      result.sort((a, b) => a.date.compareTo(b.date));
+      return result;
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+      return [];
+    }
   }
 }

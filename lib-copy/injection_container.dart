@@ -1,4 +1,13 @@
 import 'package:get_it/get_it.dart';
+import 'package:sqflite/sqflite.dart';
+import 'core/shared_functions/local_data_source.dart';
+import 'features/salary/data/datasources/salary_local_datasource.dart';
+import 'features/salary/data/repositories/salary_repository_impl.dart';
+import 'features/salary/domain/repositories/salary_repository.dart';
+import 'features/salary/domain/usecases/delete_salaries.dart';
+import 'features/salary/domain/usecases/get_salaries.dart';
+import 'features/salary/domain/usecases/insert_salary.dart';
+import 'features/salary/presentation/bloc/cubit/salary_cubit.dart';
 import 'features/work_days/data/datasources/workdays_local_datasource.dart';
 import 'features/work_days/data/repositories/workday_repository_impl.dart';
 import 'features/work_days/domain/repositories/workdays_repository.dart';
@@ -9,12 +18,14 @@ import 'features/work_days/presentation/bloc/cubit/workdays_cubit.dart';
 
 final sl = GetIt.instance;
 
-void initServiceLocator() {
+Future<void> initServiceLocator() async {
+  final Database localDatabase = await openLocalDataSource();
   //! features
-  _workDayFeature();
+  await _workDayFeature(localDatabase);
+  await _salaryFeature(localDatabase);
 }
 
-void _workDayFeature() {
+Future<void> _workDayFeature(Database database) async {
   //bloc
   sl.registerFactory(
     () => WorkdaysCubit(
@@ -37,7 +48,36 @@ void _workDayFeature() {
   );
 
   //dataSources
-  sl.registerLazySingleton<WorkDaysLocalDataSource>(() => WorkDaysLocalDataSourceImpl());
+  sl.registerLazySingleton<WorkDaysLocalDataSource>(
+    () => WorkDaysLocalDataSourceImpl(database: database),
+  );
+
+  //! core
+
+  //! externals
+}
+
+Future<void> _salaryFeature(Database database) async {
+  //bloc
+  sl.registerFactory(
+    () =>
+        SalaryCubit(getSalariesUseCase: sl(), insertSalaryUseCase: sl(), deleteSalaryUseCase: sl()),
+  );
+
+  //usecases
+  sl.registerLazySingleton(() => GetSalariesUseCase(salaryRepository: sl()));
+  sl.registerLazySingleton(() => InsertSalaryUseCase(salaryRepository: sl()));
+  sl.registerLazySingleton(() => DeleteSalaryUseCase(salaryRepository: sl()));
+
+  //repositories
+  sl.registerLazySingleton<SalaryRepository>(
+    () => SalaryRepositoryImpl(salaryLocalDataSource: sl()),
+  );
+
+  //data sources
+  sl.registerLazySingleton<SalaryLocalDataSource>(
+    () => SalaryLocalDataSourceImpl(database: database),
+  );
 
   //! core
 
