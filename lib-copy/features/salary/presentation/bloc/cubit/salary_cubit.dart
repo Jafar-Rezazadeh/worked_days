@@ -36,7 +36,7 @@ class SalaryCubit extends Cubit<SalaryState> {
         emit(SalaryErrorState(errorMessage: failure.message));
       },
       (id) async {
-        print("inserted salary id: $id");
+        // print("inserted salary id: $id");
         await _getSalaries();
       },
     );
@@ -52,7 +52,7 @@ class SalaryCubit extends Cubit<SalaryState> {
         emit(SalaryErrorState(errorMessage: failure.message));
       },
       (deleteCount) async {
-        print("deleteCount: $deleteCount");
+        // print("deleteCount: $deleteCount");
         await _getSalaries();
       },
     );

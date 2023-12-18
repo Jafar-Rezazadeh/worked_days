@@ -18,16 +18,6 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
   SettingsLocalDataSourceImpl({required this.sharedPreferences});
 
   @override
-  Future<bool> deleteSettings() async {
-    try {
-      final isRemoved = await sharedPreferences.remove(settingsKey);
-      return isRemoved;
-    } catch (e) {
-      throw LocalDataSourceException();
-    }
-  }
-
-  @override
   Future<SettingsModel?> getSettings() async {
     try {
       final String? json = sharedPreferences.getString(settingsKey);
@@ -45,11 +35,23 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
   @override
   Future<bool> insertSettings(SettingsModel settingsModel) async {
     try {
-      final isSet = await sharedPreferences.setString(
+      final isInserted = await sharedPreferences.setString(
         settingsKey,
         jsonEncode(settingsModel.toMap()),
       );
-      return isSet;
+
+      return isInserted;
+    } catch (e) {
+      throw LocalDataSourceException();
+    }
+  }
+
+  @override
+  Future<bool> deleteSettings() async {
+    try {
+      final isDeleted = await sharedPreferences.remove(settingsKey);
+
+      return isDeleted;
     } catch (e) {
       throw LocalDataSourceException();
     }

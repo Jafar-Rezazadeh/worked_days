@@ -27,7 +27,6 @@ class SalaryLocalDataSourceImpl implements SalaryLocalDataSource {
 
       return salaries;
     } catch (e) {
-      print(e);
       throw LocalDataSourceException();
     }
   }

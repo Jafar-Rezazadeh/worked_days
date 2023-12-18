@@ -25,21 +25,6 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> deleteSettings() async {
-    try {
-      //Todo: delete notification if needed
-      final isDeleted = await dataSource.deleteSettings();
-
-      return right(isDeleted);
-    } on LocalDataSourceException {
-      return left(
-        const LocalDataFailure(
-            message: "LocalDataSource: an error occure while deleting settings data"),
-      );
-    }
-  }
-
-  @override
   Future<Either<Failure, bool>> insertSettings(Settings settings) async {
     try {
       //Todo: create notification if notification value was not null
@@ -51,6 +36,21 @@ class SettingsRepositoryImpl implements SettingsRepository {
       return left(
         const LocalDataFailure(
             message: "LocalDataSource: an error occure while INSERTING settings data"),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> deleteSettings() async {
+    try {
+      //Todo: delete notification if needed
+      final isDeleted = await dataSource.deleteSettings();
+
+      return right(isDeleted);
+    } on LocalDataSourceException {
+      return left(
+        const LocalDataFailure(
+            message: "LocalDataSource: an error occure while deleting settings data"),
       );
     }
   }

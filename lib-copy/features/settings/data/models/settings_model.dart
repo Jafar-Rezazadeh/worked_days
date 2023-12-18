@@ -1,7 +1,7 @@
 import '../../domain/entities/settings.dart';
 
 class SettingsModel extends Settings {
-  SettingsModel({required super.salaryAmountContract});
+  const SettingsModel({required super.salaryAmountContract});
 
   factory SettingsModel.fromMap(Map<String, dynamic> mapData) {
     return SettingsModel(
