@@ -12,11 +12,16 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   SettingsRepositoryImpl({required this.dataSource});
   @override
-  Future<Either<Failure, Settings?>> getSettings() async {
+  Future<Either<Failure, Settings>> getSettings() async {
     try {
       final Settings? settings = await dataSource.getSettings();
+      if (settings != null) {
+        return Right(settings);
+      } else {
+        const defaultSettings = Settings(salaryAmountContract: 0);
 
-      return Right(settings);
+        return right(defaultSettings);
+      }
     } on LocalDataSourceException {
       return left(
         const LocalDataFailure(message: "LocalDataSource: an error while getting settings data"),

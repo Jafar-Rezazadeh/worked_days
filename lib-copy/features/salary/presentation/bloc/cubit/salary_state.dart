@@ -17,7 +17,7 @@ final class SalaryLoadedState extends SalaryState {
   const SalaryLoadedState({required this.listOfSalaries});
 
   @override
-  List<Object> get props => [listOfSalaries, ...super.props];
+  List<Object> get props => [listOfSalaries];
 }
 
 final class SalaryErrorState extends SalaryState {
@@ -26,5 +26,5 @@ final class SalaryErrorState extends SalaryState {
   const SalaryErrorState({required this.errorMessage});
 
   @override
-  List<Object> get props => [errorMessage, ...super.props];
+  List<Object> get props => [errorMessage];
 }

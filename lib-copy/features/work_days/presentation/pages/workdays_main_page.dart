@@ -23,16 +23,16 @@ class _WorkDaysMainPageState extends State<WorkDaysMainPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<WorkdaysCubit, WorkdaysState>(
       builder: (context, state) {
-        if (state is EmptyState) {
+        if (state is WorkDaysInitialState) {
           return _emptyWidget();
         }
-        if (state is LoadingState) {
+        if (state is WorkDaysLoadingState) {
           return _loadingWidget();
         }
-        if (state is LoadedState) {
+        if (state is WorkDaysLoadedState) {
           return _loadedWidget(state.listOfWorkDay);
         }
-        if (state is ErrorState) {
+        if (state is WorkDaysErrorState) {
           return _errorWidget(state);
         } else {
           return const Center(child: Text("unknown error"));
@@ -60,7 +60,7 @@ class _WorkDaysMainPageState extends State<WorkDaysMainPage> {
     );
   }
 
-  Center _errorWidget(ErrorState state) {
+  Center _errorWidget(WorkDaysErrorState state) {
     return Center(
         child: Text(
       state.message,

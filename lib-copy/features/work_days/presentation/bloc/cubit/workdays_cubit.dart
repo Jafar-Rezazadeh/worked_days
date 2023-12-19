@@ -16,23 +16,23 @@ class WorkdaysCubit extends Cubit<WorkdaysState> {
       {required this.getWorkDaysUseCase,
       required this.insertWorkDayUseCase,
       required this.deleteWorkDayUseCase})
-      : super(EmptyState());
+      : super(WorkDaysInitialState());
 
 // Actions
   Future<List<WorkDay>> getWorkDays() async {
-    emit(LoadingState());
+    emit(WorkDaysLoadingState());
 
     return _getWorkDays();
   }
 
   Future<int> insertWorkDay(WorkDay workDay) async {
-    emit(LoadingState());
+    emit(WorkDaysLoadingState());
 
     final failureOrId = await insertWorkDayUseCase(workDay);
 
     return failureOrId.fold(
       (failure) {
-        emit(ErrorState(message: failure.message));
+        emit(WorkDaysErrorState(message: failure.message));
         return 0;
       },
       (id) {
@@ -43,13 +43,13 @@ class WorkdaysCubit extends Cubit<WorkdaysState> {
   }
 
   Future<int> deleteWorkDay(int id) async {
-    emit(LoadingState());
+    emit(WorkDaysLoadingState());
 
     final failureOrCount = await deleteWorkDayUseCase(id);
 
     return failureOrCount.fold(
       (failure) {
-        emit(ErrorState(message: failure.message));
+        emit(WorkDaysErrorState(message: failure.message));
         return 0;
       },
       (id) {
@@ -65,11 +65,11 @@ class WorkdaysCubit extends Cubit<WorkdaysState> {
 
     failureOrListofWorkDay.fold(
       (failure) {
-        emit(ErrorState(message: failure.message));
+        emit(WorkDaysErrorState(message: failure.message));
         return [];
       },
       (listOfWorkday) {
-        emit(LoadedState(listOfWorkDay: listOfWorkday));
+        emit(WorkDaysLoadedState(listOfWorkDay: listOfWorkday));
         return listOfWorkday;
       },
     );

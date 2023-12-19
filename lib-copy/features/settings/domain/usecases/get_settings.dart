@@ -5,12 +5,12 @@ import '../../../../core/usecases/usecase_contract.dart';
 import '../entities/settings.dart';
 import '../repositories/settings_repository.dart';
 
-class GetSettingsUseCase implements UseCaseContract<Settings?, NoParams> {
+class GetSettingsUseCase implements UseCaseContract<Settings, NoParams> {
   final SettingsRepository settingsRepository;
 
   GetSettingsUseCase({required this.settingsRepository});
   @override
-  Future<Either<Failure, Settings?>> call(NoParams params) async {
+  Future<Either<Failure, Settings>> call(NoParams params) async {
     return await settingsRepository.getSettings();
   }
 }
