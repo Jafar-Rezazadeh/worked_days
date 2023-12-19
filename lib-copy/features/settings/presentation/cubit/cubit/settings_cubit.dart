@@ -26,7 +26,7 @@ class SettingsCubit extends Cubit<SettingsState> {
     await _getSettings();
   }
 
-  insertSettings(Settings settings) async {
+  Future<void> insertSettings(Settings settings) async {
     emit(SettingsLoadingState());
 
     final failureOrInserted = await insertSettingsUseCase(settings);
@@ -47,7 +47,7 @@ class SettingsCubit extends Cubit<SettingsState> {
     );
   }
 
-  deleteSettings() async {
+  Future<void> deleteSettings() async {
     emit(SettingsLoadingState());
 
     final failureOrIsDeleted = await deleteSettingsUseCase(NoParams());

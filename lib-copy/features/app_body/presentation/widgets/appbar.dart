@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/theme/color_schema.dart';
+import '../../../settings/presentation/cubit/cubit/settings_cubit.dart';
+import '../../../settings/presentation/pages/settings_page_main.dart';
 
 AppBar appBar(BuildContext context) {
   return AppBar(
@@ -20,7 +23,17 @@ AppBar appBar(BuildContext context) {
         padding: const EdgeInsets.only(right: 10),
         child: IconButton(
           splashRadius: 20,
-          onPressed: () {},
+          onPressed: () async {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => BlocProvider.value(
+                  value: BlocProvider.of<SettingsCubit>(context),
+                  child: const SettingsMainPage(),
+                ),
+              ),
+            );
+          },
           icon: const Icon(Icons.settings),
         ),
       ),

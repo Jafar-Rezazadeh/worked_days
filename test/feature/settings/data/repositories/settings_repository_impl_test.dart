@@ -1,3 +1,4 @@
+import 'package:flutter/src/material/time.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -14,23 +15,32 @@ class MockSettingsModel extends Mock implements SettingsModel {}
 
 class MockSettings extends Mock implements Settings {}
 
+class FakeSettings extends Fake implements Settings {
+  @override
+  int get salaryAmountContract => 0;
+  @override
+  bool get isNotificationActive => false;
+
+  @override
+  TimeOfDay get notificationPeriodTime => const TimeOfDay(hour: 18, minute: 0);
+}
+
 class FakeSettingsModel extends Fake implements SettingsModel {}
 
 void main() {
   late SettingsRepositoryImpl tSettingsRepositoryImpl;
   late MockSettingsLocalDataSource mockDataSource;
-  late FakeSettingsModel fakeSettingsModel;
-  late MockSettings mockSettings;
+  late FakeSettings fakeSettings;
 
   setUpAll(() {
+    registerFallbackValue(FakeSettings());
     registerFallbackValue(FakeSettingsModel());
   });
 
   setUp(() {
     //
-    fakeSettingsModel = FakeSettingsModel();
+    fakeSettings = FakeSettings();
     //
-    mockSettings = MockSettings();
     mockDataSource = MockSettingsLocalDataSource();
     tSettingsRepositoryImpl = SettingsRepositoryImpl(dataSource: mockDataSource);
   });
@@ -45,7 +55,7 @@ void main() {
           when(
             () => mockDataSource.getSettings(),
           ).thenAnswer(
-            (invocation) => Future<SettingsModel?>.value(fakeSettingsModel),
+            (invocation) => Future<SettingsModel?>.value(SettingsModel.fromEntity(fakeSettings)),
           );
 
           //act
@@ -93,7 +103,7 @@ void main() {
           );
 
           //act
-          final failureOrisInserted = await tSettingsRepositoryImpl.insertSettings(mockSettings);
+          final failureOrisInserted = await tSettingsRepositoryImpl.insertSettings(fakeSettings);
 
           final isInserted = failureOrisInserted.fold((l) => null, (r) => r);
 
@@ -111,7 +121,7 @@ void main() {
           ).thenAnswer((invocation) async => false);
 
           //act
-          final failureOrIsinserted = await tSettingsRepositoryImpl.insertSettings(mockSettings);
+          final failureOrIsinserted = await tSettingsRepositoryImpl.insertSettings(fakeSettings);
           final isInserted = failureOrIsinserted.fold((l) => null, (r) => r);
 
           //assert
@@ -128,7 +138,7 @@ void main() {
           ).thenAnswer((invocation) => throw LocalDataSourceException());
 
           //act
-          final failureOrIsInserted = await tSettingsRepositoryImpl.insertSettings(mockSettings);
+          final failureOrIsInserted = await tSettingsRepositoryImpl.insertSettings(fakeSettings);
           final failure = failureOrIsInserted.fold((l) => l, (r) => null);
 
           //assert

@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'core/shared_functions/local_data_source.dart';
 import 'features/salary/data/datasources/salary_local_datasource.dart';
@@ -8,6 +9,13 @@ import 'features/salary/domain/usecases/delete_salaries.dart';
 import 'features/salary/domain/usecases/get_salaries.dart';
 import 'features/salary/domain/usecases/insert_salary.dart';
 import 'features/salary/presentation/bloc/cubit/salary_cubit.dart';
+import 'features/settings/data/data_sources/settings_local_data_source.dart';
+import 'features/settings/data/repositories/settings_repository_impl.dart';
+import 'features/settings/domain/repositories/settings_repository.dart';
+import 'features/settings/domain/usecases/delete_settings.dart';
+import 'features/settings/domain/usecases/get_settings.dart';
+import 'features/settings/domain/usecases/insert_settings.dart';
+import 'features/settings/presentation/cubit/cubit/settings_cubit.dart';
 import 'features/work_days/data/datasources/workdays_local_datasource.dart';
 import 'features/work_days/data/repositories/workday_repository_impl.dart';
 import 'features/work_days/domain/repositories/workdays_repository.dart';
@@ -20,9 +28,11 @@ final sl = GetIt.instance;
 
 Future<void> initServiceLocator() async {
   final Database localDatabase = await openLocalDataSource();
+  final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   //! features
   await _workDayFeature(localDatabase);
   await _salaryFeature(localDatabase);
+  await _settingsFeature(sharedPreferences);
 }
 
 Future<void> _workDayFeature(Database database) async {
@@ -60,8 +70,11 @@ Future<void> _workDayFeature(Database database) async {
 Future<void> _salaryFeature(Database database) async {
   //bloc
   sl.registerFactory(
-    () =>
-        SalaryCubit(getSalariesUseCase: sl(), insertSalaryUseCase: sl(), deleteSalaryUseCase: sl()),
+    () => SalaryCubit(
+      getSalariesUseCase: sl(),
+      insertSalaryUseCase: sl(),
+      deleteSalaryUseCase: sl(),
+    ),
   );
 
   //usecases
@@ -77,6 +90,42 @@ Future<void> _salaryFeature(Database database) async {
   //data sources
   sl.registerLazySingleton<SalaryLocalDataSource>(
     () => SalaryLocalDataSourceImpl(database: database),
+  );
+
+  //! core
+
+  //! externals
+}
+
+_settingsFeature(SharedPreferences sharedPreferences) {
+  //bloc
+  sl.registerFactory(
+    () => SettingsCubit(
+      deleteSettingsUseCase: sl(),
+      insertSettingsUseCase: sl(),
+      getSettingsUseCase: sl(),
+    ),
+  );
+
+  //usecases
+  sl.registerLazySingleton(
+    () => DeleteSettingsUseCase(settingsRepository: sl()),
+  );
+  sl.registerLazySingleton(
+    () => InsertSettingsUseCase(settingsRepository: sl()),
+  );
+  sl.registerLazySingleton(
+    () => GetSettingsUseCase(settingsRepository: sl()),
+  );
+
+  //repositories
+  sl.registerLazySingleton<SettingsRepository>(
+    () => SettingsRepositoryImpl(dataSource: sl()),
+  );
+
+  //datasources
+  sl.registerLazySingleton<SettingsLocalDataSource>(
+    () => SettingsLocalDataSourceImpl(sharedPreferences: sharedPreferences),
   );
 
   //! core

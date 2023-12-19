@@ -56,20 +56,6 @@ class ListWorkDays extends StatelessWidget {
         horizontalInside: BorderSide(width: 1, color: ColorPallet.yaleBlue.withOpacity(0.2)),
         verticalInside: BorderSide(width: 1, color: ColorPallet.yaleBlue.withOpacity(0.2)),
       ),
-      headingTextStyle: TextStyle(
-        fontSize: 13.sp,
-        color: ColorPallet.yaleBlue,
-        fontFamily: "Vazir",
-      ),
-      dataTextStyle: TextStyle(
-        fontSize: 12.sp,
-        color: Colors.black,
-        fontFamily: "Vazir",
-      ),
-      columnSpacing: 1.sw / 12,
-      headingRowColor: MaterialStatePropertyAll<Color>(
-        ColorPallet.yaleBlue.withOpacity(0.2),
-      ),
       columns: [
         const DataColumn(label: Expanded(child: Center(child: Text("ورود و خروج")))),
         const DataColumn(label: Expanded(child: Center(child: Text("تاریخ")))),

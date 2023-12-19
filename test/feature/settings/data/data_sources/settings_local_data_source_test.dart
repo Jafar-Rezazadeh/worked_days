@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/src/material/time.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,8 +14,14 @@ class MockSharedPreferences extends Mock implements SharedPreferences {}
 void main() {
   late SettingsLocalDataSourceImpl tSettingsLocalDataSourceImpl;
   late MockSharedPreferences mockSharedPreferences;
+  late SettingsModel mockSettingsModel;
 
   setUp(() {
+    mockSettingsModel = const SettingsModel(
+      isNotificationActive: false,
+      notificationPeriodTime: TimeOfDay(hour: 0, minute: 0),
+      salaryAmountContract: 0,
+    );
     mockSharedPreferences = MockSharedPreferences();
     tSettingsLocalDataSourceImpl =
         SettingsLocalDataSourceImpl(sharedPreferences: mockSharedPreferences);
@@ -27,14 +34,11 @@ void main() {
         "should return settingsModel when there is data and not null and no exception",
         () async {
           //arrange
+
           when(
             () => mockSharedPreferences.getString(any<String>()),
           ).thenAnswer((invocation) {
-            return '''
-              {
-                "salaryAmountContract" : 50
-              }
-            ''';
+            return jsonEncode(mockSettingsModel.toMap());
           });
 
           //act
@@ -87,16 +91,16 @@ void main() {
         "should retrun true when data is inserted",
         () async {
           //arrange
-          const tSettingModel = SettingsModel(salaryAmountContract: 500);
+
           when(
             () => mockSharedPreferences.setString(
               any<String>(),
-              jsonEncode(tSettingModel.toMap()),
+              jsonEncode(mockSettingsModel.toMap()),
             ),
           ).thenAnswer((invocation) async => true);
 
           //act
-          final isInserted = await tSettingsLocalDataSourceImpl.insertSettings(tSettingModel);
+          final isInserted = await tSettingsLocalDataSourceImpl.insertSettings(mockSettingsModel);
 
           //assert
           expect(isInserted, true);
@@ -130,8 +134,7 @@ void main() {
           );
 
           //act
-          final isInserted = tSettingsLocalDataSourceImpl
-              .insertSettings(const SettingsModel(salaryAmountContract: 0));
+          final isInserted = tSettingsLocalDataSourceImpl.insertSettings(mockSettingsModel);
           //assert
           expect(isInserted, throwsA(isA<LocalDataSourceException>()));
         },

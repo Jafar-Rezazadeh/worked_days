@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../../../../core/errors/exceptions.dart';
 import '../../../../core/errors/failures.dart';
 import '../../domain/entities/settings.dart';
@@ -18,7 +20,11 @@ class SettingsRepositoryImpl implements SettingsRepository {
       if (settings != null) {
         return Right(settings);
       } else {
-        const defaultSettings = Settings(salaryAmountContract: 0);
+        const defaultSettings = Settings(
+          salaryAmountContract: 0,
+          isNotificationActive: false,
+          notificationPeriodTime: TimeOfDay(hour: 18, minute: 00),
+        );
 
         return right(defaultSettings);
       }
