@@ -14,6 +14,7 @@
 - TDD(not completely)
 - State Managment: Bloc(Cubit)
 - Local Data Source: sqflite, Shared Preferences
+- Service Locator: Get_it
 
 ### نمایی از نرم افزار :
 
