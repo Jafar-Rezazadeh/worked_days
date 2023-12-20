@@ -8,7 +8,7 @@
 
 <br/>
 
-###مفاهیم استفاده شده:
+### مفاهیم استفاده شده:
 - Clean Architecture
 - TDD(not completely)
 - State Managment: Bloc(Cubit)
