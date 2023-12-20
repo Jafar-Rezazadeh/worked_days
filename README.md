@@ -8,6 +8,12 @@
 
 <br/>
 
+###مفاهیم استفاده شده:
+- Clean Architecture
+- TDD(not completely)
+- State Managment: Bloc(Cubit)
+- Local Data Source: sqflite, Shared Preferences
+
 ### نمایی از نرم افزار :
 
 
