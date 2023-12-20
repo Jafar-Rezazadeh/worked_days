@@ -2,12 +2,12 @@ import 'package:flutter/src/material/time.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../../../../lib-copy/core/errors/exceptions.dart';
-import '../../../../../lib-copy/core/errors/failures.dart';
-import '../../../../../lib-copy/features/settings/data/data_sources/settings_local_data_source.dart';
-import '../../../../../lib-copy/features/settings/data/models/settings_model.dart';
-import '../../../../../lib-copy/features/settings/data/repositories/settings_repository_impl.dart';
-import '../../../../../lib-copy/features/settings/domain/entities/settings.dart';
+import 'package:worked_days/core/errors/exceptions.dart';
+import 'package:worked_days/core/errors/failures.dart';
+import 'package:worked_days/features/settings/data/data_sources/settings_local_data_source.dart';
+import 'package:worked_days/features/settings/data/models/settings_model.dart';
+import 'package:worked_days/features/settings/data/repositories/settings_repository_impl.dart';
+import 'package:worked_days/features/settings/domain/entities/settings.dart';
 
 class MockSettingsLocalDataSource extends Mock implements SettingsLocalDataSource {}
 

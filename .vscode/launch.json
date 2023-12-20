@@ -9,12 +9,6 @@
       "request": "launch",
       "type": "dart"
     },
-    {
-      "name": "clean_architecture_worked_days",
-      "request": "launch",
-      "type": "dart",
-      "program": "lib-copy/main.dart"
-    },
 
     {
       "name": "worked_days (release mode)",

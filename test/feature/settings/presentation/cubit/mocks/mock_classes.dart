@@ -1,12 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../../../../../lib-copy/core/errors/failures.dart';
-import '../../../../../../lib-copy/core/usecases/usecase_contract.dart';
-import '../../../../../../lib-copy/features/settings/domain/entities/settings.dart';
-import '../../../../../../lib-copy/features/settings/domain/usecases/delete_settings.dart';
-import '../../../../../../lib-copy/features/settings/domain/usecases/get_settings.dart';
-import '../../../../../../lib-copy/features/settings/domain/usecases/insert_settings.dart';
+import 'package:worked_days/core/errors/failures.dart';
+import 'package:worked_days/core/usecases/usecase_contract.dart';
+import 'package:worked_days/features/settings/domain/entities/settings.dart';
+import 'package:worked_days/features/settings/domain/usecases/delete_settings.dart';
+import 'package:worked_days/features/settings/domain/usecases/get_settings.dart';
+import 'package:worked_days/features/settings/domain/usecases/insert_settings.dart';
 
 // ! Fakes
 class FakeSettings extends Fake implements Settings {}
