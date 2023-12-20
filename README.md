@@ -10,28 +10,15 @@
 
 ### نمایی از نرم افزار :
 
-<img style="height:900px; width:400px;" src="https://github.com/Jafar-Rezazadeh/worked_days/assets/59100135/52fc2229-86fa-412f-a868-1d6f898f6439"/>
-<img style="height:900px; width:400px;" src="https://github.com/Jafar-Rezazadeh/worked_days/assets/59100135/ecb82201-a497-46ae-9937-0256c6b88656"/>
-<img style="height:900px; width:400px;" src="https://github.com/Jafar-Rezazadeh/worked_days/assets/59100135/69f0bf11-ba0d-49e6-b3f1-549441334079"/>
+
+
+<img style="height:900px; width:400px;" src="https://github.com/Jafar-Rezazadeh/worked_days/assets/59100135/38772c10-95b7-4458-b077-85d97ff2dd2c"/>
+<img style="height:900px; width:400px;" src="https://github.com/Jafar-Rezazadeh/worked_days/assets/59100135/c954a7b9-978f-4b1c-9d86-1f7131a4ae91"/>
+<br/>
+<img style="height:900px; width:400px;" src="https://github.com/Jafar-Rezazadeh/worked_days/assets/59100135/f444304a-24d6-4536-90bc-a1754658464a"/>
+<img style="height:900px; width:400px;" src="https://github.com/Jafar-Rezazadeh/worked_days/assets/59100135/90fbdb44-a576-47bc-8213-4cbdaa66d817"/>
 
 <br/>
 <br/>
 
-## معماری نرم افزار:
-
-- State Managment: Cubit(bloc)
-- Architecture pattern :
-
-<img style="height:800px; width:500px;" src="https://github.com/Jafar-Rezazadeh/worked_days/assets/59100135/69d64cab-0b04-4fd9-895e-c03219705d7a" />
-
-<br/>
-<br/>
-<br/>
-<br/>
-
-### لینک دانلود: https://drive.google.com/file/d/1H3kMI-ucopkZnMe3fM_yC51XxnRhf8B4/view?usp=sharing
-
-<br/>
-<br/>
-<br/>
 <br/>
