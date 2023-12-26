@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
+import 'package:worked_days/features/work_days/domain/entities/work_day_temp.dart';
 
 import '../../../../core/theme/color_schema.dart';
 import '../../../../core/utils/extentions.dart';
 
 class InOutTimeSelector extends StatefulWidget {
   final Function(TimeOfDay? inTime, TimeOfDay? outTime) onChange;
-  const InOutTimeSelector({super.key, required this.onChange});
+  final WorkDayTemporary? workDayTemporary;
+  const InOutTimeSelector({super.key, required this.onChange, required this.workDayTemporary});
 
   @override
   State<InOutTimeSelector> createState() => _InOutTimeSelectorState();
@@ -17,6 +19,14 @@ class InOutTimeSelector extends StatefulWidget {
 class _InOutTimeSelectorState extends State<InOutTimeSelector> {
   TimeOfDay? inTime;
   TimeOfDay? outTime;
+
+  @override
+  void initState() {
+    inTime = widget.workDayTemporary?.inTime;
+    outTime = widget.workDayTemporary?.outTime;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../domain/entities/work_days.dart';
 import '../bloc/cubit/workdays_cubit.dart';
 import 'show_all_workdays.dart';
 import 'today_status/today_status.dart';
@@ -31,7 +30,7 @@ class _WorkDaysMainPageState extends State<WorkDaysMainPage> {
           return _loadingWidget();
         }
         if (state is WorkDaysLoadedState) {
-          return _loadedWidget(state.listOfWorkDay);
+          return _loadedWidget(state);
         }
         if (state is WorkDaysErrorState) {
           return _errorWidget(state);
@@ -52,11 +51,14 @@ class _WorkDaysMainPageState extends State<WorkDaysMainPage> {
     return const Center(child: CircularProgressIndicator());
   }
 
-  Widget _loadedWidget(List<WorkDay> listOfWorkDays_) {
+  Widget _loadedWidget(WorkDaysLoadedState state) {
     return TabBarView(
       children: [
-        TodayStatusLayout(listOfWorkDay: listOfWorkDays_),
-        ShowAllWorkDays(listOfWorkDays: listOfWorkDays_),
+        TodayStatusLayout(
+          workDayTemporary: state.workDayTemporary,
+          listOfWorkDay: state.listOfWorkDay,
+        ),
+        ShowAllWorkDays(listOfWorkDays: state.listOfWorkDay),
       ],
     );
   }

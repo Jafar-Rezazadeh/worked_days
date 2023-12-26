@@ -13,8 +13,9 @@ final class WorkDaysLoadingState extends WorkdaysState {}
 
 final class WorkDaysLoadedState extends WorkdaysState {
   final List<WorkDay> listOfWorkDay;
+  final WorkDayTemporary? workDayTemporary;
 
-  const WorkDaysLoadedState({required this.listOfWorkDay});
+  const WorkDaysLoadedState({this.workDayTemporary, required this.listOfWorkDay});
 
   @override
   List<Object> get props => [listOfWorkDay];
