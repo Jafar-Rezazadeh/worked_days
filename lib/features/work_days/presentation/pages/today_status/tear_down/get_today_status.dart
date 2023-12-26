@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:worked_days/features/work_days/domain/entities/work_day_temp.dart';
 
 import '../../../../../../core/shared_functions/list_of_status_samples.dart';
 import '../../../../../../core/theme/color_schema.dart';
@@ -13,8 +14,10 @@ import '../../../widgets/select_today_status.dart';
 class GetTodayStatus extends StatefulWidget {
   final DateTime? currentDate;
   final Function? onSubmit;
+  final WorkDayTemporary? workDayTemporary;
 
-  const GetTodayStatus({super.key, this.currentDate, this.onSubmit});
+  const GetTodayStatus(
+      {super.key, this.currentDate, this.onSubmit, required this.workDayTemporary});
 
   @override
   State<GetTodayStatus> createState() => _GetTodayStatusUiState();
@@ -39,7 +42,7 @@ class _GetTodayStatusUiState extends State<GetTodayStatus> {
             ),
             if (todayStatusInfo.isWorkDay) ..._selectInOutTime(),
             GetDescription(onTextChanged: (value) => todayStatusInfo.shortDescription = value),
-            _submitButton(),
+            if (!todayStatusInfo.isWorkDay) _submitButton(),
           ],
         ),
       ),
@@ -53,10 +56,15 @@ class _GetTodayStatusUiState extends State<GetTodayStatus> {
         color: ColorPallet.yaleBlue.withOpacity(0.5),
         thickness: 1,
       ),
-      InOutTimeSelector(onChange: (inTime, outTime) {
-        todayStatusInfo.inTime = inTime;
-        todayStatusInfo.outTime = outTime;
-      }),
+      InOutTimeSelector(
+        workDayTemporary: widget.workDayTemporary,
+        onChange: (inTime, outTime) {
+          todayStatusInfo.inTime = inTime;
+          todayStatusInfo.outTime = outTime;
+
+          BlocProvider.of<WorkdaysCubit>(context).insertWorkDay(todayStatusInfo);
+        },
+      ),
       Divider(
         height: 20.sp,
         color: ColorPallet.yaleBlue.withOpacity(0.5),

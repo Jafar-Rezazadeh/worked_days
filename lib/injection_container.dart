@@ -1,6 +1,9 @@
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:worked_days/features/work_days/data/datasources/workdays_temp_local_datasource.dart';
+import 'package:worked_days/features/work_days/domain/usecases/get_temp_work_day.dart';
+import 'package:worked_days/features/work_days/domain/usecases/save_temp_workday.dart';
 
 import 'core/shared_functions/open_sqflite_data_source.dart';
 import 'features/salary/data/datasources/salary_local_datasource.dart';
@@ -31,18 +34,20 @@ Future<void> initServiceLocator() async {
   final Database localDatabase = await openSqfliteDataSource();
   final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   //! features
-  await _workDayFeature(localDatabase);
+  await _workDayFeature(localDatabase, sharedPreferences);
   await _salaryFeature(localDatabase);
   await _settingsFeature(sharedPreferences);
 }
 
-Future<void> _workDayFeature(Database database) async {
+Future<void> _workDayFeature(Database database, SharedPreferences sharedPreferences) async {
   //bloc
   sl.registerFactory(
     () => WorkdaysCubit(
       getWorkDaysUseCase: sl(),
       insertWorkDayUseCase: sl(),
       deleteWorkDayUseCase: sl(),
+      getTempUseCase: sl(),
+      saveTempUseCase: sl(),
     ),
   );
 
@@ -50,17 +55,23 @@ Future<void> _workDayFeature(Database database) async {
   sl.registerLazySingleton(() => GetWorkDaysUseCase(workDaysRepository: sl()));
   sl.registerLazySingleton(() => InsertWorkDayUseCase(workDaysRepository: sl()));
   sl.registerLazySingleton(() => DeleteWorkDayUseCase(workDaysRepository: sl()));
+  sl.registerLazySingleton(() => GetTemporaryWorkDayUseCase(workDaysRepository: sl()));
+  sl.registerLazySingleton(() => SaveTemporaryWorkDayUseCase(workDaysRepository: sl()));
 
   //repositories
   sl.registerLazySingleton<WorkDaysRepository>(
     () => WorkDaysRepositoryImpl(
       workDaysLocalDataSource: sl(),
+      temporaryLocalDataSource: sl(),
     ),
   );
 
   //dataSources
   sl.registerLazySingleton<WorkDaysLocalDataSource>(
     () => WorkDaysLocalDataSourceImpl(database: database),
+  );
+  sl.registerLazySingleton<WorkDaysTemporaryLocalDataSource>(
+    () => WorkDaysTemporaryLocalDataSourceImpl(sharedPreferences: sharedPreferences),
   );
 
   //! core

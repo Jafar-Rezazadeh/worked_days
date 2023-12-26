@@ -88,6 +88,7 @@ class SelectUnknownDay extends StatelessWidget {
         child: Dialog(
           insetPadding: const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
           child: GetTodayStatus(
+            workDayTemporary: null,
             currentDate: item.toDateTime(),
             onSubmit: () {
               Navigator.of(context)

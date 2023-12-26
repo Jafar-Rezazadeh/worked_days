@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:shamsi_date/shamsi_date.dart';
+import 'package:worked_days/features/work_days/domain/entities/work_day_temp.dart';
 
 import '../../../domain/entities/work_days.dart';
 import 'tear_down/get_today_status.dart';
@@ -8,8 +9,9 @@ import 'tear_down/show_today_status.dart';
 
 class TodayStatusLayout extends StatelessWidget {
   final List<WorkDay> listOfWorkDay;
+  final WorkDayTemporary? workDayTemporary;
 
-  const TodayStatusLayout({super.key, required this.listOfWorkDay});
+  const TodayStatusLayout({super.key, required this.listOfWorkDay, required this.workDayTemporary});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,9 @@ class TodayStatusLayout extends StatelessWidget {
             context: context,
             todayStatus: _getTodaySavedStatus(),
           )
-        : const GetTodayStatus();
+        : GetTodayStatus(
+            workDayTemporary: workDayTemporary,
+          );
   }
 
   bool _doWeHaveTodayStatus() {
