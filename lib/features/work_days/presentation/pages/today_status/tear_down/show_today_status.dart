@@ -70,7 +70,7 @@ class ShowTodayStatus extends StatelessWidget {
                 textDirection: TextDirection.rtl,
                 TextSpan(
                   style: TextStyle(
-                    fontSize: 17.sp,
+                    fontSize: 20.sp,
                   ),
                   children: [
                     TextSpan(

@@ -51,7 +51,7 @@ class _InOutTimeSelectorState extends State<InOutTimeSelector> {
                         inTime!.format(context).toPersianPeriod,
                         style: TextStyle(
                           color: ColorPallet.green,
-                          fontSize: 20.sp,
+                          fontSize: 30.sp,
                         ),
                       )
               ],
@@ -80,7 +80,7 @@ class _InOutTimeSelectorState extends State<InOutTimeSelector> {
                         outTime!.format(context).toPersianPeriod,
                         style: TextStyle(
                           color: ColorPallet.orange,
-                          fontSize: 20.sp,
+                          fontSize: 30.sp,
                         ),
                       ),
               ],

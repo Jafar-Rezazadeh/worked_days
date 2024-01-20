@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/cubit/settings_cubit.dart';
 import 'error_page.dart';
-import 'loaded_page.dart';
+import 'settings_loaded_page.dart';
 import 'loading_page.dart';
 
 class SettingsMainPage extends StatefulWidget {
