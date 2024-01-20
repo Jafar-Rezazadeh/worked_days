@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:worked_days/features/salary/presentation/bloc/cubit/salary_cubit.dart';
 
 import '../../../../core/theme/color_schema.dart';
 import '../../../../core/widgets/custom_snackbar.dart';
+import '../../../salary/presentation/bloc/cubit/salary_cubit.dart';
 import '../../../settings/presentation/cubit/cubit/settings_cubit.dart';
 import '../../../settings/presentation/pages/settings_page_main.dart';
 
@@ -41,11 +41,10 @@ Padding _settingsActionButton(BuildContext context) {
               child: const SettingsMainPage(),
             ),
           ),
-        ).then((isInserted) {
-          if (isInserted == true) {
-            showCustomSnackBar(context: context, text: "تنظیمات ذخیره شد.");
-            BlocProvider.of<SalaryCubit>(context).getSalaries();
-          }
+        ).then((value) async {
+          await BlocProvider.of<SalaryCubit>(context).getSalaries();
+
+          if (context.mounted) showCustomSnackBar(context: context, text: "تنظیمات ذخیره شد.");
         });
       },
       icon: const Icon(Icons.settings),
