@@ -45,15 +45,7 @@ class _InOutTimeSelectorState extends State<InOutTimeSelector> {
                     color: ColorPallet.smoke,
                   ),
                 ),
-                inTime == null
-                    ? _inTimeGetters()
-                    : Text(
-                        inTime!.format(context).toPersianPeriod,
-                        style: TextStyle(
-                          color: ColorPallet.green,
-                          fontSize: 30.sp,
-                        ),
-                      )
+                inTime == null ? _inTimeGetters() : _showInTime(context)
               ],
             ),
           ),
@@ -74,20 +66,52 @@ class _InOutTimeSelectorState extends State<InOutTimeSelector> {
                     color: ColorPallet.smoke,
                   ),
                 ),
-                outTime == null
-                    ? _outTimeGetters()
-                    : Text(
-                        outTime!.format(context).toPersianPeriod,
-                        style: TextStyle(
-                          color: ColorPallet.orange,
-                          fontSize: 30.sp,
-                        ),
-                      ),
+                outTime == null ? _outTimeGetters() : _showOutTime(context),
               ],
             ),
           )
         ],
       ),
+    );
+  }
+
+  Text _showInTime(BuildContext context) {
+    return Text.rich(
+      TextSpan(
+        children: [
+          TextSpan(
+            text: inTime!.format(context),
+          ),
+          TextSpan(
+            text: " ${inTime!.period.name.toPersianPeriod}",
+          )
+        ],
+      ),
+      style: TextStyle(
+        color: ColorPallet.green,
+        fontSize: 30.sp,
+      ),
+      textDirection: TextDirection.rtl,
+    );
+  }
+
+  Text _showOutTime(BuildContext context) {
+    return Text.rich(
+      TextSpan(
+        children: [
+          TextSpan(
+            text: outTime!.format(context),
+          ),
+          TextSpan(
+            text: " ${outTime!.period.name.toPersianPeriod}",
+          )
+        ],
+      ),
+      style: TextStyle(
+        color: ColorPallet.orange,
+        fontSize: 30.sp,
+      ),
+      textDirection: TextDirection.rtl,
     );
   }
 

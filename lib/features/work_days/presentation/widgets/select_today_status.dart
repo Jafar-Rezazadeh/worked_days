@@ -27,6 +27,8 @@ class _SelectTodayStatusState extends State<SelectTodayStatus> {
       unSelectedColor: ColorPallet.smoke,
       selectedColor: ColorPallet.yaleBlue,
       shapeRadius: 10,
+      padding: 5,
+      autoWidth: true,
       unSelectedBorderColor: ColorPallet.yaleBlue,
       selectedBorderColor: ColorPallet.yaleBlue,
       defaultSelected: listOfStatus.first,
