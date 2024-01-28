@@ -1,7 +1,7 @@
 import '../../../../core/constacts/constacts.dart';
 import '../../domain/entities/salary.dart';
 
-class SalaryModel extends Salary {
+class SalaryModel extends SalaryEntity {
   SalaryModel({required super.id, required super.dateTime, required super.salaryAmount});
 
   factory SalaryModel.fromMap(Map<String, dynamic> mapData) {
@@ -19,7 +19,7 @@ class SalaryModel extends Salary {
     };
   }
 
-  factory SalaryModel.fromEntity(Salary salary) {
+  factory SalaryModel.fromEntity(SalaryEntity salary) {
     return SalaryModel(
       id: salary.id,
       dateTime: salary.dateTime,

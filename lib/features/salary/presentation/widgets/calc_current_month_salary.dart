@@ -3,10 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 import '../../../../core/theme/color_schema.dart';
-import 'salary_main_widget.dart';
+import '../../domain/entities/salary_calc.dart';
 
 class CalcCurrentMonthSalary extends StatelessWidget {
-  final SalaryCalculation salaryCalculation;
+  final SalaryCalculationEntity salaryCalculation;
   const CalcCurrentMonthSalary({
     required this.salaryCalculation,
     super.key,
@@ -31,7 +31,7 @@ class CalcCurrentMonthSalary extends StatelessWidget {
       children: [
         Text("حقوق محاسبه شده: ", style: _titleStyle()),
         Text(
-          "${salaryCalculation.calculateThisMonthSalary().toString().seRagham()} تومان",
+          "${salaryCalculation.calculatedSalary.toString().seRagham()} تومان",
           style: _descriptionStyle(),
         ),
       ],
@@ -43,9 +43,9 @@ class CalcCurrentMonthSalary extends StatelessWidget {
       children: [
         Text("روز کاری:", style: _titleStyle()),
         Text(
-          " ${salaryCalculation.calcCountedWorkDays().length} روز",
+          " ${salaryCalculation.workDays} روز",
           style: _descriptionStyle(
-            caution: salaryCalculation.calcCountedWorkDays().isEmpty ? true : false,
+            caution: salaryCalculation.workDays == 0 ? true : false,
           ),
         ),
       ],
@@ -57,9 +57,9 @@ class CalcCurrentMonthSalary extends StatelessWidget {
       children: [
         Text("روز تعطیل:", style: _titleStyle()),
         Text(
-          " ${salaryCalculation.calcDayOffs().length} روز",
+          " ${salaryCalculation.dayOffs} روز",
           style: _descriptionStyle(
-            caution: salaryCalculation.calcDayOffs().isNotEmpty ? true : false,
+            caution: salaryCalculation.dayOffs != 0 ? true : false,
           ),
         )
       ],

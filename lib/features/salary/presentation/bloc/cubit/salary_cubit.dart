@@ -26,7 +26,7 @@ class SalaryCubit extends Cubit<SalaryState> {
     await _getSalaries();
   }
 
-  insertSalary(Salary salary) async {
+  insertSalary(SalaryEntity salary) async {
     emit(SalaryLoadingState());
 
     final failureOrId = await insertSalaryUseCase(salary);

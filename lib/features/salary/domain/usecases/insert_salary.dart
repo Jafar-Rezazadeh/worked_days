@@ -5,7 +5,7 @@ import '../../../../core/usecases/usecase_contract.dart';
 import '../entities/salary.dart';
 import '../repositories/salary_repository.dart';
 
-class InsertSalaryUseCase implements UseCaseContract<int, Salary> {
+class InsertSalaryUseCase implements UseCaseContract<int, SalaryEntity> {
   final SalaryRepository salaryRepository;
 
   InsertSalaryUseCase({required this.salaryRepository});
