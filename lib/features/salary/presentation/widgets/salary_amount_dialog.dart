@@ -107,7 +107,7 @@ void _submit(TextEditingController textEditingController, Jalali currentMonth, B
       int.parse(textEditingController.text.extractNumber(toDigit: NumStrLanguage.English));
 
   SalaryEntity salary = SalaryEntity(
-    id: salaryCalculation.currentSalary?.id ?? 0,
+    id: salaryCalculation.salaryReceived?.id ?? 0,
     dateTime: currentMonth.toDateTime(),
     salaryAmount: salaryAmont,
   );

@@ -54,7 +54,7 @@ class ShowSavedSalaryCalc extends StatelessWidget {
 
   Widget _paidSalary() {
     return Text(
-      "${salaryCalculation.currentSalary?.salaryAmount.toString().seRagham() ?? 0} تومان",
+      "${salaryCalculation.salaryReceived?.salaryAmount.toString().seRagham() ?? 0} تومان",
       style: TextStyle(
         color: ColorPallet.green,
         fontSize: 11.sp,
@@ -88,7 +88,7 @@ class ShowSavedSalaryCalc extends StatelessWidget {
           padding: const MaterialStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.all(5)),
         ),
         child: Text(
-          salaryCalculation.currentSalary != null ? "بروز رسانی" : "ذخیره",
+          salaryCalculation.salaryReceived != null ? "بروز رسانی" : "ذخیره",
           style: TextStyle(
             fontSize: 10.sp,
             color: ColorPallet.yaleBlue,

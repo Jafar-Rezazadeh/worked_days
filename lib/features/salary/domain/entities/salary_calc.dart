@@ -24,12 +24,12 @@ class SalaryCalculationEntity {
   int _dayOffs = 0;
   int _calcSalary = 0;
   int _workDays = 0;
-  SalaryEntity? _currentSalary;
+  SalaryEntity? _salaryReceived;
 
   int get dayOffs => _dayOffs;
   int get calculatedSalary => _calcSalary;
   int get workDays => _workDays;
-  SalaryEntity? get currentSalary => _currentSalary;
+  SalaryEntity? get salaryReceived => _salaryReceived;
 
   _calculateThisMonthSalary() {
     int currentMonthLength = currentMonth.monthLength;
@@ -60,7 +60,7 @@ class SalaryCalculationEntity {
 
   SalaryEntity? _getCurrentSelectedSalary() {
     try {
-      _currentSalary = salaries.firstWhere(
+      _salaryReceived = salaries.firstWhere(
         (element) =>
             element.dateTime.toJalali().month == currentMonth.month &&
             element.dateTime.toJalali().year == currentMonth.year,
