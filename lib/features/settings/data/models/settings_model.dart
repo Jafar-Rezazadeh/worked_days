@@ -1,3 +1,5 @@
+import 'package:worked_days/core/constacts/constacts.dart';
+
 import '../../../../core/utils/extentions.dart';
 import '../../domain/entities/settings.dart';
 
@@ -11,10 +13,12 @@ class SettingsModel extends Settings {
 
   factory SettingsModel.fromMap(Map<String, dynamic> mapData) {
     return SettingsModel(
-      workDayTimeContractAsHours: mapData['workDayTimeContractAsHours'] ?? 10,
-      salaryAmountContract: mapData['salaryAmountContract'] ?? 0,
-      isNotificationActive: mapData['isNotificationActive'] ?? false,
-      notificationPeriodTime: mapData['notificationPeriodTime'].toString().toTimeOfDayFormat,
+      workDayTimeContractAsHours:
+          mapData['workDayTimeContractAsHours'] ?? defaultSettings.workDayTimeContractAsHours,
+      salaryAmountContract: mapData['salaryAmountContract'] ?? defaultSettings.salaryAmountContract,
+      isNotificationActive: mapData['isNotificationActive'] ?? defaultSettings.isNotificationActive,
+      notificationPeriodTime: mapData['notificationPeriodTime']?.toString().toTimeOfDayFormat ??
+          defaultSettings.notificationPeriodTime,
     );
   }
 
