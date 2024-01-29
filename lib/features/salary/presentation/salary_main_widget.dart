@@ -89,6 +89,7 @@ class _SalaryMainWidgetState extends State<SalaryMainWidget> {
   Widget _showPaidSalaryAndCalcSalary(List<SalaryEntity> salaries) {
     //
     SalaryCalculationEntity salaryCalculation = SalaryCalculationEntity(
+      eachDayTimeContract: 10,
       salaryContract: salaryContract,
       salaries: salaries,
       currentMonth: widget.currentMonth,
