@@ -22,9 +22,9 @@ class SettingsRepositoryImpl implements SettingsRepository {
       } else {
         return right(defaultSettings);
       }
-    } on LocalDataSourceException {
+    } on LocalDataSourceException catch (e) {
       return left(
-        const LocalDataFailure(message: "LocalDataSource: an error while getting settings data"),
+        LocalDataFailure(message: "LocalDataSource(Getting Settings): ${e.message}"),
       );
     }
   }

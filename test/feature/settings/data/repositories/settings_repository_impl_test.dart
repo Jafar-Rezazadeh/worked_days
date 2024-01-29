@@ -74,7 +74,7 @@ void main() {
           when(
             () => mockDataSource.getSettings(),
           ).thenAnswer(
-            (invocation) => throw LocalDataSourceException(),
+            (invocation) => throw LocalDataSourceException(message: ""),
           );
 
           //act
@@ -135,7 +135,7 @@ void main() {
           //arrange
           when(
             () => mockDataSource.insertSettings(any()),
-          ).thenAnswer((invocation) => throw LocalDataSourceException());
+          ).thenAnswer((invocation) => throw LocalDataSourceException(message: ""));
 
           //act
           final failureOrIsInserted = await tSettingsRepositoryImpl.insertSettings(fakeSettings);
@@ -191,7 +191,7 @@ void main() {
           //arrange
           when(
             () => mockDataSource.deleteSettings(),
-          ).thenAnswer((invocation) => throw LocalDataSourceException());
+          ).thenAnswer((invocation) => throw LocalDataSourceException(message: ""));
 
           //act
           final failureOrIsDeleted = await tSettingsRepositoryImpl.deleteSettings();

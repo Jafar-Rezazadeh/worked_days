@@ -18,6 +18,7 @@ class SettingsLoadedPage extends StatefulWidget {
 class _SettingsLoadedPageState extends State<SettingsLoadedPage> {
   late bool isNotificationActive;
   late int salaryAmountContract;
+  late int workDayTimeContractInHours;
   late TimeOfDay notificationPeriodTime;
 
   @override
@@ -25,6 +26,7 @@ class _SettingsLoadedPageState extends State<SettingsLoadedPage> {
     super.initState();
     isNotificationActive = widget.settings.isNotificationActive;
     salaryAmountContract = widget.settings.salaryAmountContract;
+    workDayTimeContractInHours = widget.settings.workDayTimeContractAsHours;
     notificationPeriodTime = widget.settings.notificationPeriodTime;
   }
 
@@ -34,6 +36,7 @@ class _SettingsLoadedPageState extends State<SettingsLoadedPage> {
       onPopInvoked: (didPop) async {
         if (didPop) {
           final settings = Settings(
+            workDayTimeContractAsHours: workDayTimeContractInHours,
             salaryAmountContract: salaryAmountContract,
             isNotificationActive: isNotificationActive,
             notificationPeriodTime: notificationPeriodTime,
@@ -62,8 +65,14 @@ class _SettingsLoadedPageState extends State<SettingsLoadedPage> {
                         },
                       ),
                       SalaryCalcSettingsWidget(
-                        initialSalary: salaryAmountContract,
-                        onTextFieldValueChanged: (value) => salaryAmountContract = value,
+                        workDayTimeContractInHours: workDayTimeContractInHours,
+                        salaryContract: salaryAmountContract,
+                        onContractsEnter: ({salaryContractAmount_, workDayTimeContractInHours_}) {
+                          salaryAmountContract = salaryContractAmount_ ?? salaryAmountContract;
+                          workDayTimeContractInHours =
+                              workDayTimeContractInHours_ ?? workDayTimeContractInHours;
+                          print([salaryContractAmount_, workDayTimeContractInHours_]);
+                        },
                       ),
                     ],
                   ),

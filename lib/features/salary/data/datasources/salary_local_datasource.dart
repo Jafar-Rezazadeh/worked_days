@@ -27,7 +27,7 @@ class SalaryLocalDataSourceImpl implements SalaryLocalDataSource {
 
       return salaries;
     } catch (e) {
-      throw LocalDataSourceException();
+      throw LocalDataSourceException(message: e.toString());
     }
   }
 
@@ -38,7 +38,7 @@ class SalaryLocalDataSourceImpl implements SalaryLocalDataSource {
 
       return id;
     } catch (e) {
-      throw LocalDataSourceException();
+      throw LocalDataSourceException(message: e.toString());
     }
   }
 
@@ -53,7 +53,7 @@ class SalaryLocalDataSourceImpl implements SalaryLocalDataSource {
 
       return count;
     } catch (e) {
-      throw LocalDataSourceException();
+      throw LocalDataSourceException(message: e.toString());
     }
   }
 }

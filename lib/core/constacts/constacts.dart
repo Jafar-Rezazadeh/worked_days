@@ -24,6 +24,7 @@ enum SalariesColumns {
 }
 
 const defaultSettings = Settings(
+  workDayTimeContractAsHours: 10,
   salaryAmountContract: 0,
   isNotificationActive: true,
   notificationPeriodTime: TimeOfDay(hour: 18, minute: 00),

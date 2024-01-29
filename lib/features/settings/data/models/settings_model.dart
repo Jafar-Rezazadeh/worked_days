@@ -6,17 +6,21 @@ class SettingsModel extends Settings {
     required super.salaryAmountContract,
     required super.isNotificationActive,
     required super.notificationPeriodTime,
+    required super.workDayTimeContractAsHours,
   });
 
   factory SettingsModel.fromMap(Map<String, dynamic> mapData) {
     return SettingsModel(
-        salaryAmountContract: mapData['salaryAmountContract'],
-        isNotificationActive: mapData['isNotificationActive'],
-        notificationPeriodTime: mapData['notificationPeriodTime'].toString().toTimeOfDayFormat);
+      workDayTimeContractAsHours: mapData['workDayTimeContractAsHours'] ?? 0,
+      salaryAmountContract: mapData['salaryAmountContract'] ?? 0,
+      isNotificationActive: mapData['isNotificationActive'] ?? false,
+      notificationPeriodTime: mapData['notificationPeriodTime'].toString().toTimeOfDayFormat,
+    );
   }
 
   factory SettingsModel.fromEntity(Settings settings) {
     return SettingsModel(
+      workDayTimeContractAsHours: settings.workDayTimeContractAsHours,
       salaryAmountContract: settings.salaryAmountContract,
       isNotificationActive: settings.isNotificationActive,
       notificationPeriodTime: settings.notificationPeriodTime,
@@ -25,6 +29,7 @@ class SettingsModel extends Settings {
 
   Map<String, dynamic> toMap() {
     return {
+      'workDayTimeContractAsHours': workDayTimeContractAsHours,
       'salaryAmountContract': salaryAmountContract,
       'isNotificationActive': isNotificationActive,
       'notificationPeriodTime': notificationPeriodTime.toStringFormat,
