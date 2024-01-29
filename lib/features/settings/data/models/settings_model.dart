@@ -11,7 +11,7 @@ class SettingsModel extends Settings {
 
   factory SettingsModel.fromMap(Map<String, dynamic> mapData) {
     return SettingsModel(
-      workDayTimeContractAsHours: mapData['workDayTimeContractAsHours'] ?? 0,
+      workDayTimeContractAsHours: mapData['workDayTimeContractAsHours'] ?? 10,
       salaryAmountContract: mapData['salaryAmountContract'] ?? 0,
       isNotificationActive: mapData['isNotificationActive'] ?? false,
       notificationPeriodTime: mapData['notificationPeriodTime'].toString().toTimeOfDayFormat,
