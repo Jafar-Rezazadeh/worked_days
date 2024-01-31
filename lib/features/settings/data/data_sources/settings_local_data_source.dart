@@ -28,7 +28,7 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
         return null;
       }
     } catch (e) {
-      throw LocalDataSourceException();
+      throw LocalDataSourceException(message: e.toString());
     }
   }
 
@@ -42,7 +42,7 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
 
       return isInserted;
     } catch (e) {
-      throw LocalDataSourceException();
+      throw LocalDataSourceException(message: e.toString());
     }
   }
 
@@ -53,7 +53,7 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
 
       return isDeleted;
     } catch (e) {
-      throw LocalDataSourceException();
+      throw LocalDataSourceException(message: e.toString());
     }
   }
 }

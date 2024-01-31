@@ -24,17 +24,25 @@ class SalaryMainWidget extends StatefulWidget {
 
 class _SalaryMainWidgetState extends State<SalaryMainWidget> {
   late int salaryContract;
+  late int workDayTimeContract;
   @override
   void initState() {
     BlocProvider.of<SalaryCubit>(context).getSalaries();
-    _getSalaryContract();
+    // _getSalaryContract();
     super.initState();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _getSalaryContract();
+  }
+
   _getSalaryContract() async {
-    final settings = await BlocProvider.of<SettingsCubit>(context).getSettings();
+    final settings = await BlocProvider.of<SettingsCubit>(context, listen: true).getSettings();
     if (mounted) {
       salaryContract = settings.salaryAmountContract;
+      workDayTimeContract = settings.workDayTimeContractAsHours;
     }
   }
 
@@ -89,7 +97,7 @@ class _SalaryMainWidgetState extends State<SalaryMainWidget> {
   Widget _showPaidSalaryAndCalcSalary(List<SalaryEntity> salaries) {
     //
     SalaryCalculationEntity salaryCalculation = SalaryCalculationEntity(
-      eachDayTimeContract: 10,
+      eachDayTimeContract: workDayTimeContract,
       salaryContract: salaryContract,
       salaries: salaries,
       currentMonth: widget.currentMonth,

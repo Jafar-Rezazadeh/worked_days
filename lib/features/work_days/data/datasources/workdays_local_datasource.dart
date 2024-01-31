@@ -30,7 +30,7 @@ class WorkDaysLocalDataSourceImpl implements WorkDaysLocalDataSource {
 
       return listOfWorkDayModel;
     } catch (e) {
-      throw LocalDataSourceException();
+      throw LocalDataSourceException(message: e.toString());
     }
   }
 
@@ -40,7 +40,7 @@ class WorkDaysLocalDataSourceImpl implements WorkDaysLocalDataSource {
       final int id = await database.insert(workDayTableName, workDayModel.toMap());
       return id;
     } catch (e) {
-      throw LocalDataSourceException();
+      throw LocalDataSourceException(message: e.toString());
     }
   }
 
@@ -54,7 +54,7 @@ class WorkDaysLocalDataSourceImpl implements WorkDaysLocalDataSource {
       );
       return count;
     } catch (e) {
-      throw LocalDataSourceException();
+      throw LocalDataSourceException(message: e.toString());
     }
   }
 }

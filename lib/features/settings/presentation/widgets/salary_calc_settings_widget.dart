@@ -6,13 +6,15 @@ import 'package:persian_number_utility/persian_number_utility.dart';
 import 'expandable_card_widget.dart';
 
 class SalaryCalcSettingsWidget extends StatefulWidget {
-  final int initialSalary;
-  final ValueChanged<int> onTextFieldValueChanged;
+  final int salaryContract;
+  final int workDayTimeContractInHours;
+  final Function({int? salaryContractAmount_, int? workDayTimeContractInHours_}) onContractsEnter;
 
   const SalaryCalcSettingsWidget({
     super.key,
-    required this.onTextFieldValueChanged,
-    required this.initialSalary,
+    required this.onContractsEnter,
+    required this.salaryContract,
+    required this.workDayTimeContractInHours,
   });
 
   @override
@@ -21,10 +23,12 @@ class SalaryCalcSettingsWidget extends StatefulWidget {
 
 class _SalaryCalcSettingsWidgetState extends State<SalaryCalcSettingsWidget> {
   final TextEditingController textEditingController = TextEditingController();
+  final TextEditingController tECworkDayTimeContract = TextEditingController();
 
   @override
   void initState() {
-    textEditingController.text = _toSeragam(widget.initialSalary.toString());
+    textEditingController.text = _toSeragam(widget.salaryContract.toString());
+    tECworkDayTimeContract.text = widget.workDayTimeContractInHours.toString();
     super.initState();
   }
 
@@ -37,25 +41,46 @@ class _SalaryCalcSettingsWidgetState extends State<SalaryCalcSettingsWidget> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text("حقوق ماهیانه"),
-          const SizedBox(height: 10),
-          //? salary input
-          TextField(
+          _salaryContractInput(),
+          const Divider(height: 30),
+          _workDayTimeContractInput(),
+        ],
+      ),
+    );
+  }
+
+  String _toSeragam(String value) => value.seRagham().toEnglishDigit();
+
+  Widget _salaryContractInput() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          "حقوق ماهیانه:",
+          textDirection: TextDirection.rtl,
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
+        const SizedBox(width: 10),
+        SizedBox(
+          width: 0.6.sw,
+          child: TextField(
             controller: textEditingController,
             onTapOutside: (event) {
               if (textEditingController.text.isEmpty) {
-                textEditingController.text = _toSeragam(widget.initialSalary.toString());
-                widget.onTextFieldValueChanged(widget.initialSalary);
+                textEditingController.text = _toSeragam(widget.salaryContract.toString());
+                widget.onContractsEnter(salaryContractAmount_: widget.salaryContract);
               }
             },
             onChanged: (value) {
               textEditingController.text = _toSeragam(value);
               if (value.isNotEmpty) {
-                widget.onTextFieldValueChanged(
-                  int.parse(value.extractNumber(toDigit: NumStrLanguage.English)),
+                widget.onContractsEnter(
+                  salaryContractAmount_:
+                      int.parse(value.extractNumber(toDigit: NumStrLanguage.English)),
                 );
               }
             },
+            keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9۰-۹]'))],
             decoration: const InputDecoration(
               contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -64,23 +89,53 @@ class _SalaryCalcSettingsWidgetState extends State<SalaryCalcSettingsWidget> {
             textAlign: TextAlign.center,
             textDirection: TextDirection.rtl,
           ),
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              "محاسبه بر اساس روز کاری",
-              textAlign: TextAlign.right,
-              style: TextStyle(
-                color: Colors.black54,
-                fontSize: 12.sp,
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 10),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
-  String _toSeragam(String value) => value.seRagham().toEnglishDigit();
+  Widget _workDayTimeContractInput() {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "ساعت کاری:",
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
+            const SizedBox(width: 10),
+            SizedBox(
+              width: 0.6.sw,
+              child: TextField(
+                onChanged: (value) {
+                  if (value.isNotEmpty) {
+                    if (int.parse(value) <= 24 && int.parse(value) > 0) {
+                      widget.onContractsEnter(workDayTimeContractInHours_: int.tryParse(value));
+                    } else {
+                      tECworkDayTimeContract.text = 24.toString();
+                    }
+                  }
+                },
+                controller: tECworkDayTimeContract,
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9۰-۹]'))],
+                decoration: const InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  border: OutlineInputBorder(),
+                ),
+                textAlign: TextAlign.center,
+                textDirection: TextDirection.rtl,
+              ),
+            )
+          ],
+        ),
+        const SizedBox(height: 10),
+        Text(
+          "لطفا ساعت کار روزانه را وارد کنید مثال: 10 ساعت",
+          style: Theme.of(context).textTheme.labelSmall!.copyWith(color: Colors.black54),
+        ),
+      ],
+    );
+  }
 }
