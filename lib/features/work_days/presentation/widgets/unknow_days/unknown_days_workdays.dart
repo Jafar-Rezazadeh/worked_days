@@ -76,6 +76,7 @@ class UnknownDaysWorkDays extends StatelessWidget {
 
       if (listOfWorkDays.any(
         (element) =>
+            element.date.toJalali().year == localCurrentDate.year &&
             element.date.toJalali().month == localCurrentDate.month &&
             element.date.toJalali().day == localCurrentDate.day,
       )) {

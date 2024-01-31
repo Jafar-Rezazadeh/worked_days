@@ -71,7 +71,7 @@ class _SettingsLoadedPageState extends State<SettingsLoadedPage> {
                           salaryAmountContract = salaryContractAmount_ ?? salaryAmountContract;
                           workDayTimeContractInHours =
                               workDayTimeContractInHours_ ?? workDayTimeContractInHours;
-                          print([salaryContractAmount_, workDayTimeContractInHours_]);
+                          // print([salaryContractAmount_, workDayTimeContractInHours_]);
                         },
                       ),
                     ],
