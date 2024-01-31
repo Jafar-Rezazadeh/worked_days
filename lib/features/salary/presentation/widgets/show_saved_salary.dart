@@ -4,12 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 import '../../../../core/theme/color_schema.dart';
+import '../../domain/entities/salary_calc.dart';
 import '../bloc/cubit/salary_cubit.dart';
 import 'salary_amount_dialog.dart';
-import 'salary_main_widget.dart';
 
 class ShowSavedSalaryCalc extends StatelessWidget {
-  final SalaryCalculation salaryCalculation;
+  final SalaryCalculationEntity salaryCalculation;
 
   ShowSavedSalaryCalc({super.key, required this.salaryCalculation});
 
@@ -18,7 +18,7 @@ class ShowSavedSalaryCalc extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     salaryAmountTextFieldController.text = "0 تومان";
-    return salaryCalculation.calcCountedWorkDays().isNotEmpty
+    return salaryCalculation.workDays != 0
         ? Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -54,7 +54,7 @@ class ShowSavedSalaryCalc extends StatelessWidget {
 
   Widget _paidSalary() {
     return Text(
-      "${salaryCalculation.getCurrentSelectedSalary()?.salaryAmount.toString().seRagham() ?? 0} تومان",
+      "${salaryCalculation.salaryReceived?.salaryAmount.toString().seRagham() ?? 0} تومان",
       style: TextStyle(
         color: ColorPallet.green,
         fontSize: 11.sp,
@@ -88,7 +88,7 @@ class ShowSavedSalaryCalc extends StatelessWidget {
           padding: const MaterialStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.all(5)),
         ),
         child: Text(
-          salaryCalculation.getCurrentSelectedSalary() != null ? "بروز رسانی" : "ذخیره",
+          salaryCalculation.salaryReceived != null ? "بروز رسانی" : "ذخیره",
           style: TextStyle(
             fontSize: 10.sp,
             color: ColorPallet.yaleBlue,

@@ -12,7 +12,7 @@ final class SalaryEmptyState extends SalaryState {}
 final class SalaryLoadingState extends SalaryState {}
 
 final class SalaryLoadedState extends SalaryState {
-  final List<Salary> listOfSalaries;
+  final List<SalaryEntity> listOfSalaries;
 
   const SalaryLoadedState({required this.listOfSalaries});
 

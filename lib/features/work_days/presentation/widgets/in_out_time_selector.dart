@@ -80,7 +80,7 @@ class _InOutTimeSelectorState extends State<InOutTimeSelector> {
       TextSpan(
         children: [
           TextSpan(
-            text: inTime!.format(context),
+            text: "${inTime!.hour}:${inTime!.minute}",
           ),
           TextSpan(
             text: " ${inTime!.period.name.toPersianPeriod}",
@@ -100,7 +100,7 @@ class _InOutTimeSelectorState extends State<InOutTimeSelector> {
       TextSpan(
         children: [
           TextSpan(
-            text: outTime!.format(context),
+            text: "${outTime!.hour}:${outTime!.minute}",
           ),
           TextSpan(
             text: " ${outTime!.period.name.toPersianPeriod}",

@@ -17,6 +17,7 @@ void main() {
 
   setUp(() {
     mockSettingsModel = const SettingsModel(
+      workDayTimeContractAsHours: 10,
       isNotificationActive: false,
       notificationPeriodTime: TimeOfDay(hour: 0, minute: 0),
       salaryAmountContract: 0,

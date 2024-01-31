@@ -13,7 +13,7 @@ class SalaryRepositoryImpl implements SalaryRepository {
   SalaryRepositoryImpl({required this.salaryLocalDataSource});
 
   @override
-  Future<Either<Failure, List<Salary>>> getSalaries() async {
+  Future<Either<Failure, List<SalaryEntity>>> getSalaries() async {
     try {
       final list = await salaryLocalDataSource.getSalaries();
 
@@ -28,7 +28,7 @@ class SalaryRepositoryImpl implements SalaryRepository {
   }
 
   @override
-  Future<Either<Failure, int>> insertSalary(Salary salary) async {
+  Future<Either<Failure, int>> insertSalary(SalaryEntity salary) async {
     try {
       final id = await salaryLocalDataSource.insertSalary(SalaryModel.fromEntity(salary));
 

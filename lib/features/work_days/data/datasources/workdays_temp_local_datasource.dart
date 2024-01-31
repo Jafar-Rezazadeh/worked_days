@@ -25,7 +25,7 @@ class WorkDaysTemporaryLocalDataSourceImpl implements WorkDaysTemporaryLocalData
       );
       return isInserted;
     } catch (e) {
-      throw LocalDataSourceException();
+      throw LocalDataSourceException(message: e.toString());
     }
   }
 
@@ -39,7 +39,7 @@ class WorkDaysTemporaryLocalDataSourceImpl implements WorkDaysTemporaryLocalData
         return null;
       }
     } catch (e) {
-      throw LocalDataSourceException();
+      throw LocalDataSourceException(message: e.toString());
     }
   }
 
@@ -49,7 +49,7 @@ class WorkDaysTemporaryLocalDataSourceImpl implements WorkDaysTemporaryLocalData
       final isDeleted = await sharedPreferences.remove(tempWorkDayKey);
       return isDeleted;
     } catch (e) {
-      throw LocalDataSourceException();
+      throw LocalDataSourceException(message: e.toString());
     }
   }
 }

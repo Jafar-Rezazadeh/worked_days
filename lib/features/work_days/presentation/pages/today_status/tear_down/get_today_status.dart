@@ -63,6 +63,10 @@ class _GetTodayStatusUiState extends State<GetTodayStatus> {
           todayStatusInfo.outTime = outTime;
 
           BlocProvider.of<WorkdaysCubit>(context).insertWorkDay(todayStatusInfo);
+
+          if (todayStatusInfo.inTime != null && todayStatusInfo.outTime != null) {
+            widget.onSubmit!();
+          }
         },
       ),
       Divider(

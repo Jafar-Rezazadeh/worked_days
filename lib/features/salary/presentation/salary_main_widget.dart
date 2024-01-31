@@ -4,12 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:worked_days/features/settings/presentation/cubit/cubit/settings_cubit.dart';
 
-import '../../../../core/theme/color_schema.dart';
-import '../../../work_days/domain/entities/work_days.dart';
-import '../../domain/entities/salary.dart';
-import '../bloc/cubit/salary_cubit.dart';
-import 'calc_current_month_salary.dart';
-import 'show_saved_salary.dart';
+import '../../../core/theme/color_schema.dart';
+import '../../work_days/domain/entities/work_days.dart';
+import '../domain/entities/salary.dart';
+import '../domain/entities/salary_calc.dart';
+import 'bloc/cubit/salary_cubit.dart';
+import 'widgets/calc_current_month_salary.dart';
+import 'widgets/show_saved_salary.dart';
 
 class SalaryMainWidget extends StatefulWidget {
   final Jalali currentMonth;
@@ -23,19 +24,25 @@ class SalaryMainWidget extends StatefulWidget {
 
 class _SalaryMainWidgetState extends State<SalaryMainWidget> {
   late int salaryContract;
+  late int workDayTimeContract;
   @override
   void initState() {
     BlocProvider.of<SalaryCubit>(context).getSalaries();
-    _getSalaryContract();
+    // _getSalaryContract();
     super.initState();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _getSalaryContract();
+  }
+
   _getSalaryContract() async {
-    final settings = await BlocProvider.of<SettingsCubit>(context).getSettings();
+    final settings = await BlocProvider.of<SettingsCubit>(context, listen: true).getSettings();
     if (mounted) {
-      setState(() {
-        salaryContract = settings.salaryAmountContract;
-      });
+      salaryContract = settings.salaryAmountContract;
+      workDayTimeContract = settings.workDayTimeContractAsHours;
     }
   }
 
@@ -73,7 +80,6 @@ class _SalaryMainWidgetState extends State<SalaryMainWidget> {
       ));
     }
     if (state is SalaryLoadedState) {
-      _getSalaryContract();
       return _showPaidSalaryAndCalcSalary(state.listOfSalaries);
     }
     if (state is SalaryErrorState) {
@@ -88,13 +94,16 @@ class _SalaryMainWidgetState extends State<SalaryMainWidget> {
     }
   }
 
-  Widget _showPaidSalaryAndCalcSalary(List<Salary> salaries) {
-    SalaryCalculation salaryCalculation = SalaryCalculation(
+  Widget _showPaidSalaryAndCalcSalary(List<SalaryEntity> salaries) {
+    //
+    SalaryCalculationEntity salaryCalculation = SalaryCalculationEntity(
+      eachDayTimeContract: workDayTimeContract,
       salaryContract: salaryContract,
       salaries: salaries,
       currentMonth: widget.currentMonth,
       listOfCurrentMonthWorkDay: widget.listOfCurrentMonthWorkDay,
     );
+    //
     return Row(
       children: [
         salaryContract == 0
@@ -124,56 +133,4 @@ Widget noSalaryContractSet() {
       ),
     ),
   );
-}
-
-class SalaryCalculation {
-  final Jalali currentMonth;
-  final List<WorkDay> listOfCurrentMonthWorkDay;
-  final List<Salary> salaries;
-  final int salaryContract;
-
-  SalaryCalculation({
-    required this.salaries,
-    required this.currentMonth,
-    required this.listOfCurrentMonthWorkDay,
-    required this.salaryContract,
-  });
-
-  int calculateThisMonthSalary() {
-    int currentMonthLength = currentMonth.monthLength;
-    // print(currentMonthLength);
-
-    double salaryPerDay = salaryContract / currentMonthLength;
-
-    List<WorkDay> countedWorkDays = calcCountedWorkDays();
-    // print(countedWorkDays.length);
-
-    int countedWorkDaysSum = (salaryPerDay * countedWorkDays.length).toInt();
-
-    return countedWorkDaysSum;
-  }
-
-  List<WorkDay> calcCountedWorkDays() {
-    return listOfCurrentMonthWorkDay
-        .where(
-          (element) => element.isWorkDay == true || element.isPublicHoliday == true,
-        )
-        .toList();
-  }
-
-  List<WorkDay> calcDayOffs() {
-    return listOfCurrentMonthWorkDay.where((element) => element.isDayOff == true).toList();
-  }
-
-  Salary? getCurrentSelectedSalary() {
-    try {
-      return salaries.firstWhere(
-        (element) =>
-            element.dateTime.toJalali().month == currentMonth.month &&
-            element.dateTime.toJalali().year == currentMonth.year,
-      );
-    } catch (e) {
-      return null;
-    }
-  }
 }

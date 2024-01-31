@@ -7,13 +7,13 @@ import 'package:shamsi_date/shamsi_date.dart';
 
 import '../../../../core/theme/color_schema.dart';
 import '../../domain/entities/salary.dart';
+import '../../domain/entities/salary_calc.dart';
 import '../bloc/cubit/salary_cubit.dart';
-import 'salary_main_widget.dart';
 
 Widget salaryAmountDialog({
   required BuildContext context,
   required TextEditingController textEditingController,
-  required SalaryCalculation salaryCalculation,
+  required SalaryCalculationEntity salaryCalculation,
 }) {
   return Dialog(
     child: GestureDetector(
@@ -102,12 +102,12 @@ Widget salaryAmountDialog({
 }
 
 void _submit(TextEditingController textEditingController, Jalali currentMonth, BuildContext context,
-    SalaryCalculation salaryCalculation) {
+    SalaryCalculationEntity salaryCalculation) {
   int salaryAmont =
       int.parse(textEditingController.text.extractNumber(toDigit: NumStrLanguage.English));
 
-  Salary salary = Salary(
-    id: salaryCalculation.getCurrentSelectedSalary()?.id ?? 0,
+  SalaryEntity salary = SalaryEntity(
+    id: salaryCalculation.salaryReceived?.id ?? 0,
     dateTime: currentMonth.toDateTime(),
     salaryAmount: salaryAmont,
   );
